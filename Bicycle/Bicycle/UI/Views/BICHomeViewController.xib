@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BICHomeViewController" customModule="Bicycle" customModuleProvider="target">
+            <connections>
+                <outlet property="buttonArrivalMyLocation" destination="jIH-r7-ygG" id="wnb-IN-aJJ"/>
+                <outlet property="buttonDepartureMyLocation" destination="6mm-Ro-tGY" id="nld-OJ-L8a"/>
+                <outlet property="buttonMyLocation" destination="fQT-1x-ZvK" id="Zfk-z5-cKJ"/>
+                <outlet property="buttonSearch" destination="35Y-oZ-PwR" id="hj3-HF-hEJ"/>
+                <outlet property="buttonToggleSearchPanel" destination="wWR-GG-uao" id="RCx-VO-9pc"/>
+                <outlet property="constraintSearchViewTop" destination="Hls-09-nLx" id="rSO-52-TkJ"/>
+                <outlet property="indicatorArrivalMyLocation" destination="0Rh-kq-1l2" id="3fy-mH-MbN"/>
+                <outlet property="indicatorDepartureMyLocation" destination="qVo-XD-SAT" id="yWL-YS-JWi"/>
+                <outlet property="indicatorSearch" destination="zDA-qV-Tjs" id="8fu-nP-oMj"/>
+                <outlet property="mapView" destination="cTf-Hg-ErM" id="lbR-ic-0dH"/>
+                <outlet property="swipeDownGestureRecognizer" destination="Qbc-VG-AEh" id="vIM-mx-WES"/>
+                <outlet property="swipeUpGestureRecognizer" destination="wyP-jx-TS4" id="mTs-jK-IoL"/>
+                <outlet property="textFieldArrivalAddress" destination="82h-FS-LKC" id="ujx-3j-NBv"/>
+                <outlet property="textFieldArrivalBikeCount" destination="yTh-C9-E0k" id="hF2-gk-SCU"/>
+                <outlet property="textFieldDepartureAddress" destination="REF-Pa-0dl" id="RKR-01-vGL"/>
+                <outlet property="textFieldDepartureBikeCount" destination="ra3-hm-2rE" id="uKt-GQ-apK"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewSearch" destination="2FZ-Hq-iGY" id="oU2-aR-4dS"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="cTf-Hg-ErM" userLabel="MapView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="aiE-43-Qq2" appends="YES" id="Rl6-Pn-zHA"/>
+                    </connections>
+                </mapView>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2FZ-Hq-iGY" userLabel="SearchView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
+                    <subviews>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZlT-d4-oXd" userLabel="MarginView">
+                            <rect key="frame" x="10" y="10" width="300" height="170"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p9n-Ro-vdf" userLabel="DepartureAddressView">
+                                    <rect key="frame" x="0.0" y="0.0" width="230" height="40"/>
+                                    <subviews>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="REF-Pa-0dl" userLabel="DepartureAddressTextField" customClass="SearchTextField" customModule="SearchTextField">
+                                            <rect key="frame" x="5" y="0.0" width="180" height="40"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="tintColor" red="0.49019607840000001" green="0.64313725489999995" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="PgV-Fl-snO"/>
+                                            </constraints>
+                                            <nil key="textColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </textField>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6mm-Ro-tGY" userLabel="DepartureFindMyLocationButton">
+                                            <rect key="frame" x="190" y="0.0" width="40" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="IHd-K4-rRW"/>
+                                                <constraint firstAttribute="width" constant="40" id="i0i-eH-2Wf"/>
+                                            </constraints>
+                                            <color key="tintColor" red="0.47450980392156861" green="0.054901960784313725" blue="0.54509803921568623" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <state key="normal" image="BICIconLocation">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </button>
+                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="qVo-XD-SAT" userLabel="DepartureFindMyLocationIndicator">
+                                            <rect key="frame" x="200" y="10" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="BWy-Ly-9K6"/>
+                                                <constraint firstAttribute="width" constant="20" id="qJl-AA-i3Y"/>
+                                            </constraints>
+                                            <color key="color" red="0.47450980390000003" green="0.054901960780000002" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="REF-Pa-0dl" firstAttribute="top" secondItem="p9n-Ro-vdf" secondAttribute="top" id="8bt-8n-QPU"/>
+                                        <constraint firstAttribute="height" constant="40" id="91e-BW-SjX"/>
+                                        <constraint firstAttribute="trailing" secondItem="6mm-Ro-tGY" secondAttribute="trailing" id="SAf-lW-BqD"/>
+                                        <constraint firstItem="6mm-Ro-tGY" firstAttribute="top" secondItem="p9n-Ro-vdf" secondAttribute="top" id="abn-Qc-xHT"/>
+                                        <constraint firstItem="qVo-XD-SAT" firstAttribute="top" secondItem="p9n-Ro-vdf" secondAttribute="top" constant="10" id="b7p-jF-jea"/>
+                                        <constraint firstAttribute="bottom" secondItem="REF-Pa-0dl" secondAttribute="bottom" id="cxb-u6-Rcz"/>
+                                        <constraint firstItem="6mm-Ro-tGY" firstAttribute="leading" secondItem="REF-Pa-0dl" secondAttribute="trailing" constant="5" id="eDg-oA-ilM"/>
+                                        <constraint firstAttribute="trailing" secondItem="qVo-XD-SAT" secondAttribute="trailing" constant="10" id="sHf-wr-sOY"/>
+                                        <constraint firstAttribute="bottom" secondItem="qVo-XD-SAT" secondAttribute="bottom" constant="10" id="tEp-rr-hTK"/>
+                                        <constraint firstAttribute="bottom" secondItem="6mm-Ro-tGY" secondAttribute="bottom" id="v8T-mL-GrM"/>
+                                        <constraint firstItem="REF-Pa-0dl" firstAttribute="leading" secondItem="p9n-Ro-vdf" secondAttribute="leading" constant="5" id="wKf-zi-uRj"/>
+                                    </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </view>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ra3-hm-2rE" userLabel="DepartureBikeCountTextField" customClass="OLSTextField" customModule="Bicycle" customModuleProvider="target">
+                                    <rect key="frame" x="240" y="0.0" width="60" height="40"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="20Y-87-Jw3"/>
+                                        <constraint firstAttribute="width" constant="60" id="P15-3H-oYH"/>
+                                    </constraints>
+                                    <nil key="textColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="next"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="image" keyPath="leftImage" value="OBKICDepartureBike"/>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="leftPadding">
+                                            <real key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                            <color key="value" red="0.68627450980000004" green="0.79607843140000001" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </textField>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ueS-po-Ng3" userLabel="ArrivalAddressView">
+                                    <rect key="frame" x="0.0" y="50" width="230" height="40"/>
+                                    <subviews>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="82h-FS-LKC" userLabel="ArrivalAddressTextField" customClass="SearchTextField" customModule="SearchTextField">
+                                            <rect key="frame" x="5" y="0.0" width="180" height="40"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="tintColor" red="0.49019607840000001" green="0.64313725489999995" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="U6j-0L-zTX"/>
+                                            </constraints>
+                                            <nil key="textColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                                        </textField>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jIH-r7-ygG" userLabel="ArrivalFindMyLocationButton">
+                                            <rect key="frame" x="190" y="0.0" width="40" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="CT6-IR-svH"/>
+                                                <constraint firstAttribute="width" constant="40" id="zrh-ai-ExL"/>
+                                            </constraints>
+                                            <color key="tintColor" red="0.47450980390000003" green="0.054901960780000002" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <state key="normal" image="BICIconLocation">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </button>
+                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0Rh-kq-1l2" userLabel="ArrivalFindMyLocationIndicator">
+                                            <rect key="frame" x="200" y="10" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="DYz-Kq-cla"/>
+                                                <constraint firstAttribute="height" constant="20" id="Rx5-99-gU0"/>
+                                            </constraints>
+                                            <color key="color" red="0.47450980390000003" green="0.054901960780000002" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="jIH-r7-ygG" firstAttribute="leading" secondItem="82h-FS-LKC" secondAttribute="trailing" constant="5" id="1my-WL-pYI"/>
+                                        <constraint firstItem="jIH-r7-ygG" firstAttribute="top" secondItem="ueS-po-Ng3" secondAttribute="top" id="3iT-fz-aie"/>
+                                        <constraint firstAttribute="bottom" secondItem="jIH-r7-ygG" secondAttribute="bottom" id="4Nf-pg-hCV"/>
+                                        <constraint firstItem="82h-FS-LKC" firstAttribute="leading" secondItem="ueS-po-Ng3" secondAttribute="leading" constant="5" id="4ek-Bd-Adr"/>
+                                        <constraint firstItem="82h-FS-LKC" firstAttribute="top" secondItem="ueS-po-Ng3" secondAttribute="top" id="DZZ-Lz-QXU"/>
+                                        <constraint firstAttribute="trailing" secondItem="jIH-r7-ygG" secondAttribute="trailing" id="Ea1-sU-O42"/>
+                                        <constraint firstAttribute="trailing" secondItem="0Rh-kq-1l2" secondAttribute="trailing" constant="10" id="GIm-7n-9D4"/>
+                                        <constraint firstAttribute="bottom" secondItem="82h-FS-LKC" secondAttribute="bottom" id="IAH-Pv-RPs"/>
+                                        <constraint firstAttribute="bottom" secondItem="0Rh-kq-1l2" secondAttribute="bottom" constant="10" id="Ux6-3E-dgk"/>
+                                        <constraint firstItem="0Rh-kq-1l2" firstAttribute="top" secondItem="ueS-po-Ng3" secondAttribute="top" constant="10" id="btY-zb-ilD"/>
+                                        <constraint firstAttribute="height" constant="40" id="gG2-7g-tTG"/>
+                                    </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </view>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yTh-C9-E0k" userLabel="ArrivalBikeCountTextField" customClass="OLSTextField" customModule="Bicycle" customModuleProvider="target">
+                                    <rect key="frame" x="240" y="50" width="60" height="40"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="60" id="a8J-ND-SVU"/>
+                                        <constraint firstAttribute="height" constant="40" id="gfJ-yq-uT1"/>
+                                    </constraints>
+                                    <nil key="textColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="image" keyPath="leftImage" value="OBKICArrivalBike"/>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="leftPadding">
+                                            <real key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                            <color key="value" red="0.68627450980000004" green="0.79607843140000001" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </textField>
+                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="zDA-qV-Tjs" userLabel="SearchIndicator">
+                                    <rect key="frame" x="131.5" y="102" width="37" height="37"/>
+                                    <color key="backgroundColor" red="0.68627450980000004" green="0.79607843140000001" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="37" id="NAq-pg-704"/>
+                                        <constraint firstAttribute="height" constant="37" id="oYV-wF-aSl"/>
+                                    </constraints>
+                                    <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </activityIndicatorView>
+                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35Y-oZ-PwR" userLabel="SearchButton">
+                                    <rect key="frame" x="0.0" y="100" width="300" height="40"/>
+                                    <color key="backgroundColor" red="1" green="0.85098039215686272" blue="0.35686274509803922" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="VUP-PY-410"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                    <state key="normal" title="Button">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="disabled">
+                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wWR-GG-uao" userLabel="ToggleSearchViewButton">
+                                    <rect key="frame" x="0.0" y="140" width="300" height="30"/>
+                                    <gestureRecognizers/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="vYA-j9-Uud"/>
+                                    </constraints>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <state key="normal" image="BICIconArrowDown">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="wWR-GG-uao" firstAttribute="top" secondItem="35Y-oZ-PwR" secondAttribute="bottom" id="2jG-p1-qal"/>
+                                <constraint firstItem="35Y-oZ-PwR" firstAttribute="leading" secondItem="ZlT-d4-oXd" secondAttribute="leading" id="33f-4k-HPf"/>
+                                <constraint firstItem="35Y-oZ-PwR" firstAttribute="top" secondItem="ueS-po-Ng3" secondAttribute="bottom" constant="10" id="8uq-zZ-rtN"/>
+                                <constraint firstItem="ueS-po-Ng3" firstAttribute="leading" secondItem="ZlT-d4-oXd" secondAttribute="leading" id="CTd-Nc-FWQ"/>
+                                <constraint firstAttribute="trailing" secondItem="yTh-C9-E0k" secondAttribute="trailing" id="DGk-fV-o61"/>
+                                <constraint firstItem="35Y-oZ-PwR" firstAttribute="top" secondItem="yTh-C9-E0k" secondAttribute="bottom" constant="10" id="HRv-8E-p46"/>
+                                <constraint firstAttribute="trailing" secondItem="ra3-hm-2rE" secondAttribute="trailing" id="Loz-xI-4Zc"/>
+                                <constraint firstItem="ra3-hm-2rE" firstAttribute="top" secondItem="ZlT-d4-oXd" secondAttribute="top" id="Oar-Uh-u30"/>
+                                <constraint firstAttribute="bottom" secondItem="wWR-GG-uao" secondAttribute="bottom" id="PPO-Ja-tUa"/>
+                                <constraint firstItem="p9n-Ro-vdf" firstAttribute="leading" secondItem="ZlT-d4-oXd" secondAttribute="leading" id="UR7-Td-4lp"/>
+                                <constraint firstItem="zDA-qV-Tjs" firstAttribute="centerX" secondItem="ZlT-d4-oXd" secondAttribute="centerX" id="eOH-Y8-Y69"/>
+                                <constraint firstItem="wWR-GG-uao" firstAttribute="centerX" secondItem="ZlT-d4-oXd" secondAttribute="centerX" id="jxj-Zd-ewN"/>
+                                <constraint firstItem="ra3-hm-2rE" firstAttribute="leading" secondItem="p9n-Ro-vdf" secondAttribute="trailing" constant="10" id="mD8-lI-7i1"/>
+                                <constraint firstItem="p9n-Ro-vdf" firstAttribute="top" secondItem="ZlT-d4-oXd" secondAttribute="top" id="ocB-hQ-NAX"/>
+                                <constraint firstAttribute="trailing" secondItem="35Y-oZ-PwR" secondAttribute="trailing" id="oqI-yY-VsV"/>
+                                <constraint firstItem="ueS-po-Ng3" firstAttribute="top" secondItem="p9n-Ro-vdf" secondAttribute="bottom" constant="10" id="pwO-7e-Zd6"/>
+                                <constraint firstItem="zDA-qV-Tjs" firstAttribute="centerY" secondItem="35Y-oZ-PwR" secondAttribute="centerY" id="qe2-Jl-mBC"/>
+                                <constraint firstAttribute="trailing" secondItem="wWR-GG-uao" secondAttribute="trailing" id="vqR-J7-Qb2"/>
+                                <constraint firstItem="yTh-C9-E0k" firstAttribute="leading" secondItem="ueS-po-Ng3" secondAttribute="trailing" constant="10" id="wdi-DV-zYi"/>
+                                <constraint firstItem="wWR-GG-uao" firstAttribute="leading" secondItem="ZlT-d4-oXd" secondAttribute="leading" id="xzM-cB-xnw"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.6705882352941176" green="0.27843137254901962" blue="0.73725490196078436" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="ZlT-d4-oXd" secondAttribute="trailing" constant="10" id="6kr-A7-x3l"/>
+                        <constraint firstItem="ZlT-d4-oXd" firstAttribute="leading" secondItem="2FZ-Hq-iGY" secondAttribute="leading" constant="10" id="IkB-yv-Z0c"/>
+                        <constraint firstAttribute="bottom" secondItem="ZlT-d4-oXd" secondAttribute="bottom" id="gqx-lA-w4I"/>
+                        <constraint firstItem="ZlT-d4-oXd" firstAttribute="top" secondItem="2FZ-Hq-iGY" secondAttribute="top" constant="10" id="k9k-61-Gop"/>
+                    </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="wyP-jx-TS4" appends="YES" id="vzZ-ZM-oSS"/>
+                        <outletCollection property="gestureRecognizers" destination="Qbc-VG-AEh" appends="YES" id="eLv-ii-2SJ"/>
+                    </connections>
+                </view>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fQT-1x-ZvK" userLabel="MyLocationButton">
+                    <rect key="frame" x="270" y="366" width="40" height="40"/>
+                    <color key="backgroundColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="Im4-yf-JqJ"/>
+                        <constraint firstAttribute="width" constant="40" id="YbN-UD-HHP"/>
+                    </constraints>
+                    <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                    <state key="normal" image="BICIconLocation"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="cTf-Hg-ErM" secondAttribute="bottom" id="0T9-km-eo2"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fQT-1x-ZvK" secondAttribute="trailing" constant="10" id="4Bd-0L-iSl"/>
+                <constraint firstItem="cTf-Hg-ErM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="CUA-jR-tf9"/>
+                <constraint firstItem="2FZ-Hq-iGY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Hls-09-nLx"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="fQT-1x-ZvK" secondAttribute="bottom" constant="10" id="Q5j-QP-jdb"/>
+                <constraint firstItem="cTf-Hg-ErM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="bzX-fy-uXn"/>
+                <constraint firstItem="2FZ-Hq-iGY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="dAM-fe-l7m"/>
+                <constraint firstAttribute="trailing" secondItem="2FZ-Hq-iGY" secondAttribute="trailing" id="re9-9O-jKQ"/>
+                <constraint firstAttribute="trailing" secondItem="cTf-Hg-ErM" secondAttribute="trailing" id="sAz-OU-LlT"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+        </view>
+        <tapGestureRecognizer id="aiE-43-Qq2" userLabel="MapTapGestureRecognizer"/>
+        <swipeGestureRecognizer direction="right" id="wyP-jx-TS4" userLabel="SearchViewSwipeUpGestureRecognizer"/>
+        <swipeGestureRecognizer direction="right" id="Qbc-VG-AEh" userLabel="SearchViewSwipeDownGestureRecognizer"/>
+    </objects>
+    <resources>
+        <image name="BICIconArrowDown" width="36" height="36"/>
+        <image name="BICIconLocation" width="20" height="20"/>
+        <image name="OBKICArrivalBike" width="16" height="16"/>
+        <image name="OBKICDepartureBike" width="16" height="16"/>
+    </resources>
+</document>

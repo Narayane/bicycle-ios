@@ -28,6 +28,8 @@ target 'Bicycle' do
   pod 'Cluster'
   pod 'Toaster'
   pod 'SearchTextField'
+  pod 'RxSwift'
+  pod 'RxCocoa'
   #pod 'SearchTextField', '1.0.2'
 
   target 'BicycleTests' do

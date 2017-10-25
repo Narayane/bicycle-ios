@@ -10,14 +10,19 @@
 		2A3FB89C797E33AF7CEF7B54 /* Pods_Bicycle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20444C8BE54457B97FBC6EB8 /* Pods_Bicycle.framework */; };
 		320A467998C2DCC63236DF36 /* Pods_BicycleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 886A76A8E5DBC33A1E6F13DF /* Pods_BicycleTests.framework */; };
 		8B01547528A2ABEF6C120601 /* Pods_BicycleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7DD2EC3B086BBC7145232F /* Pods_BicycleUITests.framework */; };
+		BE1131DB1FA12CD50040C374 /* BICHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1131DA1FA12CD50040C374 /* BICHomeViewModel.swift */; };
+		BE1131DE1FA131D40040C374 /* BICContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1131DD1FA131D40040C374 /* BICContract.swift */; };
 		BE2E53161F9E7A8F00806D3F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E53151F9E7A8F00806D3F /* AppDelegate.swift */; };
 		BE2E531E1F9E7A8F00806D3F /* Bicycle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE2E531C1F9E7A8F00806D3F /* Bicycle.xcdatamodeld */; };
 		BE2E53201F9E7A8F00806D3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE2E531F1F9E7A8F00806D3F /* Assets.xcassets */; };
 		BE2E53231F9E7A8F00806D3F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE2E53211F9E7A8F00806D3F /* LaunchScreen.storyboard */; };
 		BE2E532E1F9E7A8F00806D3F /* BicycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E532D1F9E7A8F00806D3F /* BicycleTests.swift */; };
 		BE2E53391F9E7A8F00806D3F /* BicycleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E53381F9E7A8F00806D3F /* BicycleUITests.swift */; };
+		BEA6C8261FA11F4500C8EDA9 /* UIButton+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA6C8251FA11F4500C8EDA9 /* UIButton+SB.swift */; };
 		BED14B301F9E9395003FF180 /* String+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED14B2F1F9E9395003FF180 /* String+SB.swift */; };
 		BED14B321F9E957D003FF180 /* UINavigationController+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED14B311F9E957D003FF180 /* UINavigationController+SB.swift */; };
+		BEE87AE31F9FDF8000BBE819 /* BICHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE87AE11F9FDF8000BBE819 /* BICHomeViewController.swift */; };
+		BEE87AE41F9FDF8000BBE819 /* BICHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEE87AE21F9FDF8000BBE819 /* BICHomeViewController.xib */; };
 		BEEAC4661F9E8AD200766469 /* AppDelegate+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEAC4651F9E8AD200766469 /* AppDelegate+SB.swift */; };
 		BEEAC4681F9E8B5500766469 /* UIColor+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEAC4671F9E8B5500766469 /* UIColor+SB.swift */; };
 		BEEAC46B1F9E903B00766469 /* SBLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEAC46A1F9E903B00766469 /* SBLog.swift */; };
@@ -49,6 +54,9 @@
 		43FB3CA263CEDB769B8CDD06 /* Pods-Bicycle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bicycle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bicycle/Pods-Bicycle.debug.xcconfig"; sourceTree = "<group>"; };
 		578D27FF901B47453EC89E5F /* Pods-BicycleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BicycleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BicycleTests/Pods-BicycleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		886A76A8E5DBC33A1E6F13DF /* Pods_BicycleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BicycleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE1131DA1FA12CD50040C374 /* BICHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICHomeViewModel.swift; sourceTree = "<group>"; };
+		BE1131DD1FA131D40040C374 /* BICContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICContract.swift; sourceTree = "<group>"; };
+		BE1131DF1FA137890040C374 /* Toulouse.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Toulouse.gpx; sourceTree = "<group>"; };
 		BE2E53121F9E7A8F00806D3F /* Bicycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bicycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE2E53151F9E7A8F00806D3F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE2E531D1F9E7A8F00806D3F /* Bicycle.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bicycle.xcdatamodel; sourceTree = "<group>"; };
@@ -61,8 +69,11 @@
 		BE2E53341F9E7A8F00806D3F /* BicycleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BicycleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE2E53381F9E7A8F00806D3F /* BicycleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BicycleUITests.swift; sourceTree = "<group>"; };
 		BE2E533A1F9E7A8F00806D3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEA6C8251FA11F4500C8EDA9 /* UIButton+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+SB.swift"; sourceTree = "<group>"; };
 		BED14B2F1F9E9395003FF180 /* String+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SB.swift"; sourceTree = "<group>"; };
 		BED14B311F9E957D003FF180 /* UINavigationController+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+SB.swift"; sourceTree = "<group>"; };
+		BEE87AE11F9FDF8000BBE819 /* BICHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICHomeViewController.swift; sourceTree = "<group>"; };
+		BEE87AE21F9FDF8000BBE819 /* BICHomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BICHomeViewController.xib; sourceTree = "<group>"; };
 		BEEAC4651F9E8AD200766469 /* AppDelegate+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+SB.swift"; sourceTree = "<group>"; };
 		BEEAC4671F9E8B5500766469 /* UIColor+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+SB.swift"; sourceTree = "<group>"; };
 		BEEAC46A1F9E903B00766469 /* SBLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBLog.swift; sourceTree = "<group>"; };
@@ -112,6 +123,22 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		BE1131D91FA12CBC0040C374 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				BE1131DA1FA12CD50040C374 /* BICHomeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		BE1131DC1FA131BF0040C374 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				BE1131DD1FA131D40040C374 /* BICContract.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		BE2E53091F9E7A8F00806D3F = {
 			isa = PBXGroup;
 			children = (
@@ -137,13 +164,16 @@
 		BE2E53141F9E7A8F00806D3F /* Bicycle */ = {
 			isa = PBXGroup;
 			children = (
-				BEEAC4691F9E902100766469 /* Misc */,
+				BE1131DC1FA131BF0040C374 /* Data */,
 				BEEAC4641F9E8A9100766469 /* Extensions */,
+				BEEAC4691F9E902100766469 /* Misc */,
+				BE9E48B11F9FD438000EF9DC /* UI */,
 				BE2E53151F9E7A8F00806D3F /* AppDelegate.swift */,
 				BE2E531F1F9E7A8F00806D3F /* Assets.xcassets */,
 				BE2E53211F9E7A8F00806D3F /* LaunchScreen.storyboard */,
 				BE2E53241F9E7A8F00806D3F /* Info.plist */,
 				BE2E531C1F9E7A8F00806D3F /* Bicycle.xcdatamodeld */,
+				BE1131DF1FA137890040C374 /* Toulouse.gpx */,
 			);
 			path = Bicycle;
 			sourceTree = "<group>";
@@ -166,6 +196,24 @@
 			path = BicycleUITests;
 			sourceTree = "<group>";
 		};
+		BE9E48B11F9FD438000EF9DC /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				BE1131D91FA12CBC0040C374 /* ViewModels */,
+				BEE87AE01F9FDF4B00BBE819 /* Views */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		BEE87AE01F9FDF4B00BBE819 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BEE87AE11F9FDF8000BBE819 /* BICHomeViewController.swift */,
+				BEE87AE21F9FDF8000BBE819 /* BICHomeViewController.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		BEEAC4641F9E8A9100766469 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,6 +221,7 @@
 				BEEAC4671F9E8B5500766469 /* UIColor+SB.swift */,
 				BED14B2F1F9E9395003FF180 /* String+SB.swift */,
 				BED14B311F9E957D003FF180 /* UINavigationController+SB.swift */,
+				BEA6C8251FA11F4500C8EDA9 /* UIButton+SB.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -314,6 +363,7 @@
 			files = (
 				BE2E53231F9E7A8F00806D3F /* LaunchScreen.storyboard in Resources */,
 				BE2E53201F9E7A8F00806D3F /* Assets.xcassets in Resources */,
+				BEE87AE41F9FDF8000BBE819 /* BICHomeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +462,8 @@
 				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjcExceptionBridging/ObjcExceptionBridging.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SearchTextField/SearchTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/Toaster/Toaster.framework",
 				"${BUILT_PRODUCTS_DIR}/XCGLogger/XCGLogger.framework",
@@ -423,6 +475,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjcExceptionBridging.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SearchTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toaster.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XCGLogger.framework",
@@ -504,12 +558,16 @@
 			files = (
 				BEEAC46D1F9E90EA00766469 /* SBCrashReport.swift in Sources */,
 				BEEAC4681F9E8B5500766469 /* UIColor+SB.swift in Sources */,
+				BEA6C8261FA11F4500C8EDA9 /* UIButton+SB.swift in Sources */,
 				BE2E53161F9E7A8F00806D3F /* AppDelegate.swift in Sources */,
+				BE1131DE1FA131D40040C374 /* BICContract.swift in Sources */,
 				BE2E531E1F9E7A8F00806D3F /* Bicycle.xcdatamodeld in Sources */,
 				BED14B321F9E957D003FF180 /* UINavigationController+SB.swift in Sources */,
 				BED14B301F9E9395003FF180 /* String+SB.swift in Sources */,
+				BE1131DB1FA12CD50040C374 /* BICHomeViewModel.swift in Sources */,
 				BEEAC4661F9E8AD200766469 /* AppDelegate+SB.swift in Sources */,
 				BEEAC46B1F9E903B00766469 /* SBLog.swift in Sources */,
+				BEE87AE31F9FDF8000BBE819 /* BICHomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
