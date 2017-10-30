@@ -16,14 +16,11 @@
 
 import Foundation
 
-class BICHomeViewModel {
+class BICConstants {
     
-    var currentContract: BICContract?
-    var departure: BICPlace?
-    var arrival: BICPlace?
-    
-    init() {
-        BICContractService.shared.loadContracts(from: "Contracts")
-    }
-    
+    static let CLUSTERING_ZOOM_LEVEL_START: Int = 15
+    static let CLUSTERING_ZOOM_LEVEL_STOP: Int = 11
+    static let TIME_BEFORE_REFRESH_DATA_IN_SECONDS: Double = 120
+    static let RIDE_MIN_DISTANCE_IN_METERS: Double = 250
+    static let STATION_SEARCH_MAX_RADIUS_IN_METERS: Double = 500
 }

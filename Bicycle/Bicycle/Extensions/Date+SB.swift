@@ -16,14 +16,12 @@
 
 import Foundation
 
-class BICHomeViewModel {
+extension Date {
     
-    var currentContract: BICContract?
-    var departure: BICPlace?
-    var arrival: BICPlace?
-    
-    init() {
-        BICContractService.shared.loadContracts(from: "Contracts")
+    func format(format: String) -> String {
+        
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return "\(dateFormatter.string(from: self))"
     }
-    
 }

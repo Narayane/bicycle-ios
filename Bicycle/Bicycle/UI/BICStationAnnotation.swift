@@ -14,16 +14,11 @@
 //  limitations under the License.
 //
 
-import Foundation
+import Cluster
 
-class BICHomeViewModel {
+class BICStationAnnotation : Annotation {
     
-    var currentContract: BICContract?
-    var departure: BICPlace?
-    var arrival: BICPlace?
-    
-    init() {
-        BICContractService.shared.loadContracts(from: "Contracts")
-    }
+    var freeCount: Int?
+    var bikesCount: Int?
     
 }

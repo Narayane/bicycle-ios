@@ -18,11 +18,12 @@ import CoreLocation
 import ObjectMapper
 import MapKit
 
-class OBKContract: Mappable {
+class BICContract: Mappable {
     
     var name: String?
     var latitude: Double?
     var longitude: Double?
+    var provider: Provider?
     var radius: Double?
     var url: String?
     
@@ -52,7 +53,34 @@ class OBKContract: Mappable {
         name <- map["name"]
         latitude <- map["lat"]
         longitude <- map["lng"]
+        provider <- (map["provider"], BICContractProviderSerializer())
         radius <- map["radius"]
         url <- map["url"]
+    }
+    
+    public struct Provider {
+        
+        static let Unknown = Provider(0, tag: "Unknown")
+        static let JCDecaux = Provider(1, tag: "JCDecaux")
+        static let CityBikes = Provider(2, tag: "CityBikes")
+        
+        public let value: Int
+        public let tag: String
+        
+        init(_ value: Int, tag: String) {
+            self.value = value
+            self.tag = tag
+        }
+        
+        static func from(tag: String) -> Provider {
+            switch (tag) {
+            case JCDecaux.tag:
+                return JCDecaux
+            case CityBikes.tag:
+                return CityBikes
+            default:
+                return Unknown
+            }
+        }
     }
 }

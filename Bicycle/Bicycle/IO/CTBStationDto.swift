@@ -14,16 +14,25 @@
 //  limitations under the License.
 //
 
-import Foundation
+import ObjectMapper
 
-class BICHomeViewModel {
+class CTBStationDto: Mappable {
     
-    var currentContract: BICContract?
-    var departure: BICPlace?
-    var arrival: BICPlace?
+    var name: String?
+    var latitude: Double?
+    var longitude: Double?
+    var freeCount: Int?
+    var bikesCount: Int?
     
-    init() {
-        BICContractService.shared.loadContracts(from: "Contracts")
+    required init?(map: Map) {
+        
     }
     
+    func mapping(map: Map) {
+        name <- map["name"]
+        latitude <- map["latitude"]
+        longitude <- map["longitude"]
+        freeCount <- map["empty_slots"]
+        bikesCount <- map["free_bikes"]
+    }
 }

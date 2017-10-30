@@ -16,14 +16,15 @@
 
 import Foundation
 
-class BICHomeViewModel {
+class WSFacade {
     
-    var currentContract: BICContract?
-    var departure: BICPlace?
-    var arrival: BICPlace?
-    
-    init() {
-        BICContractService.shared.loadContracts(from: "Contracts")
+    static func getStationsBy(contract: BICContract, success: @escaping (_ stations: [BICStation]) -> Void, error: @escaping () -> Void) {
+        if contract.provider?.tag == BICContract.Provider.CityBikes.tag {
+            CityBikesRestClient.shared.getStationsBy(url: contract.url!, handleSuccessWith: { (dtos) in
+                success(dtos.map({ (dto) -> BICStation in
+                    return BICStation(citybikes: dto)
+                }))
+            }, handleFailureWith: error)
+        }
     }
-    
 }

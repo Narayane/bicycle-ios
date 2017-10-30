@@ -14,16 +14,25 @@
 //  limitations under the License.
 //
 
-import Foundation
+import ObjectMapper
 
-class BICHomeViewModel {
+class BICContractProviderSerializer: TransformType {
     
-    var currentContract: BICContract?
-    var departure: BICPlace?
-    var arrival: BICPlace?
+    public typealias Object = BICContract.Provider
+    public typealias JSON = String
     
-    init() {
-        BICContractService.shared.loadContracts(from: "Contracts")
+    public func transformFromJSON(_ value: Any?) -> Object? {
+        if let tag = value as? JSON {
+            return Object.from(tag: tag)
+        }
+        return nil
+    }
+    
+    public func transformToJSON(_ value: Object?) -> JSON? {
+        if let provider = value {
+            return provider.tag
+        }
+        return nil
     }
     
 }

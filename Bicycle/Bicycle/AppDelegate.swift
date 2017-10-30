@@ -35,7 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         if let window = window {
             let viewController = BICHomeViewController()
-            viewController.viewModel = BICHomeViewModel()
             let navigationController = UINavigationController(rootViewController: viewController)
             let primaryColor = UIColor(hex: (Bundle.main.object(forInfoDictionaryKey: "BICPrimaryColor") as? String)!)
             navigationController.styleNavigationBar(barTintColor: primaryColor, tintColor: UIColor.white)

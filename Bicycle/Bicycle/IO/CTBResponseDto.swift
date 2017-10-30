@@ -14,16 +14,17 @@
 //  limitations under the License.
 //
 
-import Foundation
+import ObjectMapper
 
-class BICHomeViewModel {
+class CTBResponseDto: Mappable {
     
-    var currentContract: BICContract?
-    var departure: BICPlace?
-    var arrival: BICPlace?
+    var stations: [CTBStationDto]?
     
-    init() {
-        BICContractService.shared.loadContracts(from: "Contracts")
+    required init?(map: Map) {
+        
     }
     
+    func mapping(map: Map) {
+        stations <- map["network.stations"]
+    }
 }

@@ -1,0 +1,33 @@
+/* 
+  Copyright © 2017 Bicycle (Sébastien BALARD)
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
+
+// commons
+"bic_commons_app_version_label" = "v%@ (build %@)";
+// actions
+"bic_actions_cancel" = "Annuler";
+"bic_actions_help" = "Aide";
+"bic_actions_about" = "À propos";
+// dialogs
+"bic_dialogs_title_info" = "Information";
+"bic_dialogs_title_warning" = "Alerte";
+"bic_dialogs_title_error" = "Erreur";
+"bic_dialogs_message_departure_not_found" = "L'adresse de départ est inconnue";
+"bic_dialogs_message_arrival_not_found" = "L'adresse d'arrivée est inconnue";
+"bic_dialogs_message_unsupported_contract" = "Le départ et/ou l'arrivée de votre recherche se situent dans une ville non présente dans OneBike";
+"bic_dialogs_message_not_the_same_contract" = "Le départ et l'arrivée de votre recherche doivent se situer dans la même ville";
+"bic_dialogs_message_same_station" = "Vous êtes déjà arrivé(e) :)";
+"bic_dialogs_message_ride_under_min_distance" = "Vous feriez mieux d'y aller à pied ;)";
+"bic_dialogs_message_stations_data_not_loaded" = "Nous n'avons pas pu charger les informations des stations";

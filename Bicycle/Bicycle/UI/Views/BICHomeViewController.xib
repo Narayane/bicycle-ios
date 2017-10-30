@@ -12,14 +12,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BICHomeViewController" customModule="Bicycle" customModuleProvider="target">
             <connections>
-                <outlet property="buttonArrivalMyLocation" destination="jIH-r7-ygG" id="wnb-IN-aJJ"/>
-                <outlet property="buttonDepartureMyLocation" destination="6mm-Ro-tGY" id="nld-OJ-L8a"/>
-                <outlet property="buttonMyLocation" destination="fQT-1x-ZvK" id="Zfk-z5-cKJ"/>
+                <outlet property="buttonArrivalUserLocation" destination="jIH-r7-ygG" id="wnb-IN-aJJ"/>
+                <outlet property="buttonCenterOnUserLocation" destination="fQT-1x-ZvK" id="Zfk-z5-cKJ"/>
+                <outlet property="buttonDepartureUserLocation" destination="6mm-Ro-tGY" id="nld-OJ-L8a"/>
                 <outlet property="buttonSearch" destination="35Y-oZ-PwR" id="hj3-HF-hEJ"/>
                 <outlet property="buttonToggleSearchPanel" destination="wWR-GG-uao" id="RCx-VO-9pc"/>
                 <outlet property="constraintSearchViewTop" destination="Hls-09-nLx" id="rSO-52-TkJ"/>
-                <outlet property="indicatorArrivalMyLocation" destination="0Rh-kq-1l2" id="3fy-mH-MbN"/>
-                <outlet property="indicatorDepartureMyLocation" destination="qVo-XD-SAT" id="yWL-YS-JWi"/>
+                <outlet property="indicatorArrivalUserLocation" destination="0Rh-kq-1l2" id="3fy-mH-MbN"/>
+                <outlet property="indicatorDepartureUserLocation" destination="qVo-XD-SAT" id="yWL-YS-JWi"/>
                 <outlet property="indicatorSearch" destination="zDA-qV-Tjs" id="8fu-nP-oMj"/>
                 <outlet property="mapView" destination="cTf-Hg-ErM" id="lbR-ic-0dH"/>
                 <outlet property="swipeDownGestureRecognizer" destination="Qbc-VG-AEh" id="vIM-mx-WES"/>
@@ -41,6 +41,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                     <gestureRecognizers/>
                     <connections>
+                        <outlet property="delegate" destination="-1" id="TYX-Fe-kOH"/>
                         <outletCollection property="gestureRecognizers" destination="aiE-43-Qq2" appends="YES" id="Rl6-Pn-zHA"/>
                     </connections>
                 </mapView>
@@ -69,7 +70,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </textField>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6mm-Ro-tGY" userLabel="DepartureFindMyLocationButton">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6mm-Ro-tGY" userLabel="DepartureUserLocationButton">
                                             <rect key="frame" x="190" y="0.0" width="40" height="40"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="40" id="IHd-K4-rRW"/>
@@ -84,8 +85,11 @@
                                                     <integer key="value" value="5"/>
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="onDepartureUserLocationButtonTouched:" destination="-1" eventType="touchUpInside" id="cK4-oC-dAe"/>
+                                            </connections>
                                         </button>
-                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="qVo-XD-SAT" userLabel="DepartureFindMyLocationIndicator">
+                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="qVo-XD-SAT" userLabel="DepartureUserLocationIndicator">
                                             <rect key="frame" x="200" y="10" width="20" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="BWy-Ly-9K6"/>
@@ -114,7 +118,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </view>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ra3-hm-2rE" userLabel="DepartureBikeCountTextField" customClass="OLSTextField" customModule="Bicycle" customModuleProvider="target">
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ra3-hm-2rE" userLabel="DepartureBikeCountTextField" customClass="SBTextField" customModule="Bicycle" customModuleProvider="target">
                                     <rect key="frame" x="240" y="0.0" width="60" height="40"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -125,12 +129,12 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="next"/>
                                     <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="image" keyPath="leftImage" value="OBKICDepartureBike"/>
+                                        <userDefinedRuntimeAttribute type="image" keyPath="leftImage" value="BICIconBike"/>
                                         <userDefinedRuntimeAttribute type="number" keyPath="leftPadding">
                                             <real key="value" value="5"/>
                                         </userDefinedRuntimeAttribute>
                                         <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                            <color key="value" red="0.68627450980000004" green="0.79607843140000001" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="value" red="0.47450980390000003" green="0.054901960780000002" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </textField>
@@ -148,7 +152,7 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                         </textField>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jIH-r7-ygG" userLabel="ArrivalFindMyLocationButton">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jIH-r7-ygG" userLabel="ArrivalUserLocationButton">
                                             <rect key="frame" x="190" y="0.0" width="40" height="40"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="40" id="CT6-IR-svH"/>
@@ -163,8 +167,11 @@
                                                     <integer key="value" value="5"/>
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="onArrivalUserLocationButtonTouched:" destination="-1" eventType="touchUpInside" id="Kmf-2k-IUX"/>
+                                            </connections>
                                         </button>
-                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0Rh-kq-1l2" userLabel="ArrivalFindMyLocationIndicator">
+                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0Rh-kq-1l2" userLabel="ArrivalUserLocationIndicator">
                                             <rect key="frame" x="200" y="10" width="20" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="20" id="DYz-Kq-cla"/>
@@ -193,7 +200,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </view>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yTh-C9-E0k" userLabel="ArrivalBikeCountTextField" customClass="OLSTextField" customModule="Bicycle" customModuleProvider="target">
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yTh-C9-E0k" userLabel="ArrivalBikeCountTextField" customClass="SBTextField" customModule="Bicycle" customModuleProvider="target">
                                     <rect key="frame" x="240" y="50" width="60" height="40"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -204,12 +211,12 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
                                     <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="image" keyPath="leftImage" value="OBKICArrivalBike"/>
+                                        <userDefinedRuntimeAttribute type="image" keyPath="leftImage" value="BICIconBike"/>
                                         <userDefinedRuntimeAttribute type="number" keyPath="leftPadding">
                                             <real key="value" value="5"/>
                                         </userDefinedRuntimeAttribute>
                                         <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                            <color key="value" red="0.68627450980000004" green="0.79607843140000001" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="value" red="0.47450980390000003" green="0.054901960780000002" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </textField>
@@ -251,6 +258,9 @@
                                     <state key="normal" image="BICIconArrowDown">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="onHideSearchViewButtonTouchedWithSender:" destination="-1" eventType="touchUpInside" id="ILV-aC-hHv"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <constraints>
@@ -290,20 +300,23 @@
                         <outletCollection property="gestureRecognizers" destination="Qbc-VG-AEh" appends="YES" id="eLv-ii-2SJ"/>
                     </connections>
                 </view>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fQT-1x-ZvK" userLabel="MyLocationButton">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fQT-1x-ZvK" userLabel="CenterOnUserLocationButton">
                     <rect key="frame" x="270" y="366" width="40" height="40"/>
                     <color key="backgroundColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="Im4-yf-JqJ"/>
                         <constraint firstAttribute="width" constant="40" id="YbN-UD-HHP"/>
                     </constraints>
-                    <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                    <color key="tintColor" red="0.47450980390000003" green="0.054901960780000002" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" image="BICIconLocation"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                             <integer key="value" value="5"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="onCenterOnUserLocationButtonTouched:" destination="-1" eventType="touchUpInside" id="wQ8-vT-Lxk"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -321,14 +334,25 @@
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
         </view>
-        <tapGestureRecognizer id="aiE-43-Qq2" userLabel="MapTapGestureRecognizer"/>
-        <swipeGestureRecognizer direction="right" id="wyP-jx-TS4" userLabel="SearchViewSwipeUpGestureRecognizer"/>
-        <swipeGestureRecognizer direction="right" id="Qbc-VG-AEh" userLabel="SearchViewSwipeDownGestureRecognizer"/>
+        <tapGestureRecognizer id="aiE-43-Qq2" userLabel="MapTapGestureRecognizer">
+            <connections>
+                <action selector="onMapTouched:" destination="-1" id="hx2-sP-Hh2"/>
+            </connections>
+        </tapGestureRecognizer>
+        <swipeGestureRecognizer direction="right" id="wyP-jx-TS4" userLabel="SearchViewSwipeUpGestureRecognizer">
+            <connections>
+                <action selector="onSearchViewSwipeUpInvoked:" destination="-1" id="x1J-83-uR1"/>
+            </connections>
+        </swipeGestureRecognizer>
+        <swipeGestureRecognizer direction="right" id="Qbc-VG-AEh" userLabel="SearchViewSwipeDownGestureRecognizer">
+            <connections>
+                <action selector="onSearchViewSwipeDownInvoked:" destination="-1" id="6cg-7c-F9m"/>
+            </connections>
+        </swipeGestureRecognizer>
     </objects>
     <resources>
         <image name="BICIconArrowDown" width="36" height="36"/>
+        <image name="BICIconBike" width="18" height="18"/>
         <image name="BICIconLocation" width="20" height="20"/>
-        <image name="OBKICArrivalBike" width="16" height="16"/>
-        <image name="OBKICDepartureBike" width="16" height="16"/>
     </resources>
 </document>

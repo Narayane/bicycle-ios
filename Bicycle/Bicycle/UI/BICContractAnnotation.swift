@@ -14,16 +14,10 @@
 //  limitations under the License.
 //
 
-import Foundation
+import MapKit
 
-class BICHomeViewModel {
+class BICContractAnnotation : MKPointAnnotation {
     
-    var currentContract: BICContract?
-    var departure: BICPlace?
-    var arrival: BICPlace?
-    
-    init() {
-        BICContractService.shared.loadContracts(from: "Contracts")
-    }
+    var region: MKCoordinateRegion?
     
 }
