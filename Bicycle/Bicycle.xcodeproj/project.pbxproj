@@ -206,7 +206,6 @@
 		BE2E53141F9E7A8F00806D3F /* Bicycle */ = {
 			isa = PBXGroup;
 			children = (
-				BE6D554A1FA7E25200E7C7F2 /* Contracts.json */,
 				BE1131DC1FA131BF0040C374 /* Data */,
 				BEEAC4641F9E8A9100766469 /* Extensions */,
 				BEEDAC7C1FA68CAA001D7765 /* IO */,
@@ -219,6 +218,7 @@
 				BE2E53241F9E7A8F00806D3F /* Info.plist */,
 				BE6D55481FA7D7D500E7C7F2 /* Localizable.strings */,
 				BE2E531C1F9E7A8F00806D3F /* Bicycle.xcdatamodeld */,
+				BE6D554A1FA7E25200E7C7F2 /* Contracts.json */,
 				BE1131DF1FA137890040C374 /* Toulouse.gpx */,
 			);
 			path = Bicycle;
@@ -837,12 +837,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KWBC726VHU;
 				INFOPLIST_FILE = Bicycle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SB.Bicycle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -852,12 +853,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KWBC726VHU;
 				INFOPLIST_FILE = Bicycle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SB.Bicycle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

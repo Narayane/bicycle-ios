@@ -576,18 +576,16 @@ extension BICHomeViewController: MKMapViewDelegate {
         var annotationView: MKAnnotationView?
         
         if annotation is BICContractAnnotation {
-            /*SBLog.d("viewFor contract annotation")
             annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: CONTRACT_CELL_REUSE_ID)
             if annotationView == nil {
                 annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: CONTRACT_CELL_REUSE_ID)
-                (annotationView as? MKPinAnnotationView)?.pinTintColor = UIColor.blue
                 annotationView?.canShowCallout = true
                 annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-                annotationView?.image = #imageLiteral(resourceName: "OBKICContract").resizeTo(width: 51, height: 62)
+                annotationView?.image = #imageLiteral(resourceName: "BICImgContract").resizeTo(width: 51, height: 62)
                 annotationView?.centerOffset = CGPoint(x: 0.0, y:-(annotationView!.image!.size.height / 2))
             } else {
                 annotationView?.annotation = annotation
-            }*/
+            }
         } else if annotation is ClusterAnnotation {
             annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: CLUSTER_CELL_REUSE_ID) as? ClusterAnnotationView
             if annotationView == nil {
@@ -639,9 +637,9 @@ extension BICHomeViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        /*if let contractAnnotation = view.annotation as? OBKContractAnnotation, let region = contractAnnotation.region, control == view.rightCalloutAccessoryView {
+        if let contractAnnotation = view.annotation as? BICContractAnnotation, let region = contractAnnotation.region, control == view.rightCalloutAccessoryView {
             self.mapView.setRegion(region, animated: true)
-        }*/
+        }
     }
 }
 
