@@ -61,8 +61,8 @@ class BICContract: Mappable {
     public struct Provider {
         
         static let Unknown = Provider(0, tag: "Unknown")
-        static let JCDecaux = Provider(1, tag: "JCDecaux")
-        static let CityBikes = Provider(2, tag: "CityBikes")
+        //static let JCDecaux = Provider(1, tag: "JCDecaux")
+        static let CityBikes = Provider(1, tag: "CityBikes")
         
         public let value: Int
         public let tag: String
@@ -74,8 +74,8 @@ class BICContract: Mappable {
         
         static func from(tag: String) -> Provider {
             switch (tag) {
-            case JCDecaux.tag:
-                return JCDecaux
+            /*case JCDecaux.tag:
+                return JCDecaux*/
             case CityBikes.tag:
                 return CityBikes
             default:

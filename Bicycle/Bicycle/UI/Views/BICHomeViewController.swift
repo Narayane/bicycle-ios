@@ -153,7 +153,7 @@ class BICHomeViewController: UIViewController {
     
     deinit {
         locationManager = nil
-        viewModel = nil
+        clusteringManager = nil
     }
     
     // MARK: UI Events
@@ -253,6 +253,20 @@ class BICHomeViewController: UIViewController {
                 expandSearchView()
             }
         }*/
+    }
+    
+    @IBAction func onSearchButtonTouched(sender: UIButton) {
+        SBLog.i("click on button: search")
+        validateRideData()
+    }
+    
+    // MARK: Ride
+    
+    private func validateRideData() {
+        disableSearchView()
+        /*departure = nil
+        arrival = nil
+        geocodeRideDeparture()*/
     }
     
     // MARK: Timer
@@ -554,7 +568,7 @@ extension BICHomeViewController: UITextFieldDelegate {
             textFieldArrivalBikeCount.becomeFirstResponder()
             break
         default:
-            //validateRideData()
+            validateRideData()
             break
         }
         return false
@@ -656,34 +670,34 @@ extension BICHomeViewController: CLLocationManagerDelegate {
             buttonCenterOnUserLocation.isHidden = true
             buttonDepartureUserLocation.isHidden = true
             buttonArrivalUserLocation.isHidden = true
-            break;
+            break
         case .restricted:
             SBLog.d("restricted")
             buttonCenterOnUserLocation.isHidden = true
             buttonDepartureUserLocation.isHidden = true
             buttonArrivalUserLocation.isHidden = true
-            break;
+            break
         case .denied:
             SBLog.d("denied")
             buttonCenterOnUserLocation.isHidden = true
             buttonDepartureUserLocation.isHidden = true
             buttonArrivalUserLocation.isHidden = true
             refreshAnnotations()
-            break;
+            break
         case .authorizedAlways:
             SBLog.d("authorizedAlways")
             buttonCenterOnUserLocation.isHidden = false
             buttonDepartureUserLocation.isHidden = false
             buttonArrivalUserLocation.isHidden = false
             locationManager?.startUpdatingLocation()
-            break;
+            break
         case .authorizedWhenInUse:
             SBLog.d("authorizedWhenInUse")
             buttonCenterOnUserLocation.isHidden = false
             buttonDepartureUserLocation.isHidden = false
             buttonArrivalUserLocation.isHidden = false
             locationManager?.startUpdatingLocation()
-            break;
+            break
         }
     }
     
