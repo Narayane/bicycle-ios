@@ -26,7 +26,7 @@ extension UIColor {
             stringValue.remove(at: stringValue.startIndex)
         }
         
-        if ((stringValue.characters.count) == 6) {
+        if ((stringValue.count) == 6) {
             
             var rgbValue:UInt32 = 0
             Scanner(string: stringValue).scanHexInt32(&rgbValue)
@@ -37,7 +37,7 @@ extension UIColor {
                 blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
                 alpha: CGFloat(1.0)
             )
-        } else if ((stringValue.characters.count) == 8) {
+        } else if ((stringValue.count) == 8) {
             
             // deal with alpha component
             

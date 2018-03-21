@@ -23,32 +23,21 @@ target 'Bicycle' do
   # Pods for Bicycle
   pod 'Fabric'
   pod 'Crashlytics'
-  pod 'XCGLogger'
+  pod 'SwiftyBeaver'
   pod 'AlamofireObjectMapper'
   pod 'Cluster'
   pod 'Toaster'
   pod 'SearchTextField'
   pod 'RxSwift'
   pod 'RxCocoa'
-  #pod 'RxMKMapView', :podspec => 'RxMKMapView.podspec'
-  
-  swift_32 = []
+  pod 'Dip'
   
   post_install do |installer|
-      installer.pods_project.targets.each do |target|
-          
-          swift_version = '4.0'
-          
-          if swift_32.include?(target.name)
-              swift_version = '3.2'
-          end
-          
-          if swift_version
-              target.build_configurations.each do |config|
-                  config.build_settings['SWIFT_VERSION'] = swift_version
-              end
-          end
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['SWIFT_VERSION'] = '4.0'
       end
+    end
   end
 
   target 'BicycleTests' do

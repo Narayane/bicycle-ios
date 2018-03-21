@@ -16,11 +16,16 @@
 
 import UIKit
 //import CoreData
+import Dip
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    private let container = DependencyContainer { container in
+        //container.register { ServiceImp() as Service }
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         

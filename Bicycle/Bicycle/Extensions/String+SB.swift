@@ -33,7 +33,7 @@ extension String {
     }
     
     func firstCharacterUppercased(with locale: Locale?) -> String {
-        if let firstCharacter = characters.first, characters.count > 0 {
+        if let firstCharacter = self.first, self.count > 0 {
             return replacingCharacters(in: startIndex ..< index(after: startIndex), with: String(firstCharacter).uppercased(with: locale))
         }
         return self

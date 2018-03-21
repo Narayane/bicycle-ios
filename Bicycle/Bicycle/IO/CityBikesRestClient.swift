@@ -43,7 +43,7 @@ class CityBikesRestClient {
         sessionManager.request(URL).validate().responseObject { (response: DataResponse<CTBResponseDto>) in
             
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            SBLog.verbose(response.request)
+            SBLog.v(response.request)
             
             switch response.result {
             case .success(let value):
