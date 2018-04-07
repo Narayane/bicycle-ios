@@ -37,7 +37,7 @@ class BICPlace {
         text = text?.concat(with: placemark.postalCode, separator: ", ")
         text = text?.concat(with: placemark.locality, separator: " ")
         text = text?.concat(with: placemark.country, separator: ", ")
-        SBLog.d("create place: \(String(describing: text))")
+        log.d("create place: \(String(describing: text))")
         name = text
         latitude = placemark.location?.coordinate.latitude
         longitude = placemark.location?.coordinate.longitude

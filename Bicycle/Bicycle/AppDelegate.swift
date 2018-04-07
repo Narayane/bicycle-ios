@@ -18,14 +18,18 @@ import UIKit
 //import CoreData
 import Dip
 
+let log = SBLog.self
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    private let container = DependencyContainer { container in
-        //container.register { ServiceImp() as Service }
-    }
+    /*let container = DependencyContainer { container in
+        unowned let container = container
+        container.register(.unique) { BICContractService() }
+        container.register(.unique) { BICStationService() }
+    }*/
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -33,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let hexaPrimaryDarkColor = Bundle.main.object(forInfoDictionaryKey: "BICPrimaryDarkColor") as? String
         styleStatusBar(hexaBackgroundColor: hexaPrimaryDarkColor)
         
-        SBLog.setLogLevel(Bundle.main.object(forInfoDictionaryKey: "SBLogLevel")! as! String)
+        log.set(level: Bundle.main.object(forInfoDictionaryKey: "SBLogLevel")! as! String)
         SBCrashReport.start()
         
         window = UIWindow(frame: UIScreen.main.bounds)

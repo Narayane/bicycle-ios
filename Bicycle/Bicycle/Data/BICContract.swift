@@ -18,35 +18,38 @@ import CoreLocation
 import ObjectMapper
 import MapKit
 
-class BICContract: Mappable {
+class BICContract: Mappable, Equatable {
     
-    var name: String?
-    var latitude: Double?
-    var longitude: Double?
-    var provider: Provider?
-    var radius: Double?
-    var url: String?
+    static func ==(lhs: BICContract, rhs: BICContract) -> Bool {
+        return lhs.center == rhs.center
+    }
     
-    var center: CLLocationCoordinate2D? {
+    var name: String
+    var latitude: Double
+    var longitude: Double
+    var provider: Provider
+    var radius: Double
+    var url: String
+    
+    var center: CLLocationCoordinate2D {
         get {
-            if let latitude = latitude, let longitude = longitude {
-                return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            }
-            return nil
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         }
     }
     
-    var region: MKCoordinateRegion? {
+    var region: MKCoordinateRegion {
         get {
-            if let center = center, let radius = radius {
-                return MKCoordinateRegionMakeWithDistance(center, radius * 2, radius * 2)
-            }
-            return nil
+            return MKCoordinateRegionMakeWithDistance(center, radius * 2, radius * 2)
         }
     }
     
     required init?(map: Map) {
-        
+        name = ""
+        latitude = 0
+        longitude = 0
+        provider = .Unknown
+        radius = 0
+        url = ""
     }
     
     func mapping(map: Map) {
@@ -61,8 +64,8 @@ class BICContract: Mappable {
     public struct Provider {
         
         static let Unknown = Provider(0, tag: "Unknown")
-        //static let JCDecaux = Provider(1, tag: "JCDecaux")
         static let CityBikes = Provider(1, tag: "CityBikes")
+        //static let JCDecaux = Provider(2, tag: "JCDecaux")
         
         public let value: Int
         public let tag: String

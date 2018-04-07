@@ -22,11 +22,11 @@ class SBCrashReport {
     class func start() {
         if (Bundle.main.object(forInfoDictionaryKey: "SBCrashReportEnabled") as! String).boolValue() {
             Fabric.with([Crashlytics.self, Answers.self])
-            SBLog.i("start crash report")
+            log.i("start crash report")
         }
     }
     
-    class func log(_ message: String?, level: String?, function: String?, file: String?, line: String?) {
+    class func logMessage(_ message: String?, level: String?, function: String?, file: String?, line: String?) {
         if (Bundle.main.object(forInfoDictionaryKey: "SBCrashReportEnabled") as! String).boolValue() {
             if let message = message {
                 var log = ""

@@ -15,16 +15,27 @@
 //
 
 import Foundation
+import RxCocoa
+import RxSwift
 
 class WSFacade {
     
     static func getStationsBy(contract: BICContract, success: @escaping (_ stations: [BICStation]) -> Void, error: @escaping () -> Void) {
-        if contract.provider?.tag == BICContract.Provider.CityBikes.tag {
-            CityBikesRestClient.shared.getStationsBy(url: contract.url!, handleSuccessWith: { (dtos) in
+        if contract.provider.tag == BICContract.Provider.CityBikes.tag {
+            CityBikesRestClient.shared.getStationsBy(url: contract.url, handleSuccessWith: { (dtos) in
                 success(dtos.map({ (dto) -> BICStation in
                     return BICStation(citybikes: dto)
                 }))
             }, handleFailureWith: error)
+        }
+    }
+    
+    static func getStationsBy(contract: BICContract) -> Single<[BICStation]> {
+        switch contract.provider.tag {
+        case BICContract.Provider.CityBikes.tag:
+            return CityBikesRestClient.shared.getStationsBy(url: contract.url)
+        default:
+            return Observable.error(NSError(domain: "ContractUndefinedProviderErrorDomain", code: 10000, userInfo: nil)).asSingle()
         }
     }
 }

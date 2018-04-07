@@ -18,10 +18,10 @@ import ObjectMapper
 
 class CTBResponseDto: Mappable {
     
-    var stations: [CTBStationDto]?
+    var stations: [CTBStationDto]
     
     required init?(map: Map) {
-        
+        self.stations = []
     }
     
     func mapping(map: Map) {

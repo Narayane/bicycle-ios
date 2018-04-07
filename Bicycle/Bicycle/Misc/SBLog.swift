@@ -19,9 +19,9 @@ import Crashlytics
 
 class SBLog {
     
-    private static var LOGGER = SwiftyBeaver.self
+    private static var logger = SwiftyBeaver.self
     
-    static func setLogLevel(_ level: String!) -> Void {
+    class func set(level: String) -> Void {
         
         var logLevel: SwiftyBeaver.Level
         
@@ -46,17 +46,16 @@ class SBLog {
         let console = ConsoleDestination()
         console.minLevel = logLevel
         console.format = "$Dyyyy-MM-dd HH:mm:ss.SSS$d $C$L$c [$T] $N.$F:$l - $M"
-        //console.format = "$Dyyyy-MM-dd HH:mm:ss.SSS$d $T $L: $M"
-        LOGGER.addDestination(console)
-        LOGGER.info("log level: \(level!)")
+        logger.addDestination(console)
+        logger.info("log level: \(level)")
     }
     
-    static func v(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
-        LOGGER.verbose(message, fileName, functionName, line: lineNumber)
-        SBCrashReport.log(message, level: "V", function: functionName.description, file: fileName.description, line: lineNumber.description)
+    class func v(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
+        logger.verbose(message, fileName, functionName, line: lineNumber)
+        SBCrashReport.logMessage(message, level: "V", function: functionName.description, file: fileName.description, line: lineNumber.description)
     }
     
-    static func v(_ request: URLRequest?, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
+    class func v(_ request: URLRequest?, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
         if let request = request {
             var message = "URL: \(request.url!) - \(request.httpMethod!) - Headers: \(request.allHTTPHeaderFields!)"
             if let body = request.httpBody {
@@ -66,12 +65,12 @@ class SBLog {
         }
     }
     
-    static func d(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
-        LOGGER.debug(message, fileName, functionName, line: lineNumber)
-        SBCrashReport.log(message, level: "D", function: functionName.description, file: fileName.description, line: lineNumber.description)
+    class func d(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
+        logger.debug(message, fileName, functionName, line: lineNumber)
+        SBCrashReport.logMessage(message, level: "D", function: functionName.description, file: fileName.description, line: lineNumber.description)
     }
     
-    static func d(_ request: URLRequest?, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
+    class func d(_ request: URLRequest?, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
         if let request = request {
             var message = "URL: \(request.url!) - \(request.httpMethod!) - Headers: \(request.allHTTPHeaderFields!)"
             if let body = request.httpBody {
@@ -81,22 +80,22 @@ class SBLog {
         }
     }
     
-    static func i(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
-        LOGGER.info(message, fileName, functionName, line: lineNumber)
-        SBCrashReport.log(message, level: "I", function: functionName.description, file: fileName.description, line: lineNumber.description)
+    class func i(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
+        logger.info(message, fileName, functionName, line: lineNumber)
+        SBCrashReport.logMessage(message, level: "I", function: functionName.description, file: fileName.description, line: lineNumber.description)
     }
     
-    static func w(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
-        LOGGER.warning(message, fileName, functionName, line: lineNumber)
-        SBCrashReport.log(message, level: "W", function: functionName.description, file: fileName.description, line: lineNumber.description)
+    class func w(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
+        logger.warning(message, fileName, functionName, line: lineNumber)
+        SBCrashReport.logMessage(message, level: "W", function: functionName.description, file: fileName.description, line: lineNumber.description)
     }
     
-    static func e(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
-        LOGGER.error(message)
-        SBCrashReport.log(message, level: "E", function: functionName.description, file: fileName.description, line: lineNumber.description)
+    class func e(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
+        logger.error(message)
+        SBCrashReport.logMessage(message, level: "E", function: functionName.description, file: fileName.description, line: lineNumber.description)
     }
     
-    static func e(_ request: URLRequest?, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
+    class func e(_ request: URLRequest?, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
         if let request = request {
             var message = "URL: \(request.url!) - \(request.httpMethod!) - Headers: \(request.allHTTPHeaderFields!)"
             if let body = request.httpBody {

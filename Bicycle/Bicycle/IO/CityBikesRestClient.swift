@@ -16,6 +16,9 @@
 
 import Alamofire
 import AlamofireObjectMapper
+import RxAlamofire
+import RxCocoa
+import RxSwift
 
 class CityBikesRestClient {
     
@@ -43,19 +46,42 @@ class CityBikesRestClient {
         sessionManager.request(URL).validate().responseObject { (response: DataResponse<CTBResponseDto>) in
             
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            SBLog.v(response.request)
+            log.v(response.request)
             
             switch response.result {
             case .success(let value):
-                handleSuccessWith(value.stations ?? [])
+                handleSuccessWith(value.stations)
                 break
             case .failure(let error):
-                SBLog.e(error.localizedDescription)
-                SBLog.e(response.request)
+                log.e(error.localizedDescription)
+                log.e(response.request)
                 handleFailureWith()
                 break
             }
         }
     }
-
+    
+    func getStationsBy(url: String) -> Single<[BICStation]> {
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        let endpoint = url + "?fields=stations" as! URLRequestConvertible
+        
+        return sessionManager.rx.request(urlRequest: endpoint).responseMappable(as: CTBResponseDto.self)
+            .subscribeOn(MainScheduler.instance)
+            .do(onNext: { response in
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            })
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .map({ (response) -> [CTBStationDto] in
+                response.stations
+            })
+            .concatMap({ (dtos) -> Observable<CTBStationDto> in
+                Observable.from(dtos)
+            })
+            .map({ (dto) -> BICStation in
+                BICStation(citybikes: dto)
+            })
+            .toArray().asSingle()
+    }
 }

@@ -15,15 +15,68 @@
 //
 
 import Foundation
+import RxCocoa
+import RxSwift
+import MapKit
 
 class BICHomeViewModel {
     
-    var currentContract: BICContract?
-    var departure: BICPlace?
-    var arrival: BICPlace?
+    private let disposeBag = DisposeBag()
     
-    init() {
-        BICContractService.shared.loadContracts(from: "Contracts")
+    private let contractService: BICContractService
+    
+    var currentContract: Variable<BICContract?>
+    var hasCurrentContractChanged: Variable<Bool?>
+    var currentStations: Variable<[BICStation]?>
+    
+    init(contractService: BICContractService) {
+        self.contractService = contractService
+        self.currentContract = Variable(nil)
+        self.hasCurrentContractChanged = Variable(nil)
+        self.currentStations = Variable(nil)
     }
     
+    func getAllContracts() -> [BICContract] {
+        return self.contractService.allContracts
+    }
+    
+    func refreshContractStations(_ contract: BICContract) {
+        log.d(String(format: "refresh contract stations: %@ (%@)", contract.name, contract.provider.tag))
+        /*BICStationService.shared.loadStationsFor(contract: contract, success: { (stations) in
+            self.createAnnotationsFor(stations: stations)
+        }, error: {
+            self.queueMain.async {
+                Toast.init(text: NSLocalizedString("bic_dialogs_message_stations_data_not_loaded", comment: ""), delay: 0, duration: 5).show()
+            }
+        })*/
+    }
+    
+    func determineCurrentContract(region: MKCoordinateRegion) {
+        
+        var invalidateCurrentContract = false
+        var hasChanged = false
+        var current = currentContract.value
+        
+        if let currentRegion = current?.region, !currentRegion.intersect(region) {
+            invalidateCurrentContract = true
+            hasChanged = true
+            current = nil
+        }
+        
+        if (current == nil || invalidateCurrentContract) {
+            current = self.contractService.getContract(for: region.center)
+            hasChanged = hasChanged || current != nil
+        }
+        
+        hasCurrentContractChanged.value = hasChanged
+        if (currentContract.value != nil && current != nil) {
+            if (currentContract.value! != current!) {
+                // current has changed
+                currentContract.value = current
+            }
+        } else {
+            // someone is null
+            currentContract.value = current
+        }
+    }
 }

@@ -38,7 +38,11 @@ extension MKCoordinateRegion {
                                       longitude: center.longitude + span.longitudeDelta / 2)
     }
     
-    func intersect(region: MKCoordinateRegion) -> Bool {
-        return true
+    func intersect(_ region: MKCoordinateRegion) -> Bool {
+        
+        let latIntersects = (region.northEast.latitude >= southWest.latitude) && (region.southWest.latitude <= northEast.latitude)
+        let lngIntersects = (region.northEast.longitude >= southWest.longitude) && (region.southWest.longitude <= northEast.longitude)
+        
+        return latIntersects && lngIntersects
     }
 }

@@ -18,24 +18,19 @@ import CoreLocation
 
 class BICContractService {
     
-    var allContracts: [BICContract]
-    
-    static let shared: BICContractService = {
-        let instance = BICContractService()
-        return instance
-    }()
+    var allContracts: [BICContract] = []
     
     init() {
-        allContracts = []
+       self.allContracts = loadContracts(from: "Contracts")
     }
     
     // MARK: - Public Methods
     
     func getContract(for coordinate: CLLocationCoordinate2D) -> BICContract? {
         
-        SBLog.v("(\(coordinate.latitude),\(coordinate.longitude))")
+        log.v("(\(coordinate.latitude),\(coordinate.longitude))")
         let filteredList = allContracts.filter { (contract) -> Bool in
-            return coordinate.isIncludedIn(region: contract.region!)
+            return coordinate.isIncludedIn(region: contract.region)
         }
         
         var contract: BICContract?
@@ -43,7 +38,7 @@ class BICContractService {
             var minDistance: CLLocationDistance?
             var distanceFromCenter: CLLocationDistance?
             for filtered in filteredList {
-                distanceFromCenter = coordinate.distanceTo(filtered.center!)
+                distanceFromCenter = coordinate.distanceTo(filtered.center)
                 //FIXME: is it useful?
                 if minDistance == nil {
                     minDistance = distanceFromCenter
@@ -59,26 +54,28 @@ class BICContractService {
         return contract
     }
     
-    func loadContracts(from: String) {
+    private func loadContracts(from: String) -> [BICContract] {
+        var contracts: [BICContract] = []
         if let jsonFilePath = Bundle.main.path(forResource: from, ofType: "json") {
-            SBLog.v("load contracts from file at \(jsonFilePath)")
+            log.v("load contracts from file at \(jsonFilePath)")
             do {
                 let jsonFileContent = try String(contentsOf: URL(fileURLWithPath: jsonFilePath), encoding: String.Encoding.utf8)
                 do {
                     if let array = try JSONSerialization.jsonObject(with: jsonFileContent.data(using: String.Encoding.utf8)!, options: []) as? [[String : Any]] {
                         for element in array {
                             if let contract = BICContract(JSON: element) {
-                                allContracts.append(contract)
+                                contracts.append(contract)
                             }
                         }
-                        SBLog.d("\(allContracts.count) contracts loaded")
+                        log.d("\(contracts.count) contracts loaded")
                     }
                 } catch {
-                    SBLog.e(error.localizedDescription)
+                    log.e(error.localizedDescription)
                 }
             } catch {
-                SBLog.e(error.localizedDescription)
+                log.e(error.localizedDescription)
             }
         }
+        return contracts
     }
 }

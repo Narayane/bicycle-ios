@@ -23,7 +23,7 @@ extension String {
     }
     
     func concat(with other: String?, separator: String = " ") -> String? {
-        let results = [self, other].flatMap {$0}
+        let results = [self, other].compactMap {$0}
         guard results.count > 0 else { return nil }
         return results.joined(separator: separator)
     }

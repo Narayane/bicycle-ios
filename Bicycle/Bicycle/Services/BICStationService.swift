@@ -15,6 +15,8 @@
 //
 
 import Foundation
+import RxCocoa
+import RxSwift
 
 class BICStationService {
     
@@ -31,15 +33,24 @@ class BICStationService {
     
     // MARK: - Public Methods
     
+    func refreshStationsFor(contract: BICContract) -> Single<[BICStation]> {
+        return WSFacade.getStationsBy(contract: contract)
+            .do(onSuccess: { (stations) in
+                self.cacheStations[contract.name] = stations
+            }, onError: { (error) in
+                log.e("fail to get contract stations: \(error.localizedDescription)")
+            })
+    }
+    
     func loadStationsFor(contract: BICContract, success: @escaping (_ stations: [BICStation]) -> Void, error: @escaping () -> Void) {
-        if cacheStations.keys.contains(where: { $0 == contract.name! } ) {
-            let stations = cacheStations[contract.name!]!
-            SBLog.d("find \(stations.count) stations for contract: \(contract.name!)")
+        if cacheStations.keys.contains(where: { $0 == contract.name } ) {
+            let stations = cacheStations[contract.name]!
+            log.d("find \(stations.count) stations for contract: \(contract.name)")
             success(stations)
         } else {
             WSFacade.getStationsBy(contract: contract, success: { (stations) in
-                self.cacheStations.updateValue(stations, forKey: contract.name!)
-                SBLog.d("load \(stations.count) stations for contract: \(contract.name!)")
+                self.cacheStations.updateValue(stations, forKey: contract.name)
+                log.d("load \(stations.count) stations for contract: \(contract.name)")
                 success(stations)
             }) {
                 error()
