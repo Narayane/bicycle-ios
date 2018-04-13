@@ -42,6 +42,11 @@ class BICHomeViewModel {
     
     func refreshContractStations(_ contract: BICContract) {
         log.d(String(format: "refresh contract stations: %@ (%@)", contract.name, contract.provider.tag))
+        contractService.getStationsFor(contract: contract).subscribe(onSuccess: { (stations) in
+            self.currentStations.value = stations
+        }) { (error) in
+            self.currentStations.value = nil
+        }.disposed(by: disposeBag)
         /*BICStationService.shared.loadStationsFor(contract: contract, success: { (stations) in
             self.createAnnotationsFor(stations: stations)
         }, error: {

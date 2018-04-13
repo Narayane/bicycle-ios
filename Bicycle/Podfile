@@ -31,6 +31,7 @@ target 'Bicycle' do
     pod 'SearchTextField'
     pod 'RxSwift'
     pod 'RxCocoa'
+    pod 'RxCoreLocation'
     pod 'Dip'
     
     post_install do |installer|

@@ -65,9 +65,9 @@ class CityBikesRestClient {
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        let endpoint = url + "?fields=stations" as! URLRequestConvertible
+        let endpoint = url + "?fields=stations"
         
-        return sessionManager.rx.request(urlRequest: endpoint).responseMappable(as: CTBResponseDto.self)
+        return sessionManager.rx.request(.get, endpoint).responseMappable(as: CTBResponseDto.self)
             .subscribeOn(MainScheduler.instance)
             .do(onNext: { response in
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false

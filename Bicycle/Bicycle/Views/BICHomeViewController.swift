@@ -100,18 +100,17 @@ class BICHomeViewController: UIViewController {
         }
     }
     
+    var viewModelMap: BICMapViewModel
     var viewModelHome: BICHomeViewModel
     var viewModelSearch: BICSearchViewModel
     
     private let disposeBag = DisposeBag()
     
-    private var locationManager: CLLocationManager?
     private var clusteringManager: ClusterManager
     private var timer: Timer?
     private let queueMain = DispatchQueue.main
     private let queueComputation = DispatchQueue.global(qos: .userInitiated)
     
-    private var userLocation: CLLocation?
     private var annotations: [MKAnnotation]?
     
     private var activeTextField: SearchTextField?
@@ -122,6 +121,7 @@ class BICHomeViewController: UIViewController {
     // MARK: - Constructors
     
     init() {
+        self.viewModelMap = BICMapViewModel()
         self.viewModelHome = BICHomeViewModel(contractService: BICContractService())
         self.viewModelSearch = BICSearchViewModel()
         self.clusteringManager = ClusterManager()
@@ -130,6 +130,7 @@ class BICHomeViewController: UIViewController {
     }
     
     required init?(coder aDecoder: NSCoder) {
+        self.viewModelMap = BICMapViewModel()
         self.viewModelHome = BICHomeViewModel(contractService: BICContractService())
         self.viewModelSearch = BICSearchViewModel()
         self.clusteringManager = ClusterManager()
@@ -187,20 +188,27 @@ class BICHomeViewController: UIViewController {
                 self.clusteringManager.reload(mapView: self.mapView)
             }
         }.disposed(by: self.disposeBag)
-        viewModelSearch.isSearchButtonEnabled.asDriver().drive(buttonSearch.rx.isEnabled).disposed(by: self.disposeBag)
+        viewModelSearch.isSearchButtonEnabled.asDriver().drive(buttonSearch.rx.isEnabled).disposed(by: disposeBag)
+        viewModelMap.userLocation.asObservable().subscribe { (event) in
+            if let _ = event.element {
+                self.mapView.showsUserLocation = true
+                self.centerOnUserLocation()
+            } else {
+                self.mapView.showsUserLocation = false
+            }
+        }.disposed(by: disposeBag)
+        viewModelMap.isLocationAuthorizationDenied.asDriver().drive(buttonCenterOnUserLocation.rx.isHidden).disposed(by: disposeBag)
+        viewModelMap.isLocationAuthorizationDenied.asDriver().drive(buttonDepartureUserLocation.rx.isHidden).disposed(by: disposeBag)
+        viewModelMap.isLocationAuthorizationDenied.asDriver().drive(buttonArrivalUserLocation.rx.isHidden).disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        determineUserLocation()
+        viewModelMap.determineUserLocation()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    deinit {
-        locationManager = nil
     }
     
     // MARK: UI Events
@@ -217,22 +225,24 @@ class BICHomeViewController: UIViewController {
         indicatorArrivalUserLocation.isHidden = false
         
         let geocoder: CLGeocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(userLocation!, completionHandler: { (placemarks, error) in
-            if let _ = error {
-                self.textFieldArrivalAddress.text = String(format: "%f,%f", self.userLocation!.coordinate.latitude, self.userLocation!.coordinate.longitude)
-            } else if let placemarks = placemarks, placemarks.count > 0 {
-                var text = placemarks[0].name
-                text = text?.concat(with: placemarks[0].postalCode, separator: ", ")
-                text = text?.concat(with: placemarks[0].locality, separator: " ")
-                text = text?.concat(with: placemarks[0].country, separator: ", ")
-                log.d("find arrival user location reverse geocoding: \(String(describing: text))")
-                self.textFieldArrivalAddress.text = text
-                self.textFieldDidChange(self.textFieldArrivalAddress)
-            }
-            self.indicatorArrivalUserLocation.isHidden = true
-            self.buttonArrivalUserLocation.isHidden = false
-            self.textFieldArrivalBikeCount.becomeFirstResponder()
-        })
+        if let userLocation = viewModelMap.userLocation.value {
+            geocoder.reverseGeocodeLocation(userLocation, completionHandler: { (placemarks, error) in
+                if let _ = error {
+                    self.textFieldArrivalAddress.text = String(format: "%f,%f", userLocation.coordinate.latitude, userLocation.coordinate.longitude)
+                } else if let placemarks = placemarks, placemarks.count > 0 {
+                    var text = placemarks[0].name
+                    text = text?.concat(with: placemarks[0].postalCode, separator: ", ")
+                    text = text?.concat(with: placemarks[0].locality, separator: " ")
+                    text = text?.concat(with: placemarks[0].country, separator: ", ")
+                    log.d("find arrival user location reverse geocoding: \(String(describing: text))")
+                    self.textFieldArrivalAddress.text = text
+                    self.textFieldDidChange(self.textFieldArrivalAddress)
+                }
+                self.indicatorArrivalUserLocation.isHidden = true
+                self.buttonArrivalUserLocation.isHidden = false
+                self.textFieldArrivalBikeCount.becomeFirstResponder()
+            })
+        }
     }
     
     @IBAction func onDepartureUserLocationButtonTouched(_ sender: UIButton) {
@@ -242,22 +252,24 @@ class BICHomeViewController: UIViewController {
         indicatorDepartureUserLocation.isHidden = false
         
         let geocoder: CLGeocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(userLocation!, completionHandler: { (placemarks, error) in
-            if let _ = error {
-                self.textFieldDepartureAddress.text = String(format: "%f,%f", self.userLocation!.coordinate.latitude, self.userLocation!.coordinate.longitude)
-            } else if let placemarks = placemarks, placemarks.count > 0 {
-                var text = placemarks[0].name
-                text = text?.concat(with: placemarks[0].postalCode, separator: ", ")
-                text = text?.concat(with: placemarks[0].locality, separator: " ")
-                text = text?.concat(with: placemarks[0].country, separator: ", ")
-                log.d("find departure user location reverse geocoding: \(String(describing: text))")
-                self.textFieldDepartureAddress.text = text
-                self.textFieldDidChange(self.textFieldDepartureAddress)
-            }
-            self.indicatorDepartureUserLocation.isHidden = true
-            self.buttonDepartureUserLocation.isHidden = false
-            self.textFieldDepartureBikeCount.becomeFirstResponder()
-        })
+        if let userLocation = viewModelMap.userLocation.value {
+            geocoder.reverseGeocodeLocation(userLocation, completionHandler: { (placemarks, error) in
+                if let _ = error {
+                    self.textFieldDepartureAddress.text = String(format: "%f,%f", userLocation.coordinate.latitude, userLocation.coordinate.longitude)
+                } else if let placemarks = placemarks, placemarks.count > 0 {
+                    var text = placemarks[0].name
+                    text = text?.concat(with: placemarks[0].postalCode, separator: ", ")
+                    text = text?.concat(with: placemarks[0].locality, separator: " ")
+                    text = text?.concat(with: placemarks[0].country, separator: ", ")
+                    log.d("find departure user location reverse geocoding: \(String(describing: text))")
+                    self.textFieldDepartureAddress.text = text
+                    self.textFieldDidChange(self.textFieldDepartureAddress)
+                }
+                self.indicatorDepartureUserLocation.isHidden = true
+                self.buttonDepartureUserLocation.isHidden = false
+                self.textFieldDepartureBikeCount.becomeFirstResponder()
+            })
+        }
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
@@ -318,14 +330,6 @@ class BICHomeViewController: UIViewController {
     
     // MARK: Timer
     
-    private func stopTimer() {
-        if timer != nil {
-            log.d("stop timer")
-        }
-        timer?.invalidate()
-        timer = nil
-    }
-    
     private func startTimer() {
         if timer == nil {
             log.d("start timer")
@@ -336,6 +340,14 @@ class BICHomeViewController: UIViewController {
                 }
             })
         }
+    }
+    
+    private func stopTimer() {
+        if timer != nil {
+            log.d("stop timer")
+        }
+        timer?.invalidate()
+        timer = nil
     }
     
     // MARK: Annotations
@@ -444,24 +456,11 @@ class BICHomeViewController: UIViewController {
         }, completion: nil)
     }
     
-    // MARK: User Location
-    
     private func centerOnUserLocation() {
-        if let existingUserLocation = userLocation {
+        if let existingUserLocation = viewModelMap.userLocation.value {
             log.i("center on user location")
             let coordinateRegion: MKCoordinateRegion! = MKCoordinateRegionMakeWithDistance(existingUserLocation.coordinate, 1000, 1000)
             mapView.setRegion(coordinateRegion, animated: true)
-        }
-    }
-    
-    private func determineUserLocation() {
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-            locationManager?.startUpdatingLocation()
-        } else {
-            locationManager?.requestWhenInUseAuthorization()
         }
     }
 }
@@ -484,7 +483,7 @@ extension BICHomeViewController: MKLocalSearchCompleterDelegate {
     }
 }
 
-// MARK: -
+// MARK: - UITextFieldDelegate
 
 extension BICHomeViewController: UITextFieldDelegate {
     
@@ -495,8 +494,7 @@ extension BICHomeViewController: UITextFieldDelegate {
             let newText = NSString(string: textField.text!).replacingCharacters(in: range, with: string)
             if newText.isEmpty {
                 return true
-            }
-            else if let intValue = Int(newText), intValue < 100 {
+            } else if let intValue = Int(newText), intValue < 100 {
                 return true
             }
             return false
@@ -552,7 +550,7 @@ extension BICHomeViewController: MKMapViewDelegate {
                 annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: CONTRACT_CELL_REUSE_ID)
                 annotationView?.canShowCallout = true
                 annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-                annotationView?.image = #imageLiteral(resourceName: "BICImgContract").resizeTo(width: 51, height: 62)
+                annotationView?.image = #imageLiteral(resourceName: "BICImgContract").resizeTo(width: 64, height: 64)
                 annotationView?.centerOffset = CGPoint(x: 0.0, y:-(annotationView!.image!.size.height / 2))
             } else {
                 annotationView?.annotation = annotation
@@ -574,7 +572,7 @@ extension BICHomeViewController: MKMapViewDelegate {
                 annotationView?.annotation = annotation
             }
             let stationAnnotation = annotation as! BICStationAnnotation
-            var image = #imageLiteral(resourceName: "BICImgStation").resizeTo(width: 51, height: 62)
+            var image = #imageLiteral(resourceName: "BICImgStation").resizeTo(width: 64, height: 64)
             if let bikes = stationAnnotation.bikesCount?.description {
                 image = image.drawText(bikes, at: CGPoint(x: 0, y: 5), font: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize))
             }
@@ -616,7 +614,7 @@ extension BICHomeViewController: MKMapViewDelegate {
 
 // MARK: -
 
-extension BICHomeViewController: CLLocationManagerDelegate {
+/*extension BICHomeViewController: CLLocationManagerDelegate {
     
     // MARK: CLLocationManagerDelegate
     
@@ -674,4 +672,4 @@ extension BICHomeViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         log.e("fail to determine user location: \(error.localizedDescription)")
     }
-}
+}*/

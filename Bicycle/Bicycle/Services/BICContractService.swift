@@ -15,16 +15,50 @@
 //
 
 import CoreLocation
+import RxCocoa
+import RxSwift
 
 class BICContractService {
     
-    var allContracts: [BICContract] = []
-    
-    init() {
-       self.allContracts = loadContracts(from: "Contracts")
-    }
+    lazy var allContracts: [BICContract] = loadContracts(from: "Contracts")
+    private var cacheStations: Dictionary<String, [BICStation]> = Dictionary()
     
     // MARK: - Public Methods
+    
+    func getStationsFor(contract: BICContract) -> Single<[BICStation]> {
+        if let stations = cacheStations[contract.name] {
+            log.d("get \(stations.count) stations for contract: \(contract.name)")
+            return Observable.from(optional: stations).asSingle()
+        } else {
+            return refreshStationsFor(contract: contract)
+        }
+    }
+    
+    func refreshStationsFor(contract: BICContract) -> Single<[BICStation]> {
+        return WSFacade.getStationsBy(contract: contract)
+            .do(onSuccess: { (stations) in
+                log.d("refresh \(stations.count) stations for contract: \(contract.name)")
+                self.cacheStations[contract.name] = stations
+            }, onError: { (error) in
+                log.e("fail to get contract stations: \(error.localizedDescription)")
+            })
+    }
+    
+    /*func loadStationsFor(contract: BICContract, success: @escaping (_ stations: [BICStation]) -> Void, error: @escaping () -> Void) {
+        if cacheStations.keys.contains(where: { $0 == contract.name } ) {
+            let stations = cacheStations[contract.name]!
+            log.d("find \(stations.count) stations for contract: \(contract.name)")
+            success(stations)
+        } else {
+            WSFacade.getStationsBy(contract: contract, success: { (stations) in
+                self.cacheStations.updateValue(stations, forKey: contract.name)
+                log.d("load \(stations.count) stations for contract: \(contract.name)")
+                success(stations)
+            }) {
+                error()
+            }
+        }
+    }*/
     
     func getContract(for coordinate: CLLocationCoordinate2D) -> BICContract? {
         
