@@ -27,9 +27,10 @@ class BICContract: Mappable, Equatable {
     var name: String
     var latitude: Double
     var longitude: Double
-    var provider: Provider
     var radius: Double
     var url: String
+    var stationCount: Int
+    var countryCode: String
     
     var center: CLLocationCoordinate2D {
         get {
@@ -47,43 +48,19 @@ class BICContract: Mappable, Equatable {
         name = ""
         latitude = 0
         longitude = 0
-        provider = .Unknown
         radius = 0
         url = ""
+        stationCount = 0
+        countryCode = ""
     }
     
     func mapping(map: Map) {
         name <- map["name"]
-        latitude <- map["lat"]
-        longitude <- map["lng"]
-        provider <- (map["provider"], BICContractProviderSerializer())
+        latitude <- map["latitude"]
+        longitude <- map["longitude"]
         radius <- map["radius"]
         url <- map["url"]
-    }
-    
-    public struct Provider {
-        
-        static let Unknown = Provider(0, tag: "Unknown")
-        static let CityBikes = Provider(1, tag: "CityBikes")
-        //static let JCDecaux = Provider(2, tag: "JCDecaux")
-        
-        public let value: Int
-        public let tag: String
-        
-        init(_ value: Int, tag: String) {
-            self.value = value
-            self.tag = tag
-        }
-        
-        static func from(tag: String) -> Provider {
-            switch (tag) {
-            /*case JCDecaux.tag:
-                return JCDecaux*/
-            case CityBikes.tag:
-                return CityBikes
-            default:
-                return Unknown
-            }
-        }
+        stationCount <- map["station_count"]
+        countryCode <- map["country"]
     }
 }

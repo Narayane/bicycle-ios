@@ -31,78 +31,9 @@ class BICHomeViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var buttonCenterOnUserLocation: UIButton!
-    @IBOutlet weak var viewSearch: UIView!
-    @IBOutlet weak var textFieldDepartureAddress: SearchTextField! {
-        didSet {
-            textFieldDepartureAddress.placeholder = "Adresse de départ"
-            textFieldDepartureAddress.delegate = self
-            textFieldDepartureAddress.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-            textFieldDepartureAddress.theme.font = UIFont.systemFont(ofSize: textFieldDepartureAddress.font!.pointSize)
-            textFieldDepartureAddress.highlightAttributes = [NSAttributedStringKey.font:UIFont.boldSystemFont(ofSize: textFieldDepartureAddress.font!.pointSize)]
-            textFieldDepartureAddress.theme.bgColor = UIColor.white
-            textFieldDepartureAddress.theme.cellHeight = 50
-            textFieldDepartureAddress.itemSelectionHandler = { filteredResults, itemPosition in
-                let item = filteredResults[itemPosition]
-                self.textFieldDepartureAddress.text = item.title.concat(with: item.subtitle)
-                self.textFieldDepartureBikeCount.becomeFirstResponder()
-            }
-        }
-    }
-    @IBOutlet weak var buttonDepartureUserLocation: UIButton!
-    @IBOutlet weak var indicatorDepartureUserLocation: UIActivityIndicatorView!
-    @IBOutlet weak var textFieldDepartureBikeCount: UITextField! {
-        didSet {
-            textFieldDepartureBikeCount.text = "1"
-            textFieldDepartureBikeCount.delegate = self
-            textFieldDepartureBikeCount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        }
-    }
-    @IBOutlet weak var textFieldArrivalAddress: SearchTextField! {
-        didSet {
-            textFieldArrivalAddress.placeholder = "Adresse d'arrivée"
-            textFieldArrivalAddress.delegate = self
-            textFieldArrivalAddress.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-            textFieldArrivalAddress.theme.font = UIFont.systemFont(ofSize: textFieldArrivalAddress.font!.pointSize)
-            textFieldArrivalAddress.highlightAttributes = [NSAttributedStringKey.font:UIFont.boldSystemFont(ofSize: textFieldArrivalAddress.font!.pointSize)]
-            textFieldArrivalAddress.theme.bgColor = UIColor.white
-            textFieldArrivalAddress.theme.cellHeight = 50
-            textFieldArrivalAddress.itemSelectionHandler = { filteredResults, itemPosition in
-                let item = filteredResults[itemPosition]
-                self.textFieldArrivalAddress.text = item.title.concat(with: item.subtitle)
-                self.textFieldArrivalBikeCount.becomeFirstResponder()
-            }
-        }
-    }
-    @IBOutlet weak var buttonArrivalUserLocation: UIButton!
-    @IBOutlet weak var indicatorArrivalUserLocation: UIActivityIndicatorView!
-    @IBOutlet weak var textFieldArrivalBikeCount: UITextField! {
-        didSet {
-            textFieldArrivalBikeCount.text = "1"
-            textFieldArrivalBikeCount.delegate = self
-            textFieldArrivalBikeCount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        }
-    }
-    @IBOutlet weak var buttonSearch: UIButton! {
-        didSet {
-            buttonSearch.setTitle("Rechercher", for: .normal)
-            buttonSearch.setTitleColor(UIColor.white, for: .disabled)
-            buttonSearch.setBackgroundColor(UIColor.lightGray, for: .disabled)
-        }
-    }
-    @IBOutlet weak var swipeUpGestureRecognizer: UISwipeGestureRecognizer!
-    @IBOutlet weak var swipeDownGestureRecognizer: UISwipeGestureRecognizer!
-    @IBOutlet weak var indicatorSearch: UIActivityIndicatorView!
-    @IBOutlet weak var buttonToggleSearchPanel: UIButton!
-    
-    @IBOutlet weak var constraintSearchViewTop: NSLayoutConstraint! {
-        didSet {
-            constraintSearchViewTop.constant = CONSTANT_SEARCH_VIEW_NORMAL_MARGIN_TOP
-        }
-    }
     
     var viewModelMap: BICMapViewModel
     var viewModelHome: BICHomeViewModel
-    var viewModelSearch: BICSearchViewModel
     
     private let disposeBag = DisposeBag()
     
@@ -113,17 +44,14 @@ class BICHomeViewController: UIViewController {
     
     private var annotations: [MKAnnotation]?
     
-    private var activeTextField: SearchTextField?
     private var searchCompleter = MKLocalSearchCompleter()
     private var searchResults = [MKLocalSearchCompletion]()
-    private var barButtonSearch: UIBarButtonItem?
     
     // MARK: - Constructors
     
     init() {
         self.viewModelMap = BICMapViewModel()
         self.viewModelHome = BICHomeViewModel(contractService: BICContractService())
-        self.viewModelSearch = BICSearchViewModel()
         self.clusteringManager = ClusterManager()
         super.init(nibName: "BICHomeViewController", bundle: nil)
         //clusteringManager?.zoomLevel = BICConstants.CLUSTERING_ZOOM_LEVEL_START
@@ -132,7 +60,6 @@ class BICHomeViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         self.viewModelMap = BICMapViewModel()
         self.viewModelHome = BICHomeViewModel(contractService: BICContractService())
-        self.viewModelSearch = BICSearchViewModel()
         self.clusteringManager = ClusterManager()
         super.init(coder: aDecoder)
     }
@@ -143,10 +70,7 @@ class BICHomeViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.title = "Bicycle"
-        barButtonSearch = UIBarButtonItem(title: "Trajet", style: .plain, target: self, action: #selector(BICHomeViewController.onSearchButtonBarTouched(sender:)))
-        navigationItem.rightBarButtonItem = barButtonSearch
-        
-        searchCompleter.delegate = self
+        //buttonCenterOnUserLocation.setImage(#imageLiteral(resourceName: "BICIconLocation").resizeTo(width: 30, height: 30), for: .normal)
         
         viewModelHome.hasCurrentContractChanged.asObservable().subscribe { (event) in
             if let hasChanged = event.element!, !hasChanged {
@@ -188,7 +112,6 @@ class BICHomeViewController: UIViewController {
                 self.clusteringManager.reload(mapView: self.mapView)
             }
         }.disposed(by: self.disposeBag)
-        viewModelSearch.isSearchButtonEnabled.asDriver().drive(buttonSearch.rx.isEnabled).disposed(by: disposeBag)
         viewModelMap.userLocation.asObservable().subscribe { (event) in
             if let _ = event.element {
                 self.mapView.showsUserLocation = true
@@ -198,8 +121,6 @@ class BICHomeViewController: UIViewController {
             }
         }.disposed(by: disposeBag)
         viewModelMap.isLocationAuthorizationDenied.asDriver().drive(buttonCenterOnUserLocation.rx.isHidden).disposed(by: disposeBag)
-        viewModelMap.isLocationAuthorizationDenied.asDriver().drive(buttonDepartureUserLocation.rx.isHidden).disposed(by: disposeBag)
-        viewModelMap.isLocationAuthorizationDenied.asDriver().drive(buttonArrivalUserLocation.rx.isHidden).disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -215,117 +136,11 @@ class BICHomeViewController: UIViewController {
     
     @IBAction func onMapTouched(_ sender: UITapGestureRecognizer) {
         log.i("touch map")
-        hideSearchView()
-    }
-    
-    @IBAction func onArrivalUserLocationButtonTouched(_ sender: UIButton) {
-        log.i("click on button: arrival user location")
-        
-        buttonArrivalUserLocation.isHidden = true
-        indicatorArrivalUserLocation.isHidden = false
-        
-        let geocoder: CLGeocoder = CLGeocoder()
-        if let userLocation = viewModelMap.userLocation.value {
-            geocoder.reverseGeocodeLocation(userLocation, completionHandler: { (placemarks, error) in
-                if let _ = error {
-                    self.textFieldArrivalAddress.text = String(format: "%f,%f", userLocation.coordinate.latitude, userLocation.coordinate.longitude)
-                } else if let placemarks = placemarks, placemarks.count > 0 {
-                    var text = placemarks[0].name
-                    text = text?.concat(with: placemarks[0].postalCode, separator: ", ")
-                    text = text?.concat(with: placemarks[0].locality, separator: " ")
-                    text = text?.concat(with: placemarks[0].country, separator: ", ")
-                    log.d("find arrival user location reverse geocoding: \(String(describing: text))")
-                    self.textFieldArrivalAddress.text = text
-                    self.textFieldDidChange(self.textFieldArrivalAddress)
-                }
-                self.indicatorArrivalUserLocation.isHidden = true
-                self.buttonArrivalUserLocation.isHidden = false
-                self.textFieldArrivalBikeCount.becomeFirstResponder()
-            })
-        }
-    }
-    
-    @IBAction func onDepartureUserLocationButtonTouched(_ sender: UIButton) {
-        log.i("click on button: departure user location")
-        
-        buttonDepartureUserLocation.isHidden = true
-        indicatorDepartureUserLocation.isHidden = false
-        
-        let geocoder: CLGeocoder = CLGeocoder()
-        if let userLocation = viewModelMap.userLocation.value {
-            geocoder.reverseGeocodeLocation(userLocation, completionHandler: { (placemarks, error) in
-                if let _ = error {
-                    self.textFieldDepartureAddress.text = String(format: "%f,%f", userLocation.coordinate.latitude, userLocation.coordinate.longitude)
-                } else if let placemarks = placemarks, placemarks.count > 0 {
-                    var text = placemarks[0].name
-                    text = text?.concat(with: placemarks[0].postalCode, separator: ", ")
-                    text = text?.concat(with: placemarks[0].locality, separator: " ")
-                    text = text?.concat(with: placemarks[0].country, separator: ", ")
-                    log.d("find departure user location reverse geocoding: \(String(describing: text))")
-                    self.textFieldDepartureAddress.text = text
-                    self.textFieldDidChange(self.textFieldDepartureAddress)
-                }
-                self.indicatorDepartureUserLocation.isHidden = true
-                self.buttonDepartureUserLocation.isHidden = false
-                self.textFieldDepartureBikeCount.becomeFirstResponder()
-            })
-        }
-    }
-    
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        searchCompleter.queryFragment = textField.text!
-        buttonSearch.isEnabled = !textFieldDepartureAddress.text!.isEmpty && !textFieldDepartureBikeCount.text!.isEmpty && !textFieldArrivalAddress.text!.isEmpty && !textFieldArrivalBikeCount.text!.isEmpty
     }
     
     @IBAction func onCenterOnUserLocationButtonTouched(_ sender: UIButton) {
         log.i("click on button: center on user location")
         centerOnUserLocation()
-    }
-
-    @IBAction func onSearchViewSwipeUpInvoked(_ sender: UISwipeGestureRecognizer) {
-        log.i("swipe up on: search view")
-        //if state == STATE_NORMAL {
-            hideSearchView()
-        /*} else if state == STATE_RIDE {
-            collapseSearchView()
-        }*/
-    }
-    
-    @IBAction func onSearchViewSwipeDownInvoked(_ sender: UISwipeGestureRecognizer) {
-        log.i("swipe down on: search view")
-        //expandSearchView()
-    }
-    
-    @IBAction func onSearchButtonBarTouched(sender: UIBarButtonItem) {
-        log.i("click on bar button: search")
-        showSearchView()
-    }
-    
-    @IBAction func onHideSearchViewButtonTouched(sender: UIButton) {
-        //if state == STATE_NORMAL {
-            log.i("click on button: hide search view")
-            hideSearchView()
-        /*} else if state == STATE_RIDE {
-            if constraintSearchViewTop.constant == 0 {
-                collapseSearchView()
-            } else if constraintSearchViewTop.constant == CONSTANT_SEARCH_VIEW_RIDE_MARGIN_TOP {
-                expandSearchView()
-            }
-        }*/
-    }
-    
-    @IBAction func onSearchButtonTouched(sender: UIButton) {
-        log.i("click on button: search")
-        validateRideData()
-    }
-    
-    // MARK: Ride
-    
-    private func validateRideData() {
-        disableSearchView()
-        /*departure = nil
-        arrival = nil
-        geocodeRideDeparture()*/
     }
     
     // MARK: Timer
@@ -351,6 +166,14 @@ class BICHomeViewController: UIViewController {
     }
     
     // MARK: Annotations
+    
+    private func centerOnUserLocation() {
+        if let existingUserLocation = viewModelMap.userLocation.value {
+            log.i("center on user location")
+            let coordinateRegion: MKCoordinateRegion! = MKCoordinateRegionMakeWithDistance(existingUserLocation.coordinate, 1000, 1000)
+            mapView.setRegion(coordinateRegion, animated: true)
+        }
+    }
     
     private func refreshAnnotations() {
         let level = mapView.zoomLevel
@@ -397,136 +220,6 @@ class BICHomeViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    // MARK: Search View
-    
-    private func disableSearchView() {
-        textFieldDepartureAddress.isEnabled = false
-        textFieldDepartureBikeCount.isEnabled = false
-        textFieldArrivalAddress.isEnabled = false
-        textFieldArrivalBikeCount.isEnabled = false
-        buttonSearch.isHidden = true
-        indicatorSearch.isHidden = false
-        swipeUpGestureRecognizer.isEnabled = false
-        buttonToggleSearchPanel.isEnabled = false
-    }
-    
-    private func enableSearchView() {
-        textFieldDepartureAddress.isEnabled = true
-        textFieldDepartureBikeCount.isEnabled = true
-        textFieldArrivalAddress.isEnabled = true
-        textFieldArrivalBikeCount.isEnabled = true
-        buttonSearch.isHidden = false
-        indicatorSearch.isHidden = true
-        swipeUpGestureRecognizer.isEnabled = true
-        buttonToggleSearchPanel.isEnabled = true
-    }
-    
-    private func hideSearchView() {
-        if constraintSearchViewTop.constant == 0 {
-            log.d("hide search view")
-            rotateSearchPanelButtonToggle(withDuration: 0.25, delay: 0)
-            constraintSearchViewTop.constant = CONSTANT_SEARCH_VIEW_NORMAL_MARGIN_TOP
-            UIView.animate(withDuration: 0.25, delay: 0.1, options: .curveEaseInOut, animations: {
-                self.view.layoutIfNeeded()
-            }, completion: nil)
-            navigationItem.rightBarButtonItem = barButtonSearch
-            view.endEditing(true)
-        }
-    }
-    
-    private func showSearchView() {
-        if constraintSearchViewTop.constant == CONSTANT_SEARCH_VIEW_NORMAL_MARGIN_TOP {
-            log.d("show search view")
-            constraintSearchViewTop.constant = 0
-            UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
-                self.view.layoutIfNeeded()
-            }, completion: { (_) in
-                self.textFieldDepartureAddress.becomeFirstResponder()
-            })
-            rotateSearchPanelButtonToggle(withDuration: 0.25, delay: 0.1)
-        }
-        navigationItem.rightBarButtonItem = nil
-    }
-    
-    private func rotateSearchPanelButtonToggle(withDuration: TimeInterval, delay: TimeInterval) {
-        UIView.animate(withDuration: withDuration, delay: delay, options: .curveEaseInOut, animations: {
-            self.buttonToggleSearchPanel.transform = self.buttonToggleSearchPanel.transform.rotated(by: CGFloat(Double.pi))
-        }, completion: nil)
-    }
-    
-    private func centerOnUserLocation() {
-        if let existingUserLocation = viewModelMap.userLocation.value {
-            log.i("center on user location")
-            let coordinateRegion: MKCoordinateRegion! = MKCoordinateRegionMakeWithDistance(existingUserLocation.coordinate, 1000, 1000)
-            mapView.setRegion(coordinateRegion, animated: true)
-        }
-    }
-}
-
-// MARK: -
-
-extension BICHomeViewController: MKLocalSearchCompleterDelegate {
-    
-    // MARK: MKLocalSearchCompleterDelegate
-    
-    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        searchResults = completer.results
-        activeTextField?.filterItems(searchResults.map({ (searchCompletion) -> SearchTextFieldItem in
-            return SearchTextFieldItem(title: searchCompletion.title, subtitle: searchCompletion.subtitle)
-        }))
-    }
-    
-    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        
-    }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension BICHomeViewController: UITextFieldDelegate {
-    
-    // MARK: UITextFieldDelegate
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == textFieldDepartureBikeCount || textField == textFieldArrivalBikeCount {
-            let newText = NSString(string: textField.text!).replacingCharacters(in: range, with: string)
-            if newText.isEmpty {
-                return true
-            } else if let intValue = Int(newText), intValue < 100 {
-                return true
-            }
-            return false
-        }
-        return true
-    }
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField is SearchTextField {
-            activeTextField = textField as? SearchTextField
-        } else {
-            activeTextField = nil
-        }
-        return true
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case textFieldDepartureAddress:
-            textFieldDepartureBikeCount.becomeFirstResponder()
-            break
-        case textFieldDepartureBikeCount:
-            textFieldArrivalAddress.becomeFirstResponder()
-            break
-        case textFieldArrivalAddress:
-            textFieldArrivalBikeCount.becomeFirstResponder()
-            break
-        default:
-            validateRideData()
-            break
-        }
-        return false
     }
 }
 
