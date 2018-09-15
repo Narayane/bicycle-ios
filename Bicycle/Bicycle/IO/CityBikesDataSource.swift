@@ -20,10 +20,10 @@ import RxAlamofire
 import RxCocoa
 import RxSwift
 
-class CityBikesRestClient {
+class CityBikesDataSource {
     
-    static let shared: CityBikesRestClient = {
-        let instance = CityBikesRestClient()
+    static let shared: CityBikesDataSource = {
+        let instance = CityBikesDataSource()
         return instance
     }()
     

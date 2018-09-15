@@ -17,6 +17,7 @@
 import UIKit
 //import CoreData
 import Dip
+import Reachability
 
 let log = SBLog.self
 
@@ -25,11 +26,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    /*let container = DependencyContainer { container in
+    // DI
+    let diContainer = DependencyContainer { container in
         unowned let container = container
-        container.register(.unique) { BICContractService() }
-        container.register(.unique) { BICStationService() }
-    }*/
+        
+        #if DEBUG
+        Dip.logLevel = .Verbose
+        #endif
+        
+        container.configure()
+        try! container.bootstrap() // lock container
+        DependencyContainer.uiContainers = [container]
+    }
+    
+    let reachability = Reachability()!
+    
+    private var _hasConnectivity: Bool = true
+    var hasConnectivity: Bool {
+        return _hasConnectivity
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -40,13 +55,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         log.set(level: Bundle.main.object(forInfoDictionaryKey: "SBLogLevel")! as! String)
         SBCrashReport.start()
         
+        reachability.whenReachable = { reachability in
+            log.i("has connectivity: true")
+            self._hasConnectivity = true
+            /*if reachability.connection == .wifi {
+                print("Reachable via WiFi")
+            } else {
+                print("Reachable via Cellular")
+            }*/
+        }
+        reachability.whenUnreachable = { _ in
+            log.i("has connectivity: false")
+            self._hasConnectivity = false
+        }
+        
+        do {
+            log.v("watch connectivity")
+            try reachability.startNotifier()
+        } catch {
+            log.e("unable to watch connectivity")
+        }
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         if let window = window {
-            let viewController = BICHomeViewController()
+            /*let viewController = BICHomeViewController()
             let navigationController = UINavigationController(rootViewController: viewController)
             let primaryColor = UIColor(hex: (Bundle.main.object(forInfoDictionaryKey: "BICPrimaryColor") as? String)!)
             navigationController.styleNavigationBar(barTintColor: primaryColor, tintColor: UIColor.white)
-            window.rootViewController = navigationController
+            window.rootViewController = navigationController*/
+            window.rootViewController = BICSplashViewController()
             window.backgroundColor = UIColor.white
             window.makeKeyAndVisible()
         }
@@ -75,6 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
+        reachability.stopNotifier()
         //self.saveContext()
     }
 

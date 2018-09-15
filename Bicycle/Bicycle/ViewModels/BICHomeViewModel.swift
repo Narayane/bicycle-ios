@@ -23,13 +23,13 @@ class BICHomeViewModel {
     
     private let disposeBag = DisposeBag()
     
-    private let contractService: BICContractService
+    private let contractService: BICContractRepository
     
     var currentContract: Variable<BICContract?>
     var hasCurrentContractChanged: Variable<Bool?>
     var currentStations: Variable<[BICStation]?>
     
-    init(contractService: BICContractService) {
+    init(contractService: BICContractRepository) {
         self.contractService = contractService
         self.currentContract = Variable(nil)
         self.hasCurrentContractChanged = Variable(nil)

@@ -1,5 +1,5 @@
 //
-//  Copyright © 2017 Bicycle (Sébastien BALARD)
+//  Copyright © 2018 Bicycle (Sébastien BALARD)
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -14,17 +14,21 @@
 //  limitations under the License.
 //
 
-import Foundation
+import ObjectMapper
 
-extension Date {
+class BICConfigResponseDto: Mappable {
     
-    func format(format: String) -> String {
-        let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.dateFormat = format
-        return "\(dateFormatter.string(from: self))"
-    }
+    var appCheckDelay: Int?
+    var appVersion: String?
+    var forceUpdate: Bool?
+    var contactsCheckDelay: Int?
     
-    func daysBetween(_ date: Date) -> Int {
-        return Calendar.current.dateComponents([.day], from: self, to: date).day!
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        appCheckDelay <- map["apps.check_delay"]
+        appVersion <- map["apps.ios.version"]
+        forceUpdate <- map["apps.ios.force_update"]
+        contactsCheckDelay <- map["contracts.check_delay"]
     }
 }

@@ -16,11 +16,11 @@
 
 import UIKit
 import MapKit
-import SearchTextField
 import RxCocoa
 import RxSwift
 import Cluster
 import Toaster
+import Dip_UI
 
 private let CONSTANT_SEARCH_VIEW_NORMAL_MARGIN_TOP = CGFloat(-180)
 private let STATION_CELL_REUSE_ID = "station_marker"
@@ -32,8 +32,8 @@ class BICHomeViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var buttonCenterOnUserLocation: UIButton!
     
-    var viewModelMap: BICMapViewModel
-    var viewModelHome: BICHomeViewModel
+    var viewModelMap: BICMapViewModel?
+    var viewModelHome: BICHomeViewModel?
     
     private let disposeBag = DisposeBag()
     
@@ -50,16 +50,12 @@ class BICHomeViewController: UIViewController {
     // MARK: - Constructors
     
     init() {
-        self.viewModelMap = BICMapViewModel()
-        self.viewModelHome = BICHomeViewModel(contractService: BICContractService())
         self.clusteringManager = ClusterManager()
         super.init(nibName: "BICHomeViewController", bundle: nil)
         //clusteringManager?.zoomLevel = BICConstants.CLUSTERING_ZOOM_LEVEL_START
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.viewModelMap = BICMapViewModel()
-        self.viewModelHome = BICHomeViewModel(contractService: BICContractService())
         self.clusteringManager = ClusterManager()
         super.init(coder: aDecoder)
     }
@@ -72,7 +68,7 @@ class BICHomeViewController: UIViewController {
         navigationItem.title = "Bicycle"
         //buttonCenterOnUserLocation.setImage(#imageLiteral(resourceName: "BICIconLocation").resizeTo(width: 30, height: 30), for: .normal)
         
-        viewModelHome.hasCurrentContractChanged.asObservable().subscribe { (event) in
+        viewModelHome?.hasCurrentContractChanged.asObservable().subscribe { (event) in
             if let hasChanged = event.element!, !hasChanged {
                 log.v("current contract has not changed")
                 self.queueMain.async {
@@ -80,17 +76,17 @@ class BICHomeViewController: UIViewController {
                 }
             }
         }.disposed(by: self.disposeBag)
-        viewModelHome.currentContract.asObservable().subscribe { (event) in
+        viewModelHome?.currentContract.asObservable().subscribe { (event) in
             if let contract = event.element! {
                 self.stopTimer()
-                self.viewModelHome.refreshContractStations(contract)
+                self.viewModelHome?.refreshContractStations(contract)
                 self.startTimer()
             } else {
                 log.d("current region is out of contracts covers")
                 self.stopTimer()
             }
         }.disposed(by: self.disposeBag)
-        viewModelHome.currentStations.asObservable().subscribe { (event) in
+        viewModelHome?.currentStations.asObservable().subscribe { (event) in
             if let annotations = self.annotations {
                 self.queueMain.async {
                     self.mapView.removeAnnotations(annotations)
@@ -112,7 +108,7 @@ class BICHomeViewController: UIViewController {
                 self.clusteringManager.reload(mapView: self.mapView)
             }
         }.disposed(by: self.disposeBag)
-        viewModelMap.userLocation.asObservable().subscribe { (event) in
+        viewModelMap?.userLocation.asObservable().subscribe { (event) in
             if let _ = event.element {
                 self.mapView.showsUserLocation = true
                 self.centerOnUserLocation()
@@ -120,11 +116,11 @@ class BICHomeViewController: UIViewController {
                 self.mapView.showsUserLocation = false
             }
         }.disposed(by: disposeBag)
-        viewModelMap.isLocationAuthorizationDenied.asDriver().drive(buttonCenterOnUserLocation.rx.isHidden).disposed(by: disposeBag)
+        viewModelMap?.isLocationAuthorizationDenied.asDriver().drive(buttonCenterOnUserLocation.rx.isHidden).disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        viewModelMap.determineUserLocation()
+        viewModelMap?.determineUserLocation()
     }
 
     override func didReceiveMemoryWarning() {
@@ -150,8 +146,8 @@ class BICHomeViewController: UIViewController {
             log.d("start timer")
             timer = Timer.scheduledTimer(withTimeInterval: BICConstants.TIME_BEFORE_REFRESH_DATA_IN_SECONDS, repeats: true, block: { _ in
                 log.d("timer fired: \(String(describing: self.timer?.fireDate.format(format: "hh:mm:ss")))")
-                if let current = self.viewModelHome.currentContract.value {
-                    self.viewModelHome.refreshContractStations(current)
+                if let current = self.viewModelHome?.currentContract.value {
+                    self.viewModelHome?.refreshContractStations(current)
                 }
             })
         }
@@ -168,7 +164,7 @@ class BICHomeViewController: UIViewController {
     // MARK: Annotations
     
     private func centerOnUserLocation() {
-        if let existingUserLocation = viewModelMap.userLocation.value {
+        if let existingUserLocation = viewModelMap?.userLocation.value {
             log.i("center on user location")
             let coordinateRegion: MKCoordinateRegion! = MKCoordinateRegionMakeWithDistance(existingUserLocation.coordinate, 1000, 1000)
             mapView.setRegion(coordinateRegion, animated: true)
@@ -180,9 +176,9 @@ class BICHomeViewController: UIViewController {
         log.d("current zoom level: \(level)")
         if level >= 10 {
             self.deleteContractsAnnotations()
-            self.viewModelHome.determineCurrentContract(region: self.mapView.region)
+            self.viewModelHome?.determineCurrentContract(region: self.mapView.region)
         } else {
-            self.viewModelHome.currentContract.value = nil
+            self.viewModelHome?.currentContract.value = nil
             stopTimer()
             createContractsAnnotations()
         }
@@ -190,7 +186,7 @@ class BICHomeViewController: UIViewController {
     
     private func createContractsAnnotations() {
         queueComputation.async {
-            self.annotations = self.viewModelHome.getAllContracts().map({ (contract) -> BICContractAnnotation in
+            self.annotations = self.viewModelHome?.getAllContracts().map({ (contract) -> BICContractAnnotation in
                 let annotation = BICContractAnnotation()
                 annotation.coordinate = contract.center
                 annotation.title = contract.name
@@ -304,6 +300,9 @@ extension BICHomeViewController: MKMapViewDelegate {
         }
     }
 }
+
+//MARK: - StoryboardInstantiatable
+extension BICHomeViewController: StoryboardInstantiatable {}
 
 // MARK: -
 

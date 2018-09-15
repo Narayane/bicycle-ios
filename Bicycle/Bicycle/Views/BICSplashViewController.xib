@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BICSplashViewController" customModule="Bicycle" customModuleProvider="target">
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="string" keyPath="dipTag" value="Splash"/>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="labelCatching" destination="Lh7-c9-AmQ" id="xuG-fx-uxe"/>
+                <outlet property="labelSubtitle" destination="TkM-IA-RAS" id="Zon-bG-juw"/>
+                <outlet property="labelTitle" destination="is8-i8-AEB" id="rPd-iG-aCE"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BICImgLogo" translatesAutoresizingMaskIntoConstraints="NO" id="dRt-QN-EoS">
+                    <rect key="frame" x="137.66666666666666" y="257.66666666666669" width="100" height="100"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="100" id="Kvx-Ng-Nja"/>
+                        <constraint firstAttribute="width" constant="100" id="m95-fH-SCT"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                            <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bicycle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AG8-eh-d9W">
+                    <rect key="frame" x="94" y="377.66666666666669" width="187" height="67"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="56"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allez-y en vélo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lh7-c9-AmQ">
+                    <rect key="frame" x="117.66666666666669" y="444.66666666666669" width="140" height="29"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="24"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="HYn-ST-FOY">
+                    <rect key="frame" x="169" y="667" width="37" height="37"/>
+                    <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </activityIndicatorView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Configuration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="is8-i8-AEB">
+                    <rect key="frame" x="135.66666666666666" y="720" width="104" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="232 villes dispnibles" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TkM-IA-RAS">
+                    <rect key="frame" x="122" y="745" width="131" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.47450980390000003" green="0.054901960780000002" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="TkM-IA-RAS" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="0pF-ZR-d4E"/>
+                <constraint firstItem="Lh7-c9-AmQ" firstAttribute="top" secondItem="AG8-eh-d9W" secondAttribute="bottom" id="4j7-wP-L1a"/>
+                <constraint firstItem="TkM-IA-RAS" firstAttribute="top" secondItem="is8-i8-AEB" secondAttribute="bottom" constant="4" id="Kph-aY-7Q8"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="TkM-IA-RAS" secondAttribute="bottom" constant="16" id="Qb2-Ch-B6c"/>
+                <constraint firstItem="dRt-QN-EoS" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="deJ-00-ExB"/>
+                <constraint firstItem="AG8-eh-d9W" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="jC5-83-WcE"/>
+                <constraint firstItem="AG8-eh-d9W" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="lob-qn-iO6"/>
+                <constraint firstItem="is8-i8-AEB" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="py2-bx-ioW"/>
+                <constraint firstItem="HYn-ST-FOY" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="rpI-J5-53k"/>
+                <constraint firstItem="is8-i8-AEB" firstAttribute="top" secondItem="HYn-ST-FOY" secondAttribute="bottom" constant="16" id="sbX-iE-BON"/>
+                <constraint firstItem="AG8-eh-d9W" firstAttribute="top" secondItem="dRt-QN-EoS" secondAttribute="bottom" constant="20" id="ubn-sN-NFm"/>
+                <constraint firstItem="Lh7-c9-AmQ" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="zvY-1B-h6S"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="BICImgLogo" width="768" height="768"/>
+    </resources>
+</document>

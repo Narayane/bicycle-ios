@@ -1,0 +1,43 @@
+/* 
+  Copyright © 2017 Bicycle (Sébastien BALARD)
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
+
+"app_name" = "Bicycle";
+"bic_app_catching" = "Allez-y en vélo";
+"bic_app_version_label" = "%@ (build %d)";
+# actions
+"bic_actions_allow" = "Autoriser";
+"bic_actions_settings" = "Réglages";
+"bic_actions_about" = "À propos";
+"bic_actions_validate_choices" = "Valider mes choix";
+# messages
+"bic_messages_info_init" = "Initialisation";
+"bic_messages_info_config" = "Configuration";
+"bic_messages_info_check_contracts_data_version" = "Recherche de nouvelles villes";
+"bic_messages_info_update_contracts" = "Mise à jour des villes";
+"bic_messages_info_contracts_loaded" = "%@ villes disponibles";
+"bic_messages_error_no_play_services_installed" = "Merci de vérifier que les Google Play Services sont bien installés sur votre appareil";
+"bic_messages_warning_request_location_permissions" = "L'application fonctionnera en mode dégradé si vous ne lui permettez pas d'accéder à votre position";
+"bic_messages_warning_get_current_contract_stations" = "Nous n'avons pas pu récupérer les données des stations";
+"bic_messages_warning_no_connectivity" = "Veuillez vérifiez votre connexion internet";
+"bic_messages_available_soon" = "Bientôt disponible";
+# onboarding screen
+"bic_onboarding_screen_title" = "Traitement de vos données";
+"bic_onboarding_screen_personal_data" = "Bicycle ne collecte aucune de vos données personnelles (nom, email, âge, position, ...)";
+"bic_onboarding_screen_warning" = "Vous pourrez, à tout moment, modifier vos choix ci-dessus dans l'écran de réglages de l'application.";
+"bic_onboarding_screen_crash_data_desc" = "Il se peut en de rares occasions que l'application s'arrête pour une raison inexpliquée. Bicycle peut alors envoyer des données anonymes sur son état au développeur qui l'aideront à comprendre cette raison et à corriger le problème.";
+"bic_onboarding_screen_crash_data_label" = "Autoriser l'envoi de données sur l'état de l'application en cas de problème";
+"bic_onboarding_screen_use_data_desc" = "Pour permettre au développeur d'améliorer l'application, Bicycle peut envoyer des données anonymes sur la façon dont vous l'utiliser.";
+"bic_onboarding_screen_use_data_label" = "Autoriser l'envoi de données d'utilisation à des fins statistiques";

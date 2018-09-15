@@ -50,6 +50,11 @@ def pods_widgets
     pod 'MaterialComponents/BottomSheet'
 end
 
+def pods_helpers
+    #pod 'AlamofireActivityLogger'
+    pod 'ReachabilitySwift'
+end
+
 # test logical pods groups
 def pods_tests_rx
     pod 'RxSwift', $rx_swift_version
@@ -63,6 +68,7 @@ target 'Bicycle' do
     pods_di
     pods_io
     pods_widgets
+    pods_helpers
     pod 'SwiftyBeaver'
 
     target 'BicycleTests' do
