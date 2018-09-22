@@ -18,13 +18,10 @@ import ObjectMapper
 
 class BICContractsDataResponseDto: Mappable {
     
-    var version: Int
-    var values: [BICContract]
+    var version: Int?
+    var values: [BICContractDto]?
     
-    required init?(map: Map) {
-        version = 0
-        values = []
-    }
+    required init?(map: Map) {}
     
     func mapping(map: Map) {
         version <- map["version"]

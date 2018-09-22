@@ -19,12 +19,13 @@ import Alamofire
 import RxAlamofire
 import RxSwift
 
-private let nullString = "(null)"
-private let separatorString = "*******************************"
-
 extension Observable where E == DataRequest {
     func log() -> Observable {
-        return self.do { self.log() }
+        return self.do(onNext: { (dataRequest) in
+            dataRequest.rx.log()
+        }, onError: { (error) in
+            
+        })
     }
 }
 
@@ -43,25 +44,6 @@ extension ObservableType where E == (HTTPURLResponse, [String: Any]) {
 }
 
 extension DataRequest {
-    /*public func logRequest() -> Self {
-        print(terminator:"\n")
-        print("🚀 REQUEST: \(self.request!.URL!)", terminator:"\n")
-        debugPrint(self, terminator:"\n\n")
-        
-        _ = rx_responseJSON()
-            .subscribe(
-                onNext: { (response, json) in
-                    print("✅ RESPONSE:", terminator:"\n")
-                    debugPrint(response, terminator:"\n")
-                    debugPrint(json, terminator: "\n\n")
-            },
-                onError: { [weak self] errorType in
-                    print("❌ RESPONSE ERROR: \(errorType)", terminator:"\n")
-                    debugPrint(self?.response, terminator:"\n\n")
-            })
-        
-        return self
-    }*/
     
     func log() {
         
@@ -69,15 +51,11 @@ extension DataRequest {
             return
         }
         
-        let method = request.httpMethod!
-        let url = request.url?.absoluteString ?? nullString
-        let headers = prettyPrintedString(from: request.allHTTPHeaderFields) ?? nullString
-        
-        // separator
-        let openSeparator = "\(separatorString)\n"
-        let closeSeparator = "\n\(separatorString)"
-        let body = string(from: request.httpBody, prettyPrint: true) ?? nullString
-        SBLog.self.d("\(openSeparator)[Request] \(method) '\(url)':\n\n[Headers]\n\(headers)\n\n[Body]\n\(body)\(closeSeparator)")
+        var message = "\(request.httpMethod!) - \(request.url!) - headers: \(request.allHTTPHeaderFields!)"
+        if let body = request.httpBody {
+            message += " - parameters: \(String(data: body, encoding: String.Encoding.utf8)!)"
+        }
+        SBLog.self.d(message)
     }
     
     private func string(from data: Data?, prettyPrint: Bool) -> String? {

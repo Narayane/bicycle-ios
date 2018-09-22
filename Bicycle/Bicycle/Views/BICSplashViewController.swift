@@ -90,9 +90,9 @@ class BICSplashViewController: UIViewController {
                         debug = true
                         #endif
                         if event.needed || debug {
-                            // startActivity(BICDataPermissionsActivity.getIntent(this@BICSplashActivity))
+                            //startActivity(BICDataPermissionsActivity.getIntent(this@BICSplashActivity))
                         } else {
-                            // startActivity(BICHomeActivity.getIntent(this@BICSplashActivity))
+                            //startActivity(BICHomeActivity.getIntent(this@BICSplashActivity))
                         }
                     })
                 default: break

@@ -9,7 +9,10 @@
 /* Begin PBXBuildFile section */
 		A4209CC2735B87AFD2923126 /* Pods_Bicycle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71464C968BB1A412E8D3AB72 /* Pods_Bicycle.framework */; };
 		BE1131DB1FA12CD50040C374 /* BICHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1131DA1FA12CD50040C374 /* BICHomeViewModel.swift */; };
-		BE1131DE1FA131D40040C374 /* BICContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1131DD1FA131D40040C374 /* BICContract.swift */; };
+		BE19002C214F0B7300DDCF91 /* BICContractDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE19002B214F0B7300DDCF91 /* BICContractDto.swift */; };
+		BE1F2FFE21503D4D0094D2DD /* BICContract+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1F2FFC21503D4D0094D2DD /* BICContract+CoreDataClass.swift */; };
+		BE1F2FFF21503D4D0094D2DD /* BICContract+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1F2FFD21503D4D0094D2DD /* BICContract+CoreDataProperties.swift */; };
+		BE1F30012150461A0094D2DD /* BICLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1F30002150461A0094D2DD /* BICLocalDataSource.swift */; };
 		BE2897492072CB5C00A90BF5 /* AlamofireObjectMapper+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2897482072CB5C00A90BF5 /* AlamofireObjectMapper+Rx.swift */; };
 		BE2E53161F9E7A8F00806D3F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E53151F9E7A8F00806D3F /* AppDelegate.swift */; };
 		BE2E531E1F9E7A8F00806D3F /* Bicycle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE2E531C1F9E7A8F00806D3F /* Bicycle.xcdatamodeld */; };
@@ -89,8 +92,11 @@
 		9D258D389A34A14B6D7543FC /* Pods-BicycleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BicycleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BicycleTests/Pods-BicycleTests.release.xcconfig"; sourceTree = "<group>"; };
 		BCB58F504BE5D065C1253C96 /* Pods_BicycleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BicycleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE1131DA1FA12CD50040C374 /* BICHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICHomeViewModel.swift; sourceTree = "<group>"; };
-		BE1131DD1FA131D40040C374 /* BICContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICContract.swift; sourceTree = "<group>"; };
 		BE1131DF1FA137890040C374 /* Toulouse.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Toulouse.gpx; sourceTree = "<group>"; };
+		BE19002B214F0B7300DDCF91 /* BICContractDto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BICContractDto.swift; sourceTree = "<group>"; };
+		BE1F2FFC21503D4D0094D2DD /* BICContract+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BICContract+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BE1F2FFD21503D4D0094D2DD /* BICContract+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BICContract+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BE1F30002150461A0094D2DD /* BICLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICLocalDataSource.swift; sourceTree = "<group>"; };
 		BE2897482072CB5C00A90BF5 /* AlamofireObjectMapper+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlamofireObjectMapper+Rx.swift"; sourceTree = "<group>"; };
 		BE2E53121F9E7A8F00806D3F /* Bicycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bicycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE2E53151F9E7A8F00806D3F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -213,11 +219,36 @@
 		BE1131DC1FA131BF0040C374 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				BE1131DD1FA131D40040C374 /* BICContract.swift */,
+				BE2DA0FA21569185009E5AD0 /* Local */,
+				BE2DA0FB215691C9009E5AD0 /* Remote */,
+				BE1F30002150461A0094D2DD /* BICLocalDataSource.swift */,
+				BEEDAC7D1FA68CAA001D7765 /* BicycleDataSource.swift */,
+				BE5B5C382149A7FF00F1BFB9 /* CityBikesDataSource.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		BE2DA0FA21569185009E5AD0 /* Local */ = {
+			isa = PBXGroup;
+			children = (
+				BE1F2FFC21503D4D0094D2DD /* BICContract+CoreDataClass.swift */,
+				BE1F2FFD21503D4D0094D2DD /* BICContract+CoreDataProperties.swift */,
 				BEB95FF11FA3B64D00062A88 /* BICPlace.swift */,
 				BEEDAC781FA68B7B001D7765 /* BICStation.swift */,
 			);
-			path = Data;
+			path = Local;
+			sourceTree = "<group>";
+		};
+		BE2DA0FB215691C9009E5AD0 /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				BE5B5C3A2149AC8F00F1BFB9 /* BICConfigResponseDto.swift */,
+				BE5B5C3C2149B74000F1BFB9 /* BICContractsDataResponseDto.swift */,
+				BE19002B214F0B7300DDCF91 /* BICContractDto.swift */,
+				BEEDAC7E1FA68CAA001D7765 /* CTBResponseDto.swift */,
+				BEEDAC7F1FA68CAA001D7765 /* CTBStationDto.swift */,
+			);
+			path = Remote;
 			sourceTree = "<group>";
 		};
 		BE2E53091F9E7A8F00806D3F = {
@@ -349,12 +380,6 @@
 		BEEDAC7C1FA68CAA001D7765 /* IO */ = {
 			isa = PBXGroup;
 			children = (
-				BE5B5C3A2149AC8F00F1BFB9 /* BICConfigResponseDto.swift */,
-				BE5B5C3C2149B74000F1BFB9 /* BICContractsDataResponseDto.swift */,
-				BEEDAC7D1FA68CAA001D7765 /* BicycleDataSource.swift */,
-				BE5B5C382149A7FF00F1BFB9 /* CityBikesDataSource.swift */,
-				BEEDAC7E1FA68CAA001D7765 /* CTBResponseDto.swift */,
-				BEEDAC7F1FA68CAA001D7765 /* CTBStationDto.swift */,
 				BEEDAC831FA68CAA001D7765 /* WSFacade.swift */,
 			);
 			path = IO;
@@ -634,6 +659,7 @@
 				BEEDAC751FA6848F001D7765 /* BICConstants.swift in Sources */,
 				BE5B5C372149A09D00F1BFB9 /* BICPreferenceRepository.swift in Sources */,
 				BEEAC4681F9E8B5500766469 /* UIColor+SB.swift in Sources */,
+				BE1F2FFE21503D4D0094D2DD /* BICContract+CoreDataClass.swift in Sources */,
 				BEA6C8261FA11F4500C8EDA9 /* UIButton+SB.swift in Sources */,
 				BEB4AFA821485D32006E8330 /* DI.swift in Sources */,
 				BE2E53161F9E7A8F00806D3F /* AppDelegate.swift in Sources */,
@@ -641,7 +667,6 @@
 				BE6D55471FA7D51400E7C7F2 /* UIImage+SB.swift in Sources */,
 				BEB4AFAA21487523006E8330 /* SBViewModel.swift in Sources */,
 				BEEDAC8A1FA68CAA001D7765 /* WSFacade.swift in Sources */,
-				BE1131DE1FA131D40040C374 /* BICContract.swift in Sources */,
 				BE2E531E1F9E7A8F00806D3F /* Bicycle.xcdatamodeld in Sources */,
 				BEEDAC861FA68CAA001D7765 /* CTBStationDto.swift in Sources */,
 				BEB4AFA621485CC4006E8330 /* BICSplashViewModel.swift in Sources */,
@@ -655,7 +680,9 @@
 				BEB4AFA321485C63006E8330 /* BICSplashViewController.swift in Sources */,
 				BEEDAC791FA68B7B001D7765 /* BICStation.swift in Sources */,
 				BE63E11C1FA3BE22001B8CCB /* BICContractRepository.swift in Sources */,
+				BE1F30012150461A0094D2DD /* BICLocalDataSource.swift in Sources */,
 				BEEDAC841FA68CAA001D7765 /* BicycleDataSource.swift in Sources */,
+				BE19002C214F0B7300DDCF91 /* BICContractDto.swift in Sources */,
 				BE1131DB1FA12CD50040C374 /* BICHomeViewModel.swift in Sources */,
 				BEEAC4661F9E8AD200766469 /* AppDelegate+SB.swift in Sources */,
 				BE63E1261FA3BF66001B8CCB /* MKCoordinateRegion+SB.swift in Sources */,
@@ -663,6 +690,7 @@
 				BEB95FF21FA3B64D00062A88 /* BICPlace.swift in Sources */,
 				BEECBB65207D5B5B004EECE1 /* BICStationAnnotation.swift in Sources */,
 				BE2897492072CB5C00A90BF5 /* AlamofireObjectMapper+Rx.swift in Sources */,
+				BE1F2FFF21503D4D0094D2DD /* BICContract+CoreDataProperties.swift in Sources */,
 				BE63E1231FA3BF66001B8CCB /* CLLocationCoordinate2D+SB.swift in Sources */,
 				BEEAC46B1F9E903B00766469 /* SBLog.swift in Sources */,
 				BE63E1241FA3BF66001B8CCB /* MKMapView+SB.swift in Sources */,

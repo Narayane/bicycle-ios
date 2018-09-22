@@ -37,7 +37,7 @@ class BicycleDataSource {
         let endpoint = "\(BICKeys.STORAGE_ENDPOINT)/config.json?alt=media&token=\(BICKeys.STORAGE_TOKEN)"
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        return sessionManager.rx.request(.get, endpoint).responseMappable(as: BICConfigResponseDto.self)
+        return sessionManager.rx.request(.get, endpoint).log().responseMappable(as: BICConfigResponseDto.self)
             .subscribeOn(MainScheduler.instance)
             .do {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -50,7 +50,7 @@ class BicycleDataSource {
         let endpoint = "\(BICKeys.STORAGE_ENDPOINT)/contracts.json?alt=media&token=\(BICKeys.STORAGE_TOKEN)"
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        return sessionManager.rx.request(.get, endpoint).responseMappable(as: BICContractsDataResponseDto.self)
+        return sessionManager.rx.request(.get, endpoint).log().responseMappable(as: BICContractsDataResponseDto.self)
             .subscribeOn(MainScheduler.instance)
             .do {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false

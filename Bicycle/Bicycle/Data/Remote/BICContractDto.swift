@@ -18,9 +18,9 @@ import CoreLocation
 import ObjectMapper
 import MapKit
 
-class BICContract: Mappable, Equatable {
+class BICContractDto: Mappable, Equatable {
     
-    static func ==(lhs: BICContract, rhs: BICContract) -> Bool {
+    static func ==(lhs: BICContractDto, rhs: BICContractDto) -> Bool {
         return lhs.center == rhs.center
     }
     

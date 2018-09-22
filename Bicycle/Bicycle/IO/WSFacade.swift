@@ -20,15 +20,16 @@ import RxSwift
 
 class WSFacade {
     
-    static func getStationsBy(contract: BICContract, success: @escaping (_ stations: [BICStation]) -> Void, error: @escaping () -> Void) {
+    /*static func getStationsBy(contract: BICContract, success: @escaping (_ stations: [BICStation]) -> Void, error: @escaping () -> Void) {
         CityBikesDataSource.shared.getStationsBy(url: contract.url, handleSuccessWith: { (dtos) in
             success(dtos.map({ (dto) -> BICStation in
                 return BICStation(citybikes: dto)
             }))
         }, handleFailureWith: error)
-    }
+    }*/
     
     static func getStationsBy(contract: BICContract) -> Single<[BICStation]> {
-        return CityBikesDataSource.shared.getStationsBy(url: contract.url)
+        return Single.just([])
+        //return CityBikesDataSource.shared.getStationsBy(url: contract.url)
     }
 }

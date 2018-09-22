@@ -41,7 +41,7 @@ class BICHomeViewModel {
     }
     
     func refreshContractStations(_ contract: BICContract) {
-        log.d(String(format: "refresh contract stations: %@ (%@)", contract.name))
+        log.d(String(format: "refresh contract stations: %@ (%@)", contract.name!))
         contractService.getStationsFor(contract: contract).subscribe(onSuccess: { (stations) in
             self.currentStations.value = stations
         }) { (error) in

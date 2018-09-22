@@ -11,13 +11,16 @@ extension DependencyContainer {
     
     private func registerCommonModule() {
         
-        // datasource
+        self.register(.singleton) { UIApplication.shared.delegate as! AppDelegate }
+        
+        // data source
+        self.register(.singleton) { BICLocalDataSource() }
         self.register(.singleton) { BicycleDataSource() }
         self.register(.singleton) { CityBikesDataSource() }
         self.register(.singleton) { UserDefaults.standard }
         
         // repository
-        self.register(.singleton) { try BICContractRepository(bicycleDataSource: self.resolve(), preferenceRepository: self.resolve()) }
+        self.register(.singleton) { try BICContractRepository(bicycleDataSource: self.resolve(), localDataSource: self.resolve(), preferenceRepository: self.resolve()) }
         self.register(.singleton) { try BICPreferenceRepository(bicycleDataSource: self.resolve(), userDefaults: self.resolve()) }
     }
     

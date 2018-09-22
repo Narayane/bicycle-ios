@@ -22,14 +22,16 @@ class BICContractRepository {
     
     private let disposeBag: DisposeBag
     private let bicycleDataSource: BicycleDataSource
+    private let localDataSource: BICLocalDataSource
     private let preferenceRepository: BICPreferenceRepository
     
     lazy var allContracts = [BICContract]()
     private var cacheStations: Dictionary<String, [BICStation]> = Dictionary()
     
-    init(bicycleDataSource: BicycleDataSource, preferenceRepository: BICPreferenceRepository) {
+    init(bicycleDataSource: BicycleDataSource, localDataSource: BICLocalDataSource, preferenceRepository: BICPreferenceRepository) {
         disposeBag = DisposeBag()
         self.bicycleDataSource = bicycleDataSource
+        self.localDataSource = localDataSource
         self.preferenceRepository = preferenceRepository
     }
     
@@ -41,28 +43,34 @@ class BICContractRepository {
             if (appDelegate.hasConnectivity) {
                 self.bicycleDataSource.getContracts()
                     .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
-                    .subscribe(onSuccess: { (response) in
-                        if response.version > self.preferenceRepository.contractsVersion {
-                            /*let existing = contractDao.findAll()
-                             log.d("delete \(existing.size) contracts")
-                             contractDao.deleteAll(existing as ArrayList<BICContract>)
-                             contractDao.insertAll(response.values)
-                             log.d("insert \(response.values.count()) contracts")*/
-                            self.preferenceRepository.contractsVersion = response.version
+                    .do(onSuccess: { (response) in
+                        if let contractDataVersion = response.version, contractDataVersion > self.preferenceRepository.contractsVersion {
+                            let deletedCount = self.localDataSource.deleteAllContracts()
+                            log.d("\(deletedCount) contracts deleted")
+                        }
+                    })
+                    .map({ (response) -> Int in
+                        if let contractDataVersion = response.version, let dtos = response.values, contractDataVersion > self.preferenceRepository.contractsVersion {
+                            let insertedCount = self.localDataSource.insertAllContracts(dtos: dtos)
+                            log.d("\(insertedCount) contracts inserted")
+                            self.preferenceRepository.contractsVersion = contractDataVersion
                         } else {
                             log.d("contracts are up-to-date")
                         }
-                        let contracts: [BICContract] = [] //contractDao.findAll()
-                        /*log.d("load \(contracts.count()) contracts")
-                         allContracts.addAll(contracts)*/
+                        let contracts = self.localDataSource.findAllContracts()
+                        log.d("\(contracts.count) contracts loaded")
+                        self.allContracts.append(contentsOf: contracts)
+                        return self.allContracts.count
+                    })
+                    .subscribe(onSuccess: { (count) in
                         self.preferenceRepository.contractsLastCheckDate = Date()
-                        observer(.success(contracts.count))
+                        observer(.success(count))
                     }, onError: { (error) in
                         observer(.error(error))
                     }).disposed(by: self.disposeBag)
             } else {
                 log.d("get contracts from assets")
-                var contracts: [BICContract] = []
+                var contracts: [BICContractDto] = []
                 if let jsonFilePath = Bundle.main.path(forResource: "Contracts", ofType: "json") {
                     log.v("load contracts from file at \(jsonFilePath)")
                     do {
@@ -70,7 +78,7 @@ class BICContractRepository {
                         do {
                             if let object = try JSONSerialization.jsonObject(with: jsonFileContent.data(using: String.Encoding.utf8)!, options: []) as? [String : Any] {
                                 for element in object["values"] as! [[String : Any]] {
-                                    if let contract = BICContract(JSON: element) {
+                                    if let contract = BICContractDto(JSON: element) {
                                         contracts.append(contract)
                                     }
                                 }
@@ -90,15 +98,15 @@ class BICContractRepository {
     }
     
     func getContractCount() -> Single<Int> {
-        let contracts: [BICContract] = [] //contractDao.findAll()
-        log.d("load \(contracts.count) contracts")
-        //allContracts.addAll(contracts)
+        let contracts: [BICContract] = self.localDataSource.findAllContracts()
+        log.d("\(contracts.count) contracts loaded")
+        allContracts.append(contentsOf: contracts)
         return Single.just(contracts.count)
     }
     
     func getStationsFor(contract: BICContract) -> Single<[BICStation]> {
-        if let stations = cacheStations[contract.name] {
-            log.d("get \(stations.count) stations for contract: \(contract.name)")
+        if let contractName = contract.name, let stations = cacheStations[contractName] {
+            log.d("get \(stations.count) stations for contract: \(contractName)")
             return Observable.from(optional: stations).asSingle()
         } else {
             return refreshStationsFor(contract: contract)
@@ -106,13 +114,14 @@ class BICContractRepository {
     }
     
     func refreshStationsFor(contract: BICContract) -> Single<[BICStation]> {
-        return WSFacade.getStationsBy(contract: contract)
+        return Single.just([]) // FIXME: implement
+        /*return WSFacade.getStationsBy(contract: contract)
             .do(onSuccess: { (stations) in
                 log.d("refresh \(stations.count) stations for contract: \(contract.name)")
                 self.cacheStations[contract.name] = stations
             }, onError: { (error) in
                 log.e("fail to get contract stations: \(error.localizedDescription)")
-            })
+            })*/
     }
     
     /*func loadStationsFor(contract: BICContract, success: @escaping (_ stations: [BICStation]) -> Void, error: @escaping () -> Void) {
