@@ -14,8 +14,8 @@
 //  limitations under the License.
 //
 
+import Foundation
 import CoreLocation
-import RxCocoa
 import RxSwift
 
 open class BICPreferenceRepository {
@@ -66,6 +66,15 @@ open class BICPreferenceRepository {
         }
     }
     
+    open var appLastCheckDate: Date? {
+        get {
+            return defaults.object(forKey: BICConstants.PREFERENCE_APP_LAST_CHECK_DATE) as? Date
+        }
+        set {
+            defaults.set(newValue, forKey: BICConstants.PREFERENCE_APP_LAST_CHECK_DATE)
+        }
+    }
+    
     open var contractsCheckDelay: Int {
         get {
             return defaults.object(forKey: BICConstants.PREFERENCE_CONTRACTS_CHECK_DELAY) as? Int ?? 30
@@ -94,15 +103,15 @@ open class BICPreferenceRepository {
     }
     
     //MARK: Public methods
-    open func loadConfig() -> Completable {
-        return Completable.create { observer in
+    open func loadConfig() -> Single<BICConfigIOSDto> {
+        return Single.create { single in
             self.bicycleDataSource.getConfig()
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { (response) in
                     self.setConfig(with: response)
-                    observer(.completed)
+                    single(.success(response.iosConfig!))
                 }, onError: { (error) in
-                    observer(.error(error))
+                    single(.error(error))
                 }).disposed(by: self.disposeBag)
             return Disposables.create()
         }

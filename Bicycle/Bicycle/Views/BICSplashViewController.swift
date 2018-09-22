@@ -45,7 +45,7 @@ class BICSplashViewController: UIViewController {
     // MARK: Fileprivate methods
     
     fileprivate func initUI() {
-        labelCatching.text = "bic_app_catching".localized()
+        labelCatching.text = NSLocalizedString("bic_app_catching", comment: "") //"bic_app_catching".localized()
         labelTitle.text = ""
         labelCatching.text = ""
     }
@@ -72,6 +72,8 @@ class BICSplashViewController: UIViewController {
                 guard let event = rx.element else { return }
                 log.v("event -> \(String(describing: type(of: event)))")
                 switch (event) {
+                case is EventSplashForceUpdate:
+                    self.launchAppStoreApp()
                 case is EventSplashConfigLoaded, is EventSplashLoadConfigFailed:
                     self.viewModel?.loadAllContracts()
                 case is EventSplashCheckContracts:
@@ -98,6 +100,19 @@ class BICSplashViewController: UIViewController {
                 default: break
                 }
             })
+        }
+    }
+    
+    fileprivate func launchAppStoreApp() {
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: NSLocalizedString("bic_dialogs_title_info", comment: ""), message: NSLocalizedString("bic_messages_info_app_newer_version", comment: ""), preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("bic_actions_upgrade", comment: ""), style: .default, handler: { _ -> Void in
+                let itms: String = "https://itunes.apple.com/app/apple-store/id1139116439?mt=8" //dto.iOSAppStoreUrl!
+                UIApplication.shared.open(URL(string: itms)!, options: [:], completionHandler: { (success) in
+                    self.launchAppStoreApp()
+                })
+            }))
+            self.present(alertController, animated: true, completion: nil)
         }
     }
 }

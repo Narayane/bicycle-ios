@@ -24,6 +24,7 @@ class StateSplashConfig: SBState {}
 class StateSplashContracts: SBState {}
 
 // MARK: Events
+class EventSplashForceUpdate: SBEvent {}
 class EventSplashConfigLoaded: SBEvent {}
 class EventSplashLoadConfigFailed: EventError {}
 class EventSplashCheckContracts: SBEvent {}
@@ -55,8 +56,12 @@ class BICSplashViewModel: SBViewModel {
     func loadConfig() {
         states.value = StateSplashConfig()
         launch {
-            preferenceRepository.loadConfig().subscribe(onCompleted: { () in
-                self.events.value = EventSplashConfigLoaded()
+            preferenceRepository.loadConfig().subscribe(onSuccess: { (iosConfig) in
+                if self.checkForceUpdate(iosConfig: iosConfig) {
+                    self.events.value = EventSplashForceUpdate()
+                } else {
+                    self.events.value = EventSplashConfigLoaded()
+                }
             }, onError: { (error) in
                 self.events.value = EventSplashLoadConfigFailed(error)
             })
@@ -70,7 +75,7 @@ class BICSplashViewModel: SBViewModel {
         let now = Date()
         
         if let lastCheckDate = preferenceRepository.contractsLastCheckDate {
-            log.v("last check: \(lastCheckDate.format(format: "dd/MM/yyyy"))")
+            log.v("contracts last check: \(lastCheckDate.format(format: "dd/MM/yyyy"))")
             timeToCheck = lastCheckDate.daysBetween(now) > preferenceRepository.contractsCheckDelay
         }
     
@@ -104,5 +109,33 @@ class BICSplashViewModel: SBViewModel {
     
     func requestDataSendingPermissions() {
         events.value = EventSplashRequestDataPermissions(needed: preferenceRepository.requestDataSendingPermissions)
+    }
+    
+    private func checkForceUpdate(iosConfig: BICConfigIOSDto) -> Bool {
+        
+        var timeToCheck = true
+        if let lastCheckDate = preferenceRepository.appLastCheckDate {
+            log.v("app last check: \(lastCheckDate.format(format: "dd/MM/yyyy"))")
+            timeToCheck = lastCheckDate.daysBetween(Date()) > preferenceRepository.appCheckDelay
+        }
+        
+        if timeToCheck {
+            log.d("check app version")
+            
+            let lastVersion: String = iosConfig.appVersion!
+            log.i("lastest version: \(lastVersion)")
+            let currentVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+            log.i("current version: \(currentVersion)")
+            
+            if lastVersion.compare(currentVersion, options: String.CompareOptions.numeric) == ComparisonResult.orderedDescending {
+                return iosConfig.forceUpdate!
+            } else {
+                log.d("no need to force update")
+                preferenceRepository.appLastCheckDate = Date()
+            }
+        } else {
+            log.v("no need to check again")
+        }
+        return false
     }
 }

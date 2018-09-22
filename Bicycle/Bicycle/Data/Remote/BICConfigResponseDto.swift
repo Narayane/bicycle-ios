@@ -16,19 +16,30 @@
 
 import ObjectMapper
 
-class BICConfigResponseDto: Mappable {
+open class BICConfigResponseDto: Mappable {
     
     var appCheckDelay: Int?
-    var appVersion: String?
-    var forceUpdate: Bool?
+    var iosConfig: BICConfigIOSDto?
     var contactsCheckDelay: Int?
     
-    required init?(map: Map) {}
+    required public init?(map: Map) {}
     
-    func mapping(map: Map) {
+    public func mapping(map: Map) {
         appCheckDelay <- map["apps.check_delay"]
-        appVersion <- map["apps.ios.version"]
-        forceUpdate <- map["apps.ios.force_update"]
+        iosConfig <- map["apps.ios"]
         contactsCheckDelay <- map["contracts.check_delay"]
+    }
+}
+
+open class BICConfigIOSDto: Mappable {
+    
+    var appVersion: String?
+    var forceUpdate: Bool?
+    
+    required public init?(map: Map) {}
+    
+    public func mapping(map: Map) {
+        appVersion <- map["version"]
+        forceUpdate <- map["force_update"]
     }
 }

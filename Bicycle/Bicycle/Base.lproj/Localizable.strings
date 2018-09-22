@@ -22,6 +22,9 @@
 "bic_actions_settings" = "Réglages";
 "bic_actions_about" = "À propos";
 "bic_actions_validate_choices" = "Valider mes choix";
+"bic_actions_upgrade" = "Mettre à jour";
+# dialogs
+"bic_dialogs_title_info" = "Information";
 # messages
 "bic_messages_info_init" = "Initialisation";
 "bic_messages_info_config" = "Configuration";
@@ -33,6 +36,7 @@
 "bic_messages_warning_get_current_contract_stations" = "Nous n'avons pas pu récupérer les données des stations";
 "bic_messages_warning_no_connectivity" = "Veuillez vérifiez votre connexion internet";
 "bic_messages_available_soon" = "Bientôt disponible";
+"bic_messages_info_app_newer_version" = "Une nouvelle version est disponible, veuillez mettre à jour l'application :)";
 # onboarding screen
 "bic_onboarding_screen_title" = "Traitement de vos données";
 "bic_onboarding_screen_personal_data" = "Bicycle ne collecte aucune de vos données personnelles (nom, email, âge, position, ...)";
