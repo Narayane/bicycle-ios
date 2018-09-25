@@ -20,7 +20,7 @@ extension DependencyContainer {
         self.register(.singleton) { UserDefaults.standard }
         
         // repository
-        self.register(.singleton) { try BICContractRepository(bicycleDataSource: self.resolve(), localDataSource: self.resolve(), preferenceRepository: self.resolve()) }
+        self.register(.singleton) { try BICContractRepository(appDelegate: self.resolve(), bicycleDataSource: self.resolve(), localDataSource: self.resolve(), preferenceRepository: self.resolve()) }
         self.register(.singleton) { try BICPreferenceRepository(bicycleDataSource: self.resolve(), userDefaults: self.resolve()) }
     }
     

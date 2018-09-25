@@ -52,17 +52,23 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="HYn-ST-FOY">
-                    <rect key="frame" x="169" y="667" width="37" height="37"/>
+                    <rect key="frame" x="169" y="669" width="37" height="37"/>
                     <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </activityIndicatorView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Configuration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="is8-i8-AEB">
-                    <rect key="frame" x="135.66666666666666" y="720" width="104" height="21"/>
+                    <rect key="frame" x="135.66666666666666" y="722" width="104" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="LWo-L4-vT0"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="232 villes dispnibles" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TkM-IA-RAS">
-                    <rect key="frame" x="122" y="745" width="131" height="17"/>
+                    <rect key="frame" x="122" y="742" width="131" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="HAm-3a-9vC"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -72,7 +78,7 @@
             <constraints>
                 <constraint firstItem="TkM-IA-RAS" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="0pF-ZR-d4E"/>
                 <constraint firstItem="Lh7-c9-AmQ" firstAttribute="top" secondItem="AG8-eh-d9W" secondAttribute="bottom" id="4j7-wP-L1a"/>
-                <constraint firstItem="TkM-IA-RAS" firstAttribute="top" secondItem="is8-i8-AEB" secondAttribute="bottom" constant="4" id="Kph-aY-7Q8"/>
+                <constraint firstItem="TkM-IA-RAS" firstAttribute="top" secondItem="is8-i8-AEB" secondAttribute="bottom" id="Kph-aY-7Q8"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="TkM-IA-RAS" secondAttribute="bottom" constant="16" id="Qb2-Ch-B6c"/>
                 <constraint firstItem="dRt-QN-EoS" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="deJ-00-ExB"/>
                 <constraint firstItem="AG8-eh-d9W" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="jC5-83-WcE"/>

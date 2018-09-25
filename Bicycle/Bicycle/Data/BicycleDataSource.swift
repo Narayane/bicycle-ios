@@ -48,8 +48,9 @@ class BicycleDataSource {
     func getContracts() -> Single<BICContractsDataResponseDto> {
         
         let endpoint = "\(BICKeys.STORAGE_ENDPOINT)/contracts.json?alt=media&token=\(BICKeys.STORAGE_TOKEN)"
-        
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
         return sessionManager.rx.request(.get, endpoint).log().responseMappable(as: BICContractsDataResponseDto.self)
             .subscribeOn(MainScheduler.instance)
             .do {

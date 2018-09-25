@@ -17,7 +17,6 @@
 		BE2E53161F9E7A8F00806D3F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E53151F9E7A8F00806D3F /* AppDelegate.swift */; };
 		BE2E531E1F9E7A8F00806D3F /* Bicycle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE2E531C1F9E7A8F00806D3F /* Bicycle.xcdatamodeld */; };
 		BE2E53201F9E7A8F00806D3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE2E531F1F9E7A8F00806D3F /* Assets.xcassets */; };
-		BE2E53231F9E7A8F00806D3F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE2E53211F9E7A8F00806D3F /* LaunchScreen.storyboard */; };
 		BE2E532E1F9E7A8F00806D3F /* BicycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E532D1F9E7A8F00806D3F /* BicycleTests.swift */; };
 		BE2E53391F9E7A8F00806D3F /* BicycleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E53381F9E7A8F00806D3F /* BicycleUITests.swift */; };
 		BE5B5C372149A09D00F1BFB9 /* BICPreferenceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5B5C362149A09D00F1BFB9 /* BICPreferenceRepository.swift */; };
@@ -47,6 +46,7 @@
 		BECE6B1C214717E5001831AC /* UIViewController+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECE6B1B214717E5001831AC /* UIViewController+SB.swift */; };
 		BED14B301F9E9395003FF180 /* String+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED14B2F1F9E9395003FF180 /* String+SB.swift */; };
 		BED14B321F9E957D003FF180 /* UINavigationController+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED14B311F9E957D003FF180 /* UINavigationController+SB.swift */; };
+		BEE34E1A2157C4ED0057DA0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEE34E192157C4EC0057DA0C /* LaunchScreen.storyboard */; };
 		BEE87AE31F9FDF8000BBE819 /* BICHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE87AE11F9FDF8000BBE819 /* BICHomeViewController.swift */; };
 		BEE87AE41F9FDF8000BBE819 /* BICHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEE87AE21F9FDF8000BBE819 /* BICHomeViewController.xib */; };
 		BEEAC4661F9E8AD200766469 /* AppDelegate+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEAC4651F9E8AD200766469 /* AppDelegate+SB.swift */; };
@@ -102,7 +102,6 @@
 		BE2E53151F9E7A8F00806D3F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE2E531D1F9E7A8F00806D3F /* Bicycle.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bicycle.xcdatamodel; sourceTree = "<group>"; };
 		BE2E531F1F9E7A8F00806D3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BE2E53221F9E7A8F00806D3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE2E53241F9E7A8F00806D3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE2E53291F9E7A8F00806D3F /* BicycleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BicycleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE2E532D1F9E7A8F00806D3F /* BicycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BicycleTests.swift; sourceTree = "<group>"; };
@@ -114,6 +113,8 @@
 		BE5B5C382149A7FF00F1BFB9 /* CityBikesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBikesDataSource.swift; sourceTree = "<group>"; };
 		BE5B5C3A2149AC8F00F1BFB9 /* BICConfigResponseDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICConfigResponseDto.swift; sourceTree = "<group>"; };
 		BE5B5C3C2149B74000F1BFB9 /* BICContractsDataResponseDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICContractsDataResponseDto.swift; sourceTree = "<group>"; };
+		BE5F1E012157CD6600187B98 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BE5F1E022157CD7200187B98 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		BE63E11B1FA3BE22001B8CCB /* BICContractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICContractRepository.swift; sourceTree = "<group>"; };
 		BE63E11F1FA3BF66001B8CCB /* CLLocationCoordinate2D+SB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+SB.swift"; sourceTree = "<group>"; };
 		BE63E1201FA3BF66001B8CCB /* MKMapView+SB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMapView+SB.swift"; sourceTree = "<group>"; };
@@ -128,8 +129,6 @@
 		BEB4AFA721485D32006E8330 /* DI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DI.swift; sourceTree = "<group>"; };
 		BEB4AFA921487523006E8330 /* SBViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBViewModel.swift; sourceTree = "<group>"; };
 		BEB95FF11FA3B64D00062A88 /* BICPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICPlace.swift; sourceTree = "<group>"; };
-		BEBD2311214DB309003F5CA0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
-		BEBD2312214DB310003F5CA0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		BEBD2315214DBBFC003F5CA0 /* BICKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICKeys.swift; sourceTree = "<group>"; };
 		BEBE4B2C207D5D0100A2B5E7 /* BICMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICMapViewModel.swift; sourceTree = "<group>"; };
 		BECC59851FA7C52C00F86703 /* SBTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBTextField.swift; sourceTree = "<group>"; };
@@ -137,6 +136,7 @@
 		BECE6B1B214717E5001831AC /* UIViewController+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SB.swift"; sourceTree = "<group>"; };
 		BED14B2F1F9E9395003FF180 /* String+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SB.swift"; sourceTree = "<group>"; };
 		BED14B311F9E957D003FF180 /* UINavigationController+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+SB.swift"; sourceTree = "<group>"; };
+		BEE34E192157C4EC0057DA0C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BEE87AE11F9FDF8000BBE819 /* BICHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICHomeViewController.swift; sourceTree = "<group>"; };
 		BEE87AE21F9FDF8000BBE819 /* BICHomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BICHomeViewController.xib; sourceTree = "<group>"; };
 		BEEAC4651F9E8AD200766469 /* AppDelegate+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+SB.swift"; sourceTree = "<group>"; };
@@ -151,6 +151,8 @@
 		BEEDAC7E1FA68CAA001D7765 /* CTBResponseDto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CTBResponseDto.swift; sourceTree = "<group>"; };
 		BEEDAC7F1FA68CAA001D7765 /* CTBStationDto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CTBStationDto.swift; sourceTree = "<group>"; };
 		BEEDAC831FA68CAA001D7765 /* WSFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSFacade.swift; sourceTree = "<group>"; };
+		BEF057BD21583E3600E34DF5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BEF057BE21583E3600E34DF5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = fr; path = fr.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		D9E19CC3A31700D94911471B /* Pods-Bicycle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bicycle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bicycle/Pods-Bicycle.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -287,9 +289,9 @@
 				BE2E53151F9E7A8F00806D3F /* AppDelegate.swift */,
 				BEB4AFA721485D32006E8330 /* DI.swift */,
 				BE2E531F1F9E7A8F00806D3F /* Assets.xcassets */,
-				BE2E53211F9E7A8F00806D3F /* LaunchScreen.storyboard */,
 				BE2E53241F9E7A8F00806D3F /* Info.plist */,
 				BECE6B1921470F08001831AC /* Contracts.json */,
+				BEE34E192157C4EC0057DA0C /* LaunchScreen.storyboard */,
 				BEBD230D214DAB42003F5CA0 /* Localizable.strings */,
 				BEBD2310214DAB6B003F5CA0 /* Localizable.stringsdict */,
 				BE2E531C1F9E7A8F00806D3F /* Bicycle.xcdatamodeld */,
@@ -479,6 +481,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = BE2E53091F9E7A8F00806D3F;
 			productRefGroup = BE2E53131F9E7A8F00806D3F /* Products */;
@@ -499,9 +502,9 @@
 			files = (
 				BEB4AFA421485C63006E8330 /* BICSplashViewController.xib in Resources */,
 				BEBD230B214DAB42003F5CA0 /* Localizable.strings in Resources */,
-				BE2E53231F9E7A8F00806D3F /* LaunchScreen.storyboard in Resources */,
 				BE2E53201F9E7A8F00806D3F /* Assets.xcassets in Resources */,
 				BECE6B1A21470F08001831AC /* Contracts.json in Resources */,
+				BEE34E1A2157C4ED0057DA0C /* LaunchScreen.storyboard in Resources */,
 				BEE87AE41F9FDF8000BBE819 /* BICHomeViewController.xib in Resources */,
 				BEBD230E214DAB6B003F5CA0 /* Localizable.stringsdict in Resources */,
 			);
@@ -732,18 +735,11 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		BE2E53211F9E7A8F00806D3F /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BE2E53221F9E7A8F00806D3F /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		BEBD230D214DAB42003F5CA0 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				BEBD2311214DB309003F5CA0 /* Base */,
+				BE5F1E012157CD6600187B98 /* Base */,
+				BEF057BD21583E3600E34DF5 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -751,7 +747,8 @@
 		BEBD2310214DAB6B003F5CA0 /* Localizable.stringsdict */ = {
 			isa = PBXVariantGroup;
 			children = (
-				BEBD2312214DB310003F5CA0 /* Base */,
+				BE5F1E022157CD7200187B98 /* Base */,
+				BEF057BE21583E3600E34DF5 /* fr */,
 			);
 			name = Localizable.stringsdict;
 			sourceTree = "<group>";
@@ -764,6 +761,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -827,6 +825,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

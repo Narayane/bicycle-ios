@@ -21,6 +21,7 @@ import RxSwift
 class BICContractRepository {
     
     private let disposeBag: DisposeBag
+    private let appDelegate: AppDelegate
     private let bicycleDataSource: BicycleDataSource
     private let localDataSource: BICLocalDataSource
     private let preferenceRepository: BICPreferenceRepository
@@ -28,8 +29,9 @@ class BICContractRepository {
     lazy var allContracts = [BICContract]()
     private var cacheStations: Dictionary<String, [BICStation]> = Dictionary()
     
-    init(bicycleDataSource: BicycleDataSource, localDataSource: BICLocalDataSource, preferenceRepository: BICPreferenceRepository) {
+    init(appDelegate: AppDelegate, bicycleDataSource: BicycleDataSource, localDataSource: BICLocalDataSource, preferenceRepository: BICPreferenceRepository) {
         disposeBag = DisposeBag()
+        self.appDelegate = appDelegate
         self.bicycleDataSource = bicycleDataSource
         self.localDataSource = localDataSource
         self.preferenceRepository = preferenceRepository
@@ -39,8 +41,7 @@ class BICContractRepository {
     
     func updateContracts() -> Single<Int> {
         return Single.create { observer in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            if (appDelegate.hasConnectivity) {
+            if (self.appDelegate.hasConnectivity) {
                 self.bicycleDataSource.getContracts()
                     .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
                     .do(onSuccess: { (response) in

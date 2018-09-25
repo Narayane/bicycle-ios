@@ -28,9 +28,9 @@
             <key>NSStringFormatValueTypeKey</key>
             <string>d</string>
             <key>one</key>
-            <string>%d available bike</string>
+            <string>%d vélo disponible</string>
             <key>other</key>
-            <string>%d available bikes</string>
+            <string>%d vélos disponibles</string>
         </dict>
     </dict>
     <key>bic_plurals_free_stands</key>
@@ -44,9 +44,9 @@
             <key>NSStringFormatValueTypeKey</key>
             <string>d</string>
             <key>one</key>
-            <string>%d free stand</string>
+            <string>%d place libre</string>
             <key>other</key>
-            <string>%d free stands</string>
+            <string>%d places libres</string>
         </dict>
     </dict>
     <key>bic_plurals_stations</key>
@@ -60,9 +60,9 @@
             <key>NSStringFormatValueTypeKey</key>
             <string>d</string>
             <key>one</key>
-            <string>%%d bike station</string>
+            <string>%%d station de vélo</string>
             <key>other</key>
-            <string>%d bike stations</string>
+            <string>%d stations de vélo</string>
         </dict>
     </dict>
 </dict>

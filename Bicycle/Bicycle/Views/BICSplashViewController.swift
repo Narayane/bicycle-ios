@@ -31,7 +31,7 @@ class BICSplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initUI()
+        initLayout()
         observeStates()
         observeEvents()
         viewModel?.loadConfig()
@@ -44,10 +44,10 @@ class BICSplashViewController: UIViewController {
     
     // MARK: Fileprivate methods
     
-    fileprivate func initUI() {
-        labelCatching.text = NSLocalizedString("bic_app_catching", comment: "") //"bic_app_catching".localized()
+    fileprivate func initLayout() {
+        labelCatching.text = "bic_app_catching".localized()
         labelTitle.text = ""
-        labelCatching.text = ""
+        labelSubtitle.text = ""
     }
     
     fileprivate func observeStates() {
