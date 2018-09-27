@@ -92,9 +92,16 @@ class BICSplashViewController: UIViewController {
                         debug = true
                         #endif
                         if event.needed || debug {
-                            //startActivity(BICDataPermissionsActivity.getIntent(this@BICSplashActivity))
+                            let viewController = BICDataPermissionsViewController()
+                            viewController.modalTransitionStyle = .coverVertical
+                            self.present(viewController, animated: true, completion: nil)
                         } else {
-                            //startActivity(BICHomeActivity.getIntent(this@BICSplashActivity))
+                            let viewController = BICHomeViewController()
+                            let navigationController = UINavigationController(rootViewController: viewController)
+                            let primaryColor = UIColor(hex: (Bundle.main.object(forInfoDictionaryKey: "BICPrimaryColor") as? String)!)
+                            navigationController.styleNavigationBar(barTintColor: primaryColor, tintColor: UIColor.white)
+                            navigationController.modalTransitionStyle = .crossDissolve
+                            self.present(navigationController, animated: true, completion: nil)
                         }
                     })
                 default: break

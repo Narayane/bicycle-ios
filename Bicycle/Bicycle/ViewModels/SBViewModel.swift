@@ -30,7 +30,7 @@ open class EventError: SBEvent {
 }
 
 // MARK: -
-class SBViewModel {
+open class SBViewModel {
     
     private let disposeBag = DisposeBag()
     

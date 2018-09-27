@@ -53,6 +53,7 @@ class BICSplashViewModel: SBViewModel {
         self.preferenceRepository = preferenceRepository
     }
 
+    // MARK: Public methods
     func loadConfig() {
         states.value = StateSplashConfig()
         launch {
@@ -111,6 +112,7 @@ class BICSplashViewModel: SBViewModel {
         events.value = EventSplashRequestDataPermissions(needed: preferenceRepository.requestDataSendingPermissions)
     }
     
+    // MARK: Private methods
     private func checkForceUpdate(iosConfig: BICConfigIOSDto) -> Bool {
         
         var timeToCheck = true

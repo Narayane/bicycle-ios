@@ -72,3 +72,4 @@ fastlane/test_output
 Contracts.json
 IDEWorkspaceChecks.plist
 BICKeys.swift
+GoogleService-Info.plist

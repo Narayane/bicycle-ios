@@ -20,24 +20,25 @@ inhibit_all_warnings!
 use_frameworks!
 
 # versions
-$rx_swift_version = '~> 4.2'
+#$rx_swift_version = '~> 4.2'
 
 # logical pods groups
 def pods_analytics
     pod 'Fabric'
     pod 'Crashlytics'
+    pod 'Firebase/Core'
 end
 
 def pods_rx
-    pod 'RxSwift', $rx_swift_version
-    pod 'RxCocoa', $rx_swift_version
+    pod 'RxSwift'#, $rx_swift_version
+    pod 'RxCocoa'#, $rx_swift_version
     pod 'RxAlamofire'
     pod 'RxCoreLocation'
 end
 
 def pods_di
-    pod 'Dip', '~> 6.1'
-    pod 'Dip-UI', '~> 2.0'
+    pod 'Dip'#, '~> 6.1'
+    pod 'Dip-UI'#, '~> 2.0'
 end
 
 def pods_io
@@ -57,9 +58,9 @@ end
 
 # test logical pods groups
 def pods_tests_rx
-    pod 'RxSwift', $rx_swift_version
-    pod 'RxBlocking', $rx_swift_version
-    pod 'RxTest', $rx_swift_version
+    pod 'RxSwift'#, $rx_swift_version
+    pod 'RxBlocking'#, $rx_swift_version
+    pod 'RxTest'#, $rx_swift_version
 end
 
 target 'Bicycle' do
