@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5F44845933FDA5DA5A83CA8E /* Pods_Bicycle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0378968870651D61783FB57F /* Pods_Bicycle.framework */; };
+		BE0E70BC215D7EAD001D0EA5 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BE0E70BB215D7EAD001D0EA5 /* Settings.bundle */; };
 		BE1131DB1FA12CD50040C374 /* BICHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1131DA1FA12CD50040C374 /* BICHomeViewModel.swift */; };
 		BE19002C214F0B7300DDCF91 /* BICContractDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE19002B214F0B7300DDCF91 /* BICContractDto.swift */; };
 		BE1F2FFE21503D4D0094D2DD /* BICContract+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1F2FFC21503D4D0094D2DD /* BICContract+CoreDataClass.swift */; };
@@ -95,6 +96,7 @@
 		34E11CD0EEF09D2D3E25FC34 /* Pods-BicycleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BicycleUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BicycleUITests/Pods-BicycleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		46ECF8891C47C098947A3A32 /* Pods-BicycleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BicycleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BicycleTests/Pods-BicycleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		492EBDF2E85AA1E6D02A10F2 /* Pods_BicycleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BicycleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE0E70BB215D7EAD001D0EA5 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		BE1131DA1FA12CD50040C374 /* BICHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICHomeViewModel.swift; sourceTree = "<group>"; };
 		BE1131DF1FA137890040C374 /* Toulouse.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Toulouse.gpx; sourceTree = "<group>"; };
 		BE19002B214F0B7300DDCF91 /* BICContractDto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BICContractDto.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				BEBD2310214DAB6B003F5CA0 /* Localizable.stringsdict */,
 				BE2E531C1F9E7A8F00806D3F /* Bicycle.xcdatamodeld */,
 				BE1131DF1FA137890040C374 /* Toulouse.gpx */,
+				BE0E70BB215D7EAD001D0EA5 /* Settings.bundle */,
 			);
 			path = Bicycle;
 			sourceTree = "<group>";
@@ -518,6 +521,7 @@
 			files = (
 				BEFA72A1215C12B600DE1647 /* BICDataPermissionsViewController.xib in Resources */,
 				BEB4AFA421485C63006E8330 /* BICSplashViewController.xib in Resources */,
+				BE0E70BC215D7EAD001D0EA5 /* Settings.bundle in Resources */,
 				BED3D7DD215C19F100FE7893 /* GoogleService-Info.plist in Resources */,
 				BEBD230B214DAB42003F5CA0 /* Localizable.strings in Resources */,
 				BE2E53201F9E7A8F00806D3F /* Assets.xcassets in Resources */,
