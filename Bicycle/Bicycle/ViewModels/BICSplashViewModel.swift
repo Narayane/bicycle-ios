@@ -26,7 +26,7 @@ class StateSplashContracts: SBState {}
 // MARK: Events
 class EventSplashForceUpdate: SBEvent {}
 class EventSplashConfigLoaded: SBEvent {}
-class EventSplashLoadConfigFailed: EventError {}
+class EventSplashLoadConfigFailed: EventFailure {}
 class EventSplashCheckContracts: SBEvent {}
 class EventSplashAvailableContracts: SBEvent {
     var count: Int
@@ -90,7 +90,7 @@ class BICSplashViewModel: SBViewModel {
                     .subscribe(onSuccess: { (count) in
                         self.events.value = EventSplashAvailableContracts(count: count)
                     }, onError: { (error) in
-                        self.events.value = EventError(error)
+                        self.events.value = EventFailure(error)
                     })
             }
         } else {
@@ -102,7 +102,7 @@ class BICSplashViewModel: SBViewModel {
                     .subscribe(onSuccess: { (count) in
                         self.events.value = EventSplashAvailableContracts(count: count)
                     }, onError: { (error) in
-                        self.events.value = EventError(error)
+                        self.events.value = EventFailure(error)
                     })
             }
         }

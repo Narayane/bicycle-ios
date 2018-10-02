@@ -23,16 +23,17 @@ class BICContractRepository {
     private let disposeBag: DisposeBag
     private let appDelegate: AppDelegate
     private let bicycleDataSource: BicycleDataSource
+    private let cityBikesDataSource: CityBikesDataSource
     private let localDataSource: BICLocalDataSource
     private let preferenceRepository: BICPreferenceRepository
     
-    lazy var allContracts = [BICContract]()
     private var cacheStations: Dictionary<String, [BICStation]> = Dictionary()
     
-    init(appDelegate: AppDelegate, bicycleDataSource: BicycleDataSource, localDataSource: BICLocalDataSource, preferenceRepository: BICPreferenceRepository) {
+    init(appDelegate: AppDelegate, bicycleDataSource: BicycleDataSource, cityBikesDataSource: CityBikesDataSource, localDataSource: BICLocalDataSource, preferenceRepository: BICPreferenceRepository) {
         disposeBag = DisposeBag()
         self.appDelegate = appDelegate
         self.bicycleDataSource = bicycleDataSource
+        self.cityBikesDataSource = cityBikesDataSource
         self.localDataSource = localDataSource
         self.preferenceRepository = preferenceRepository
     }
@@ -60,8 +61,7 @@ class BICContractRepository {
                         }
                         let contracts = self.localDataSource.findAllContracts()
                         log.d("\(contracts.count) contracts loaded")
-                        self.allContracts.append(contentsOf: contracts)
-                        return self.allContracts.count
+                        return contracts.count
                     })
                     .subscribe(onSuccess: { (count) in
                         self.preferenceRepository.contractsLastCheckDate = Date()
@@ -101,50 +101,43 @@ class BICContractRepository {
     func getContractCount() -> Single<Int> {
         let contracts: [BICContract] = self.localDataSource.findAllContracts()
         log.d("\(contracts.count) contracts loaded")
-        allContracts.append(contentsOf: contracts)
         return Single.just(contracts.count)
     }
     
-    func getStationsFor(contract: BICContract) -> Single<[BICStation]> {
-        if let contractName = contract.name, let stations = cacheStations[contractName] {
-            log.d("get \(stations.count) stations for contract: \(contractName)")
-            return Observable.from(optional: stations).asSingle()
+    func loadAllContracts() -> Single<[BICContract]> {
+        log.d("get contracts from local")
+        let contracts: [BICContract] = self.localDataSource.findAllContracts()
+        return Single.just(contracts)
+    }
+    
+    func loadStationsBy(contract: BICContract) -> Single<[BICStation]> {
+        guard let name = contract.name else {
+            return Single.error(NSError(domain: "", code: 10000, userInfo: nil))
+        }
+        if cacheStations.keys.contains(where: { $0 == name } ) {
+            return Observable.from(optional: cacheStations[name])
+                .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
+                .asSingle()
         } else {
-            return refreshStationsFor(contract: contract)
+            return reloadStationsBy(contract: contract)
         }
     }
     
-    func refreshStationsFor(contract: BICContract) -> Single<[BICStation]> {
-        return Single.just([]) // FIXME: implement
-        /*return WSFacade.getStationsBy(contract: contract)
-            .do(onSuccess: { (stations) in
-                log.d("refresh \(stations.count) stations for contract: \(contract.name)")
-                self.cacheStations[contract.name] = stations
-            }, onError: { (error) in
-                log.e("fail to get contract stations: \(error.localizedDescription)")
-            })*/
-    }
-    
-    /*func loadStationsFor(contract: BICContract, success: @escaping (_ stations: [BICStation]) -> Void, error: @escaping () -> Void) {
-        if cacheStations.keys.contains(where: { $0 == contract.name } ) {
-            let stations = cacheStations[contract.name]!
-            log.d("find \(stations.count) stations for contract: \(contract.name)")
-            success(stations)
-        } else {
-            WSFacade.getStationsBy(contract: contract, success: { (stations) in
-                self.cacheStations.updateValue(stations, forKey: contract.name)
-                log.d("load \(stations.count) stations for contract: \(contract.name)")
-                success(stations)
-            }) {
-                error()
-            }
+    func reloadStationsBy(contract: BICContract) -> Single<[BICStation]> {
+        guard let name = contract.name, let url = contract.url else {
+            return Single.error(NSError(domain: "", code: 10000, userInfo: nil))
         }
-    }*/
+        return cityBikesDataSource.getStationsBy(url: url).do(onSuccess: { (stations) in
+            self.cacheStations[name] = stations
+        }, onError: { (error) in
+            //log.e("fail to reload contract stations", crashReport.catchException(throwable))
+        })
+    }
     
     func getContract(for coordinate: CLLocationCoordinate2D) -> BICContract? {
         
-        log.v("(\(coordinate.latitude),\(coordinate.longitude))")
-        let filteredList = allContracts.filter { (contract) -> Bool in
+        log.v("(\(coordinate.latitude), \(coordinate.longitude))")
+        let filteredList = self.localDataSource.findAllContracts().filter { (contract) -> Bool in
             return coordinate.isIncludedIn(region: contract.region)
         }
         

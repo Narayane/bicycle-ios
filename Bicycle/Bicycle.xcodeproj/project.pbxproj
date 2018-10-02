@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5F44845933FDA5DA5A83CA8E /* Pods_Bicycle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0378968870651D61783FB57F /* Pods_Bicycle.framework */; };
 		BE0E70BC215D7EAD001D0EA5 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BE0E70BB215D7EAD001D0EA5 /* Settings.bundle */; };
 		BE1131DB1FA12CD50040C374 /* BICHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1131DA1FA12CD50040C374 /* BICHomeViewModel.swift */; };
 		BE19002C214F0B7300DDCF91 /* BICContractDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE19002B214F0B7300DDCF91 /* BICContractDto.swift */; };
@@ -67,8 +66,6 @@
 		BEFA72A1215C12B600DE1647 /* BICDataPermissionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEFA729F215C12B600DE1647 /* BICDataPermissionsViewController.xib */; };
 		BEFA72A3215C130700DE1647 /* BICOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFA72A2215C130700DE1647 /* BICOnboardingViewModel.swift */; };
 		BEFA72A5215C158200DE1647 /* SBAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFA72A4215C158200DE1647 /* SBAnalytics.swift */; };
-		C31C6CA97512CD7CC1210C19 /* Pods_BicycleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 492EBDF2E85AA1E6D02A10F2 /* Pods_BicycleTests.framework */; };
-		D0483A8B003A53B006DCD1AB /* Pods_BicycleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C03DC688BD3CDCC3F05315C3 /* Pods_BicycleUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,13 +86,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0378968870651D61783FB57F /* Pods_Bicycle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bicycle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0FEABFAAB31CB6B0CD330087 /* Pods-BicycleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BicycleUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BicycleUITests/Pods-BicycleUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		12B2CFB9CEBBD114030112AA /* Pods-Bicycle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bicycle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bicycle/Pods-Bicycle.debug.xcconfig"; sourceTree = "<group>"; };
-		1CAD1B6BDFD0D3017930ED1B /* Pods-Bicycle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bicycle.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bicycle/Pods-Bicycle.release.xcconfig"; sourceTree = "<group>"; };
-		34E11CD0EEF09D2D3E25FC34 /* Pods-BicycleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BicycleUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BicycleUITests/Pods-BicycleUITests.release.xcconfig"; sourceTree = "<group>"; };
-		46ECF8891C47C098947A3A32 /* Pods-BicycleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BicycleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BicycleTests/Pods-BicycleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		492EBDF2E85AA1E6D02A10F2 /* Pods_BicycleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BicycleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE0E70BB215D7EAD001D0EA5 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		BE1131DA1FA12CD50040C374 /* BICHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICHomeViewModel.swift; sourceTree = "<group>"; };
 		BE1131DF1FA137890040C374 /* Toulouse.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Toulouse.gpx; sourceTree = "<group>"; };
@@ -164,8 +154,6 @@
 		BEFA729F215C12B600DE1647 /* BICDataPermissionsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BICDataPermissionsViewController.xib; sourceTree = "<group>"; };
 		BEFA72A2215C130700DE1647 /* BICOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICOnboardingViewModel.swift; sourceTree = "<group>"; };
 		BEFA72A4215C158200DE1647 /* SBAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBAnalytics.swift; sourceTree = "<group>"; };
-		C03DC688BD3CDCC3F05315C3 /* Pods_BicycleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BicycleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E6A0BFDF08487DC92DD9792A /* Pods-BicycleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BicycleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BicycleTests/Pods-BicycleTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,7 +161,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F44845933FDA5DA5A83CA8E /* Pods_Bicycle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,7 +168,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C31C6CA97512CD7CC1210C19 /* Pods_BicycleTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,36 +175,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0483A8B003A53B006DCD1AB /* Pods_BicycleUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		59ABEA8FFBE8B5483BF1ED3E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				12B2CFB9CEBBD114030112AA /* Pods-Bicycle.debug.xcconfig */,
-				1CAD1B6BDFD0D3017930ED1B /* Pods-Bicycle.release.xcconfig */,
-				46ECF8891C47C098947A3A32 /* Pods-BicycleTests.debug.xcconfig */,
-				E6A0BFDF08487DC92DD9792A /* Pods-BicycleTests.release.xcconfig */,
-				0FEABFAAB31CB6B0CD330087 /* Pods-BicycleUITests.debug.xcconfig */,
-				34E11CD0EEF09D2D3E25FC34 /* Pods-BicycleUITests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		6210E82E13A22FAC8C685A2D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				0378968870651D61783FB57F /* Pods_Bicycle.framework */,
-				492EBDF2E85AA1E6D02A10F2 /* Pods_BicycleTests.framework */,
-				C03DC688BD3CDCC3F05315C3 /* Pods_BicycleUITests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		BE1131D91FA12CBC0040C374 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,8 +235,6 @@
 				BE2E532C1F9E7A8F00806D3F /* BicycleTests */,
 				BE2E53371F9E7A8F00806D3F /* BicycleUITests */,
 				BE2E53131F9E7A8F00806D3F /* Products */,
-				59ABEA8FFBE8B5483BF1ED3E /* Pods */,
-				6210E82E13A22FAC8C685A2D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -353,11 +313,19 @@
 			path = Widgets;
 			sourceTree = "<group>";
 		};
-		BEE87AE01F9FDF4B00BBE819 /* Views */ = {
+		BED2ADBA2160CFAA007BD684 /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				BEE87AE11F9FDF8000BBE819 /* BICHomeViewController.swift */,
 				BEE87AE21F9FDF8000BBE819 /* BICHomeViewController.xib */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		BEE87AE01F9FDF4B00BBE819 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BED2ADBA2160CFAA007BD684 /* Home */,
 				BEB4AFA121485C63006E8330 /* BICSplashViewController.swift */,
 				BEB4AFA221485C63006E8330 /* BICSplashViewController.xib */,
 				BEFA729E215C12B600DE1647 /* BICDataPermissionsViewController.swift */,
@@ -412,12 +380,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BE2E533D1F9E7A8F00806D3F /* Build configuration list for PBXNativeTarget "Bicycle" */;
 			buildPhases = (
-				E5315233EE2FAF01220BCFE4 /* [CP] Check Pods Manifest.lock */,
 				BE2E530E1F9E7A8F00806D3F /* Sources */,
 				BE2E530F1F9E7A8F00806D3F /* Frameworks */,
 				BE2E53101F9E7A8F00806D3F /* Resources */,
 				BEFA72A6215C16DE00DE1647 /* Crashlytics */,
-				43473DA6AAE10446A521B011 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -432,11 +398,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BE2E53401F9E7A8F00806D3F /* Build configuration list for PBXNativeTarget "BicycleTests" */;
 			buildPhases = (
-				FE63FBB227E81F0E89556CCC /* [CP] Check Pods Manifest.lock */,
 				BE2E53251F9E7A8F00806D3F /* Sources */,
 				BE2E53261F9E7A8F00806D3F /* Frameworks */,
 				BE2E53271F9E7A8F00806D3F /* Resources */,
-				42AB79B91672E708D850376F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -452,7 +416,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BE2E53431F9E7A8F00806D3F /* Build configuration list for PBXNativeTarget "BicycleUITests" */;
 			buildPhases = (
-				CC5D1796A717554A5080CFF6 /* [CP] Check Pods Manifest.lock */,
 				BE2E53301F9E7A8F00806D3F /* Sources */,
 				BE2E53311F9E7A8F00806D3F /* Frameworks */,
 				BE2E53321F9E7A8F00806D3F /* Resources */,
@@ -549,78 +512,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		42AB79B91672E708D850376F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BicycleTests/Pods-BicycleTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Mockit/Mockit.framework",
-				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
-				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mockit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BicycleTests/Pods-BicycleTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		43473DA6AAE10446A521B011 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Bicycle/Pods-Bicycle-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/AlamofireObjectMapper/AlamofireObjectMapper.framework",
-				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
-				"${BUILT_PRODUCTS_DIR}/Dip/Dip.framework",
-				"${BUILT_PRODUCTS_DIR}/Dip-UI/Dip_UI.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework",
-				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
-				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
-				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCoreLocation/RxCoreLocation.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
-				"${BUILT_PRODUCTS_DIR}/Toaster/Toaster.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireObjectMapper.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Dip.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Dip_UI.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MaterialComponents.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCoreLocation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyBeaver.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toaster.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bicycle/Pods-Bicycle-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		BEFA72A6215C16DE00DE1647 /* Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -634,60 +525,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
-		};
-		CC5D1796A717554A5080CFF6 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BicycleUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E5315233EE2FAF01220BCFE4 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Bicycle-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FE63FBB227E81F0E89556CCC /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BicycleTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -922,7 +759,6 @@
 		};
 		BE2E533E1F9E7A8F00806D3F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 12B2CFB9CEBBD114030112AA /* Pods-Bicycle.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -938,7 +774,6 @@
 		};
 		BE2E533F1F9E7A8F00806D3F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1CAD1B6BDFD0D3017930ED1B /* Pods-Bicycle.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -954,7 +789,6 @@
 		};
 		BE2E53411F9E7A8F00806D3F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 46ECF8891C47C098947A3A32 /* Pods-BicycleTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -972,7 +806,6 @@
 		};
 		BE2E53421F9E7A8F00806D3F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6A0BFDF08487DC92DD9792A /* Pods-BicycleTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -990,7 +823,6 @@
 		};
 		BE2E53441F9E7A8F00806D3F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0FEABFAAB31CB6B0CD330087 /* Pods-BicycleUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1007,7 +839,6 @@
 		};
 		BE2E53451F9E7A8F00806D3F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 34E11CD0EEF09D2D3E25FC34 /* Pods-BicycleUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;

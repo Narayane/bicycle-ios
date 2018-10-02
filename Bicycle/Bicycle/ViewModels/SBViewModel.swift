@@ -22,7 +22,7 @@ import RxSwift
 open class SBState {}
 open class SBEvent {}
 // MARK: Events
-open class EventError: SBEvent {
+open class EventFailure: SBEvent {
     var error: Error
     init(_ error: Error) {
         self.error = error

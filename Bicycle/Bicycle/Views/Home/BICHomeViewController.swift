@@ -31,92 +31,40 @@ class BICHomeViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var buttonCenterOnUserLocation: UIButton!
+    @IBOutlet weak var bottomSheetView: UIView!
+    @IBOutlet weak var bottomSheetTitle: UILabel!
+    @IBOutlet weak var bottomSheetSubtitle: UILabel!
+    @IBOutlet weak var bottomSheetAvailableBikesCount: UILabel!
+    @IBOutlet weak var bottomSheetFreeStandsCount: UILabel!
+    
+    @IBOutlet weak var constraintBottomSheetViewTop: NSLayoutConstraint!
     
     var viewModelMap: BICMapViewModel?
     var viewModelHome: BICHomeViewModel?
     
     private let disposeBag = DisposeBag()
     
-    private var clusteringManager: ClusterManager
+    private var clusterContracts: ClusterManager = ClusterManager()
+    private var clusterStations: ClusterManager = ClusterManager()
     private var timer: Timer?
     private let queueMain = DispatchQueue.main
     private let queueComputation = DispatchQueue.global(qos: .userInitiated)
     
     private var annotations: [MKAnnotation]?
     
-    private var searchCompleter = MKLocalSearchCompleter()
-    private var searchResults = [MKLocalSearchCompletion]()
-    
-    // MARK: - Constructors
-    
-    init() {
-        self.clusteringManager = ClusterManager()
-        super.init(nibName: "BICHomeViewController", bundle: nil)
-        //clusteringManager?.zoomLevel = BICConstants.CLUSTERING_ZOOM_LEVEL_START
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        self.clusteringManager = ClusterManager()
-        super.init(coder: aDecoder)
-    }
-    
-    // MARK: - Controller Lifecycle
-    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "Bicycle"
-        //buttonCenterOnUserLocation.setImage(#imageLiteral(resourceName: "BICIconLocation").resizeTo(width: 30, height: 30), for: .normal)
+        /*clusterContracts.zoomLevel = BICConstants.CLUSTERING_ZOOM_LEVEL_START
+        clusterStations.zoomLevel = BICConstants.CLUSTERING_ZOOM_LEVEL_START*/
+        initLayout()
+        observeStates()
+        observeEvents()
+        observeUserLocation()
         
-        viewModelHome?.hasCurrentContractChanged.asObservable().subscribe { (event) in
-            if let hasChanged = event.element!, !hasChanged {
-                log.v("current contract has not changed")
-                self.queueMain.async {
-                    self.clusteringManager.reload(mapView: self.mapView)
-                }
-            }
-        }.disposed(by: self.disposeBag)
-        viewModelHome?.currentContract.asObservable().subscribe { (event) in
-            if let contract = event.element! {
-                self.stopTimer()
-                self.viewModelHome?.refreshContractStations(contract)
-                self.startTimer()
-            } else {
-                log.d("current region is out of contracts covers")
-                self.stopTimer()
-            }
-        }.disposed(by: self.disposeBag)
-        viewModelHome?.currentStations.asObservable().subscribe { (event) in
-            if let annotations = self.annotations {
-                self.queueMain.async {
-                    self.mapView.removeAnnotations(annotations)
-                }
-                self.annotations = nil
-                self.clusteringManager.removeAll()
-            }
-            self.annotations = event.element!?.map({ (station) -> BICStationAnnotation in
-                let annotation = BICStationAnnotation()
-                annotation.coordinate = station.coordinate!
-                annotation.title = station.name!
-                annotation.freeCount = station.freeCount
-                annotation.bikesCount = station.bikesCount
-                return annotation
-            })
-            guard let annotations = self.annotations else { return }
-            self.clusteringManager.add(annotations)
-            self.queueMain.async {
-                self.clusteringManager.reload(mapView: self.mapView)
-            }
-        }.disposed(by: self.disposeBag)
-        viewModelMap?.userLocation.asObservable().subscribe { (event) in
-            if let _ = event.element {
-                self.mapView.showsUserLocation = true
-                self.centerOnUserLocation()
-            } else {
-                self.mapView.showsUserLocation = false
-            }
-        }.disposed(by: disposeBag)
-        viewModelMap?.isLocationAuthorizationDenied.asDriver().drive(buttonCenterOnUserLocation.rx.isHidden).disposed(by: disposeBag)
+        launch {
+            viewModelMap?.isLocationAuthorizationDenied.asDriver().drive(buttonCenterOnUserLocation.rx.isHidden)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -129,9 +77,9 @@ class BICHomeViewController: UIViewController {
     }
     
     // MARK: UI Events
-    
     @IBAction func onMapTouched(_ sender: UITapGestureRecognizer) {
         log.i("touch map")
+        hideBottomSheet()
     }
     
     @IBAction func onCenterOnUserLocationButtonTouched(_ sender: UIButton) {
@@ -140,14 +88,13 @@ class BICHomeViewController: UIViewController {
     }
     
     // MARK: Timer
-    
     private func startTimer() {
         if timer == nil {
             log.d("start timer")
             timer = Timer.scheduledTimer(withTimeInterval: BICConstants.TIME_BEFORE_REFRESH_DATA_IN_SECONDS, repeats: true, block: { _ in
                 log.d("timer fired: \(String(describing: self.timer?.fireDate.format(format: "hh:mm:ss")))")
-                if let current = self.viewModelHome?.currentContract.value {
-                    self.viewModelHome?.refreshContractStations(current)
+                if let current = self.viewModelHome?.currentContract {
+                    self.viewModelHome?.refreshStationsFor(contract: current)
                 }
             })
         }
@@ -162,7 +109,6 @@ class BICHomeViewController: UIViewController {
     }
     
     // MARK: Annotations
-    
     private func centerOnUserLocation() {
         if let existingUserLocation = viewModelMap?.userLocation.value {
             log.i("center on user location")
@@ -175,16 +121,17 @@ class BICHomeViewController: UIViewController {
         let level = mapView.zoomLevel
         log.d("current zoom level: \(level)")
         if level >= 10 {
-            self.deleteContractsAnnotations()
+            deleteContractsAnnotations()
             self.viewModelHome?.determineCurrentContract(region: self.mapView.region)
         } else {
-            self.viewModelHome?.currentContract.value = nil
+            self.viewModelHome?.currentContract = nil
             stopTimer()
-            createContractsAnnotations()
+            //createContractsAnnotations()
+            self.viewModelHome?.getAllContracts()
         }
     }
     
-    private func createContractsAnnotations() {
+    /*private func createContractsAnnotations() {
         queueComputation.async {
             self.annotations = self.viewModelHome?.getAllContracts().map({ (contract) -> BICContractAnnotation in
                 let annotation = BICContractAnnotation()
@@ -197,36 +144,149 @@ class BICHomeViewController: UIViewController {
                 log.v("create \(annotations.count) contract annotations")
                 self.queueMain.async {
                     log.v("empty clustering manager")
-                    self.clusteringManager.reload(mapView: self.mapView)
+                    self.clusterStations.reload(mapView: self.mapView)
                     log.v("draw contracts annotations")
                     self.mapView.addAnnotations(annotations)
                 }
             }
         }
-    }
+    }*/
     
     private func deleteContractsAnnotations() {
-        queueComputation.async {
-            let count = self.clusteringManager.annotations.count
-            if count > 0 {
-                if let annotations = self.annotations {
-                    log.v("remove \(annotations.count) existing station annotations")
-                    self.clusteringManager.removeAll()
-                    self.annotations = nil
+        let count = self.clusterContracts.annotations.count
+        if count > 0 {
+            log.v("delete \(count) existing contract annotations")
+            self.clusterStations.removeAll()
+        }
+    }
+    
+    // MARK: Fileprivate methods
+    fileprivate func showBottomSheet() {
+        if constraintBottomSheetViewTop.constant == 0 {
+            constraintBottomSheetViewTop.constant = bottomSheetView.frame.height
+            UIView.animate(withDuration: 0, animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        }
+    }
+    
+    fileprivate func hideBottomSheet() {
+        if constraintBottomSheetViewTop.constant > 0 {
+            constraintBottomSheetViewTop.constant = 0
+            UIView.animate(withDuration: 0, animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        }
+    }
+    
+    fileprivate func initLayout() {
+        navigationItem.title = "Bicycle"
+        //buttonCenterOnUserLocation.setImage(#imageLiteral(resourceName: "BICIconLocation").resizeTo(width: 30, height: 30), for: .normal)
+    }
+    
+    fileprivate func observeStates() {
+        launch {
+            viewModelHome?.states.asObservable().observeOn(MainScheduler.instance).subscribe { (rx) in
+                guard let state = rx.element else { return }
+                log.v("state -> \(String(describing: type(of: state)))")
+                switch (state) {
+                case is StateShowContracts:
+                    //fabContractZoom.visibility = View.INVISIBLE
+                    break
+                case is StateShowStations:
+                    //fabContractZoom.visibility = View.GONE
+                    break
+                default: break
+                }
+            }
+        }
+    }
+    
+    fileprivate func observeEvents() {
+        launch {
+            viewModelHome?.events.asObservable().observeOn(MainScheduler.instance).subscribe({ (rx) in
+                guard let event = rx.element else { return }
+                log.v("event -> \(String(describing: type(of: event)))")
+                switch event {
+                case is EventContractList:
+                    guard let event = event as? EventContractList else { return }
+                    self.clusterContracts.removeAll()
+                    self.hideBottomSheet()
+                    let annotations = event.contracts.map({ (contract) -> BICContractAnnotation in
+                        let annotation = BICContractAnnotation()
+                        annotation.coordinate = contract.center
+                        annotation.title = contract.name
+                        annotation.region = contract.region
+                        return annotation
+                    })
+                    self.clusterContracts.add(annotations)
+                    self.clusterContracts.reload(mapView: self.mapView)
+                case is EventOutOfAnyContract:
+                    log.d("current bounds is out of contracts cover")
+                    self.stopTimer()
+                case is EventNewContract:
+                    guard let event = event as? EventNewContract else { return }
+                    self.stopTimer()
+                    log.d("refresh contract stations: ${it.current.name})")
+                    // refresh current contract stations data
+                    self.viewModelHome?.getStationsFor(contract: event.contract)
+                    self.startTimer()
+                case is EventSameContract:
+                    log.v("current contract has not changed")
+                    // reload clustering
+                    self.clusterStations.reload(mapView: self.mapView)
+                case is EventStationList:
+                    guard let event = event as? EventStationList else { return }
+                    self.clusterStations.removeAll()
+                    self.hideBottomSheet()
+                    let annotations = event.stations.map({ (station) -> BICStationAnnotation in
+                        let annotation = BICStationAnnotation()
+                        annotation.coordinate = station.coordinate!
+                        annotation.title = station.name!
+                        annotation.freeCount = station.freeCount
+                        annotation.bikesCount = station.bikesCount
+                        return annotation
+                    })
+                    self.clusterStations.add(annotations)
+                    self.clusterStations.reload(mapView: self.mapView)
+                case is EventFailure:
+                    if let currentState = self.viewModelHome?.states.value {
+                        switch currentState {
+                        case is StateShowContracts:
+                            self.clusterContracts.removeAll()
+                            self.hideBottomSheet()
+                            //TODO: display error message
+                        case is StateShowStations:
+                            self.clusterStations.removeAll()
+                            self.hideBottomSheet()
+                            //showErrorForCurrentContractStation()
+                        default: break
+                        }
+                    }
+                default: break
+                }
+            })
+        }
+    }
+    
+    fileprivate func observeUserLocation() {
+        launch {
+            viewModelMap?.userLocation.asObservable().subscribe { (event) in
+                if let _ = event.element {
+                    self.mapView.showsUserLocation = true
+                    self.centerOnUserLocation()
+                } else {
+                    self.mapView.showsUserLocation = false
                 }
             }
         }
     }
 }
 
-// MARK: -
-
+// MARK: - MKMapViewDelegate
 extension BICHomeViewController: MKMapViewDelegate {
     
-    // MARK: MKMapViewDelegate
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        
         guard !(annotation is MKUserLocation) else {
             return nil
         }
@@ -237,7 +297,7 @@ extension BICHomeViewController: MKMapViewDelegate {
             annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: CONTRACT_CELL_REUSE_ID)
             if annotationView == nil {
                 annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: CONTRACT_CELL_REUSE_ID)
-                annotationView?.canShowCallout = true
+                annotationView?.canShowCallout = false
                 annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
                 annotationView?.image = #imageLiteral(resourceName: "BICImgContract").resizeTo(width: 64, height: 64)
                 annotationView?.centerOffset = CGPoint(x: 0.0, y:-(annotationView!.image!.size.height / 2))
@@ -256,7 +316,7 @@ extension BICHomeViewController: MKMapViewDelegate {
             annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: STATION_CELL_REUSE_ID)
             if annotationView == nil {
                 annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: STATION_CELL_REUSE_ID)
-                annotationView?.canShowCallout = true
+                annotationView?.canShowCallout = false
             } else {
                 annotationView?.annotation = annotation
             }
@@ -276,14 +336,12 @@ extension BICHomeViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
         guard !(view.annotation is MKUserLocation) else {
             return
         }
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        
         guard !(view.annotation is MKUserLocation) else {
             return
         }
@@ -301,67 +359,5 @@ extension BICHomeViewController: MKMapViewDelegate {
     }
 }
 
-//MARK: - StoryboardInstantiatable
+// MARK: - StoryboardInstantiatable
 extension BICHomeViewController: StoryboardInstantiatable {}
-
-// MARK: -
-
-/*extension BICHomeViewController: CLLocationManagerDelegate {
-    
-    // MARK: CLLocationManagerDelegate
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .notDetermined:
-            log.d("notDetermined")
-            buttonCenterOnUserLocation.isHidden = true
-            buttonDepartureUserLocation.isHidden = true
-            buttonArrivalUserLocation.isHidden = true
-            break
-        case .restricted:
-            log.d("restricted")
-            buttonCenterOnUserLocation.isHidden = true
-            buttonDepartureUserLocation.isHidden = true
-            buttonArrivalUserLocation.isHidden = true
-            break
-        case .denied:
-            log.d("denied")
-            buttonCenterOnUserLocation.isHidden = true
-            buttonDepartureUserLocation.isHidden = true
-            buttonArrivalUserLocation.isHidden = true
-            refreshAnnotations()
-            break
-        case .authorizedAlways:
-            log.d("authorizedAlways")
-            buttonCenterOnUserLocation.isHidden = false
-            buttonDepartureUserLocation.isHidden = false
-            buttonArrivalUserLocation.isHidden = false
-            locationManager?.startUpdatingLocation()
-            break
-        case .authorizedWhenInUse:
-            log.d("authorizedWhenInUse")
-            buttonCenterOnUserLocation.isHidden = false
-            buttonDepartureUserLocation.isHidden = false
-            buttonArrivalUserLocation.isHidden = false
-            locationManager?.startUpdatingLocation()
-            break
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        userLocation = locations.first!
-        if let location = userLocation {
-            log.d("user location updated to \(location.coordinate.latitude),\(location.coordinate.longitude)")
-            mapView.showsUserLocation = true
-            locationManager?.stopUpdatingLocation()
-            locationManager = nil
-            centerOnUserLocation()
-        } else {
-            mapView.showsUserLocation = true
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        log.e("fail to determine user location: \(error.localizedDescription)")
-    }
-}*/

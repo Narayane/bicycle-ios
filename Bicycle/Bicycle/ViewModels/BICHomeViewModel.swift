@@ -19,69 +19,105 @@ import RxCocoa
 import RxSwift
 import MapKit
 
-class BICHomeViewModel {
+// MARK: States
+class StateShowContracts: SBState {}
+class StateShowStations: SBState {}
+
+// MARK: Events
+class EventOutOfAnyContract: SBEvent {}
+class EventNewContract: SBEvent {
+    var contract: BICContract
+    init(contract: BICContract) {
+        self.contract = contract
+    }
+}
+class EventSameContract: SBEvent {}
+class EventContractList: SBEvent {
+    var contracts: [BICContract]
+    init(contracts: [BICContract]) {
+        self.contracts = contracts
+    }
+}
+class EventStationList: SBEvent {
+    var stations: [BICStation]
+    init(stations: [BICStation]) {
+        self.stations = stations
+    }
+}
+
+class BICHomeViewModel: SBViewModel {
     
-    private let disposeBag = DisposeBag()
+    private let contractRepository: BICContractRepository
     
-    private let contractService: BICContractRepository
+    var currentContract: BICContract? = nil
     
-    var currentContract: Variable<BICContract?>
-    var hasCurrentContractChanged: Variable<Bool?>
-    var currentStations: Variable<[BICStation]?>
-    
-    init(contractService: BICContractRepository) {
-        self.contractService = contractService
-        self.currentContract = Variable(nil)
-        self.hasCurrentContractChanged = Variable(nil)
-        self.currentStations = Variable(nil)
+    init(contractRepository: BICContractRepository) {
+        self.contractRepository = contractRepository
     }
     
-    func getAllContracts() -> [BICContract] {
-        return self.contractService.allContracts
+    // MARK: Public methods
+    func getAllContracts() {
+        states.value = StateShowContracts()
+        currentContract = nil
+        launch {
+            contractRepository.loadAllContracts()
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { (contracts) in
+                    self.events.value = EventContractList(contracts: contracts)
+                }, onError: { (error) in
+                    self.events.value = EventFailure(error)
+                })
+        }
     }
     
-    func refreshContractStations(_ contract: BICContract) {
-        log.d(String(format: "refresh contract stations: %@ (%@)", contract.name!))
-        contractService.getStationsFor(contract: contract).subscribe(onSuccess: { (stations) in
-            self.currentStations.value = stations
-        }) { (error) in
-            self.currentStations.value = nil
-        }.disposed(by: disposeBag)
-        /*BICStationService.shared.loadStationsFor(contract: contract, success: { (stations) in
-            self.createAnnotationsFor(stations: stations)
-        }, error: {
-            self.queueMain.async {
-                Toast.init(text: NSLocalizedString("bic_dialogs_message_stations_data_not_loaded", comment: ""), delay: 0, duration: 5).show()
-            }
-        })*/
+    func getStationsFor(contract: BICContract) {
+        states.value = StateShowStations()
+        launch {
+            contractRepository.loadStationsBy(contract: contract)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { (stations) in
+                    self.events.value = EventStationList(stations: stations)
+                }, onError: { (error) in
+                    self.events.value = EventFailure(error)
+                })
+        }
+    }
+    
+    func refreshStationsFor(contract: BICContract) {
+        launch {
+            contractRepository.reloadStationsBy(contract: contract)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { (stations) in
+                    self.events.value = EventStationList(stations: stations)
+                }, onError: { (error) in
+                    self.events.value = EventFailure(error)
+                })
+        }
     }
     
     func determineCurrentContract(region: MKCoordinateRegion) {
         
         var invalidateCurrentContract = false
         var hasChanged = false
-        var current = currentContract.value
+        var current: BICContract? = nil
         
-        if let currentRegion = current?.region, !currentRegion.intersect(region) {
+        if let intersected = currentContract?.region.intersect(region), !intersected {
             invalidateCurrentContract = true
-            hasChanged = true
-            current = nil
         }
         
-        if (current == nil || invalidateCurrentContract) {
-            current = self.contractService.getContract(for: region.center)
-            hasChanged = hasChanged || current != nil
+        if (currentContract == nil || invalidateCurrentContract) {
+            current = self.contractRepository.getContract(for: region.center)
+            hasChanged = current != nil
         }
         
-        hasCurrentContractChanged.value = hasChanged
-        if (currentContract.value != nil && current != nil) {
-            if (currentContract.value! != current!) {
-                // current has changed
-                currentContract.value = current
-            }
+        if (current != nil && hasChanged)  {
+            currentContract = current
+            events.value = EventNewContract(contract: current!)
+        } else if (currentContract != nil && !invalidateCurrentContract) {
+            events.value = EventSameContract()
         } else {
-            // someone is null
-            currentContract.value = current
+            currentContract = nil
+            events.value = EventOutOfAnyContract()
         }
     }
 }

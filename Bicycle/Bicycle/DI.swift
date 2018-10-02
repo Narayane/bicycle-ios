@@ -17,26 +17,31 @@
 import Foundation
 import Dip
 import Dip_UI
+import CoreLocation
 
 extension DependencyContainer {
     
     func configure() {
         registerCommonModule()
         registerOnboardingModule()
+        registerHomeModule()
     }
     
     private func registerCommonModule() {
         
         self.register(.singleton) { UIApplication.shared.delegate as! AppDelegate }
         
+        // singleton
+        self.register(.singleton) { UserDefaults.standard }
+        self.register(.singleton) { CLLocationManager() }
+        
         // data source
         self.register(.singleton) { BICLocalDataSource() }
         self.register(.singleton) { BicycleDataSource() }
         self.register(.singleton) { CityBikesDataSource() }
-        self.register(.singleton) { UserDefaults.standard }
         
         // repository
-        self.register(.singleton) { try BICContractRepository(appDelegate: self.resolve(), bicycleDataSource: self.resolve(), localDataSource: self.resolve(), preferenceRepository: self.resolve()) }
+        self.register(.singleton) { try BICContractRepository(appDelegate: self.resolve(), bicycleDataSource: self.resolve(), cityBikesDataSource: self.resolve(), localDataSource: self.resolve(), preferenceRepository: self.resolve()) }
         self.register(.singleton) { try BICPreferenceRepository(bicycleDataSource: self.resolve(), userDefaults: self.resolve()) }
         
         // tools
@@ -63,8 +68,8 @@ extension DependencyContainer {
     private func registerHomeModule() {
         
         // view model
-        self.register(.unique) { BICMapViewModel() }
-        self.register(.unique) { try BICHomeViewModel(contractService: self.resolve()) }
+        self.register(.shared) { try BICMapViewModel(locationManager: self.resolve()) }
+        self.register(.unique) { try BICHomeViewModel(contractRepository: self.resolve()) }
         
         // view
         self.register(storyboardType: BICHomeViewController.self, tag: "Home")
