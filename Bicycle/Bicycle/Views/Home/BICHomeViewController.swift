@@ -20,7 +20,7 @@ import RxCocoa
 import RxSwift
 import Cluster
 import Toaster
-import Dip_UI
+import Dip
 
 private let CONSTANT_SEARCH_VIEW_NORMAL_MARGIN_TOP = CGFloat(-180)
 private let STATION_CELL_REUSE_ID = "station_marker"
@@ -112,7 +112,7 @@ class BICHomeViewController: UIViewController {
     private func centerOnUserLocation() {
         if let existingUserLocation = viewModelMap?.userLocation.value {
             log.i("center on user location")
-            let coordinateRegion: MKCoordinateRegion! = MKCoordinateRegionMakeWithDistance(existingUserLocation.coordinate, 1000, 1000)
+            let coordinateRegion: MKCoordinateRegion! = MKCoordinateRegion.init(center: existingUserLocation.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
             mapView.setRegion(coordinateRegion, animated: true)
         }
     }
@@ -227,7 +227,7 @@ class BICHomeViewController: UIViewController {
                 case is EventNewContract:
                     guard let event = event as? EventNewContract else { return }
                     self.stopTimer()
-                    log.d("refresh contract stations: ${it.current.name})")
+                    log.d("refresh contract stations: \(String(describing: event.contract.name))")
                     // refresh current contract stations data
                     self.viewModelHome?.getStationsFor(contract: event.contract)
                     self.startTimer()

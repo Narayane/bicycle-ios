@@ -30,15 +30,14 @@ def pods_analytics
 end
 
 def pods_rx
-    pod 'RxSwift'#, $rx_swift_version
-    pod 'RxCocoa'#, $rx_swift_version
+    pod 'RxSwift'
+    pod 'RxCocoa'
     pod 'RxAlamofire'
     pod 'RxCoreLocation'
 end
 
 def pods_di
-    pod 'Dip'#, '~> 6.1'
-    pod 'Dip-UI'#, '~> 2.0'
+    pod 'Dip'
 end
 
 def pods_io
@@ -48,11 +47,9 @@ end
 def pods_widgets
     pod 'Toaster'
     pod 'Cluster'
-    pod 'MaterialComponents/BottomSheet'
 end
 
 def pods_helpers
-    #pod 'AlamofireActivityLogger'
     pod 'ReachabilitySwift'
 end
 
@@ -75,7 +72,7 @@ target 'Bicycle' do
     target 'BicycleTests' do
         inherit! :search_paths
         pods_tests_rx
-        pod 'Mockit', '~> 1.4'
+        pod 'Mockit'
     end
 
     target 'BicycleUITests' do

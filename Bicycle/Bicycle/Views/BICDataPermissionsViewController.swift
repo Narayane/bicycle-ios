@@ -17,7 +17,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
-import Dip_UI
+import Dip
 
 class BICDataPermissionsViewController: UIViewController {
     

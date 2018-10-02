@@ -16,7 +16,6 @@
 
 import Foundation
 import Dip
-import Dip_UI
 import CoreLocation
 
 extension DependencyContainer {

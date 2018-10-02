@@ -34,9 +34,9 @@ extension UIImage {
         
         // Setup the font attributes that will be later used to dictate how the text should be drawn
         let textFontAttributes = [
-            NSAttributedStringKey.font: font,
-            NSAttributedStringKey.foregroundColor: color,
-            ] as [NSAttributedStringKey : Any]
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: color,
+            ] as [NSAttributedString.Key : Any]
         
         // Put the image into a rectangle as large as the original image
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)

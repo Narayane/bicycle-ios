@@ -118,7 +118,7 @@ extension UIButton {
         }
     }
     
-    func setBackgroundColor(_ color: UIColor, for state: UIControlState) {
+    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
         if let image = self.image(from: color) {
             if self.bgCornerRadius == 0.0 {
                 setBackgroundImage(image, for: state)

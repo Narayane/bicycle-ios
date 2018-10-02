@@ -137,8 +137,10 @@ class BICContractRepository {
     func getContract(for coordinate: CLLocationCoordinate2D) -> BICContract? {
         
         log.v("(\(coordinate.latitude), \(coordinate.longitude))")
-        let filteredList = self.localDataSource.findAllContracts().filter { (contract) -> Bool in
-            return coordinate.isIncludedIn(region: contract.region)
+        let list = self.localDataSource.findAllContracts()
+        let filteredList = list.filter { (contract) -> Bool in
+            contract.name == "Toulouse"
+            //return coordinate.isIncludedIn(region: contract.region)
         }
         
         var contract: BICContract?

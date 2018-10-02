@@ -45,9 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return _hasConnectivity
     }
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        UIApplication.shared.statusBarStyle = .lightContent
         let hexaPrimaryDarkColor = Bundle.main.object(forInfoDictionaryKey: "BICPrimaryDarkColor") as? String
         styleStatusBar(hexaBackgroundColor: hexaPrimaryDarkColor)
         

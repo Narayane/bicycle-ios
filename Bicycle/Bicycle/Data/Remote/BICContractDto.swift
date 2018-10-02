@@ -40,7 +40,7 @@ class BICContractDto: Mappable, Equatable {
     
     var region: MKCoordinateRegion {
         get {
-            return MKCoordinateRegionMakeWithDistance(center, radius * 2, radius * 2)
+            return MKCoordinateRegion.init(center: center, latitudinalMeters: radius * 2, longitudinalMeters: radius * 2)
         }
     }
     

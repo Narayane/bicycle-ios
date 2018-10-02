@@ -30,7 +30,7 @@ extension UINavigationController {
             navigationBar.barTintColor = barTintcolor
             navigationBar.tintColor = tintColor
             if let tintColor = tintColor {
-                navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: tintColor]
+                navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: tintColor]
             }
         }
     }

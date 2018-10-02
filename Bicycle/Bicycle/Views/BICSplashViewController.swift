@@ -17,7 +17,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
-import Dip_UI
+import Dip
 
 class BICSplashViewController: UIViewController {
 
@@ -115,7 +115,7 @@ class BICSplashViewController: UIViewController {
             let alertController = UIAlertController(title: NSLocalizedString("bic_dialogs_title_info", comment: ""), message: NSLocalizedString("bic_messages_info_app_newer_version", comment: ""), preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: NSLocalizedString("bic_actions_upgrade", comment: ""), style: .default, handler: { _ -> Void in
                 let itms: String = "https://itunes.apple.com/app/apple-store/id1139116439?mt=8" //dto.iOSAppStoreUrl!
-                UIApplication.shared.open(URL(string: itms)!, options: [:], completionHandler: { (success) in
+                UIApplication.shared.open(URL(string: itms)!, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: { (success) in
                     self.launchAppStoreApp()
                 })
             }))
@@ -126,3 +126,8 @@ class BICSplashViewController: UIViewController {
 
 //MARK: - StoryboardInstantiatable
 extension BICSplashViewController: StoryboardInstantiatable {}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
+}
