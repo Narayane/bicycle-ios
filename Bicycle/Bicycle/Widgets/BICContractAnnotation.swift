@@ -14,10 +14,25 @@
 //  limitations under the License.
 //
 
-import MapKit
+import Cluster
 
-class BICContractAnnotation : MKPointAnnotation {
+class BICContractAnnotation: Annotation {
     
-    var region: MKCoordinateRegion?
+    let contract: BICContract
     
+    init(contract: BICContract) {
+        self.contract = contract
+        super.init()
+        self.coordinate = contract.center
+    }
+    
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? BICContractAnnotation else { return false }
+        
+        if self === object {
+            return true
+        }
+        
+        return self.contract.center == object.contract.center
+    }
 }

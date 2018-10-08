@@ -83,6 +83,11 @@ target 'Bicycle' do
     post_install do |installer|
         installer.pods_project.targets.each do |target|
             target.build_configurations.each do |config|
+                if ['Cluster','Toaster'].include? target.name
+                    config.build_settings['SWIFT_VERSION'] = '4.0'
+                else
+                    config.build_settings['SWIFT_VERSION'] = '4.2'
+                end
                 if config.name == 'Release'
                     config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Owholemodule' # remove default warning on Xcode 9.4+
                 else

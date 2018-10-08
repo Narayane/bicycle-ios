@@ -34,6 +34,19 @@ class BICStation {
         }
     }
     
+    var displayName: String {
+        get {
+            guard let name = name else { return "-" }
+            return filter(name)
+        }
+    }
+    
+    private func filter(_ value: String) -> String {
+        let regex = try! NSRegularExpression(pattern: "[\\d\\s]*([a-zA-Z](.*)$)", options: [])
+        let matches = regex.matches(in: value, options: [], range: NSRange(location: 0, length: value.utf16.count)) as [NSTextCheckingResult]
+        return (value as NSString).substring(with: matches[0].range(at: 1))
+    }
+    
     /*init(jcdecaux dto: JCDStationDto) {
         name = dto.name
         latitude = dto.latitude

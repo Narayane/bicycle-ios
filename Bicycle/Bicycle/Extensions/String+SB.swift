@@ -22,6 +22,10 @@ extension String {
         return NSLocalizedString(self, comment: "")
     }
     
+    func localized(_ arguments: CVarArg...) -> String {
+        return String(format: self.localized(), arguments: arguments)
+    }
+    
     func boolValue() -> Bool {
         return self == "true"
     }

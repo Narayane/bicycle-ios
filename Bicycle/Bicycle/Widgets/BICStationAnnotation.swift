@@ -16,9 +16,23 @@
 
 import Cluster
 
-class BICStationAnnotation : Annotation {
+class BICStationAnnotation: Annotation {
     
-    var freeCount: Int?
-    var bikesCount: Int?
+    var station: BICStation
     
+    init(station: BICStation) {
+        self.station = station
+        super.init()
+        self.coordinate = station.coordinate!
+    }
+    
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? BICStationAnnotation else { return false }
+        
+        if self === object {
+            return true
+        }
+        
+        return self.station.coordinate == object.station.coordinate
+    }
 }

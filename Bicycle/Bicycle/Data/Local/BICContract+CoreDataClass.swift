@@ -42,4 +42,11 @@ public class BICContract: NSManagedObject {
             return MKCoordinateRegion.init(center: center, latitudinalMeters: radius * 2, longitudinalMeters: radius * 2)
         }
     }
+    
+    var countryName: String? {
+        get {
+            let locale = (Locale.current as NSLocale)
+            return locale.displayName(forKey: .countryCode, value: countryCode!)
+        }
+    }
 }
