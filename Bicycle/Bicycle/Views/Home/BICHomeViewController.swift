@@ -52,7 +52,7 @@ class BICHomeViewController: UIViewController {
     private let queueComputation = DispatchQueue.global(qos: .userInitiated)
     
     private var annotations: [MKAnnotation]?
-    private var selectedAnnotation: MKAnnotation?
+    private var selectedAnnotationView: MKAnnotationView?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -78,8 +78,13 @@ class BICHomeViewController: UIViewController {
     
     // MARK: UI Events
     @IBAction func onMapTouched(_ sender: UITapGestureRecognizer) {
-        log.i("touch map")
-        hideBottomSheet()
+        let tapLocation = sender.location(in: self.view)
+        if let subview = self.view.hitTest(tapLocation, with: nil) {
+            if subview.isKind(of: NSClassFromString("MKNewAnnotationContainerView")!) {
+                log.i("touch map")
+                hideBottomSheet(annotationView: selectedAnnotationView)
+            }
+        }
     }
     
     @IBAction func onCenterOnUserLocationButtonTouched(_ sender: UIButton) {
@@ -162,8 +167,8 @@ class BICHomeViewController: UIViewController {
     fileprivate func showBottomSheet(annotationView: MKAnnotationView) {
         DispatchQueue.main.async {
             
-            if self.selectedAnnotation != nil {
-                guard let selectedAnnotation = self.selectedAnnotation as? Annotation, let touchedAnnotation = annotationView.annotation as? Annotation, !selectedAnnotation.isEqual(touchedAnnotation) else { return }
+            if self.selectedAnnotationView != nil {
+                guard let selectedAnnotation = self.selectedAnnotationView?.annotation as? Annotation, let touchedAnnotation = annotationView.annotation as? Annotation, !selectedAnnotation.isEqual(touchedAnnotation) else { return }
             }
             
             let touchedAnnotation = annotationView.annotation as! Annotation
@@ -182,6 +187,7 @@ class BICHomeViewController: UIViewController {
                 annotationView.centerOffset = CGPoint(x: 0, y:-(image.size.height / 2))
             default: break
             }
+            self.selectedAnnotationView = annotationView
             
             self.refreshBottomSheetLayout(annotation: touchedAnnotation)
             
@@ -203,15 +209,36 @@ class BICHomeViewController: UIViewController {
         }
     }
     
-    fileprivate func hideBottomSheet() {
+    fileprivate func hideBottomSheet(annotationView: MKAnnotationView?) {
         DispatchQueue.main.async {
-            if self.constraintBottomSheetViewTop.constant < 0 {
-                self.constraintBottomSheetViewTop.constant = 0
-                UIView.animate(withDuration: 0.25, animations: {
-                    self.view.layoutIfNeeded()
-                }, completion: { (success) in
-                    self.fabContractZoom.isHidden = true
-                })
+            if let annotationView = self.selectedAnnotationView {
+                let touchedAnnotation = annotationView.annotation as! Annotation
+                switch touchedAnnotation {
+                case is BICContractAnnotation:
+                    annotationView.image = #imageLiteral(resourceName: "BICImgContract").resizeTo(width: 64, height: 64)
+                case let stationAnnotation as BICStationAnnotation:
+                    var image = #imageLiteral(resourceName: "BICImgStation").resizeTo(width: 64, height: 64)
+                    if let bikes = stationAnnotation.station.bikesCount?.description {
+                        image = image.drawText(bikes, at: CGPoint(x: 0, y: 5), font: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize))
+                    }
+                    if let free = stationAnnotation.station.freeCount?.description {
+                        image = image.drawText(free, at: CGPoint(x: 0, y: 30), font: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize))
+                    }
+                    annotationView.image = image
+                    annotationView.centerOffset = CGPoint(x: 0, y:-(image.size.height / 2))
+                    
+                default: break
+                }
+                self.selectedAnnotationView = nil
+                
+                if self.constraintBottomSheetViewTop.constant < 0 {
+                    self.constraintBottomSheetViewTop.constant = 0
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.view.layoutIfNeeded()
+                    }, completion: { (success) in
+                        self.fabContractZoom.isHidden = true
+                    })
+                }
             }
         }
     }
@@ -249,7 +276,7 @@ class BICHomeViewController: UIViewController {
                 case is EventContractList:
                     guard let event = event as? EventContractList else { return }
                     self.clusterContracts.removeAll()
-                    self.hideBottomSheet()
+                    self.hideBottomSheet(annotationView: self.selectedAnnotationView)
                     let annotations = event.contracts.map({ (contract) -> BICContractAnnotation in
                         return BICContractAnnotation(contract: contract)
                     })
@@ -272,7 +299,7 @@ class BICHomeViewController: UIViewController {
                 case is EventStationList:
                     guard let event = event as? EventStationList else { return }
                     self.clusterStations.removeAll()
-                    self.hideBottomSheet()
+                    self.hideBottomSheet(annotationView: self.selectedAnnotationView)
                     let annotations = event.stations.map({ (station) -> BICStationAnnotation in
                         return BICStationAnnotation(station: station)
                     })
@@ -283,11 +310,11 @@ class BICHomeViewController: UIViewController {
                         switch currentState {
                         case is StateShowContracts:
                             self.clusterContracts.removeAll()
-                            self.hideBottomSheet()
+                            self.hideBottomSheet(annotationView: self.selectedAnnotationView)
                             //TODO: display error message
                         case is StateShowStations:
                             self.clusterStations.removeAll()
-                            self.hideBottomSheet()
+                            self.hideBottomSheet(annotationView: self.selectedAnnotationView)
                             //showErrorForCurrentContractStation()
                         default: break
                         }
@@ -374,23 +401,7 @@ extension BICHomeViewController: MKMapViewDelegate {
         guard !(view.annotation is MKUserLocation) else {
             return
         }
-        
-        switch view.annotation {
-        case is BICContractAnnotation:
-            view.image = #imageLiteral(resourceName: "BICImgContract").resizeTo(width: 64, height: 64)
-        case let stationAnnotation as BICStationAnnotation:
-            var image = #imageLiteral(resourceName: "BICImgStation").resizeTo(width: 64, height: 64)
-            if let bikes = stationAnnotation.station.bikesCount?.description {
-                image = image.drawText(bikes, at: CGPoint(x: 0, y: 5), font: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize))
-            }
-            if let free = stationAnnotation.station.freeCount?.description {
-                image = image.drawText(free, at: CGPoint(x: 0, y: 30), font: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize))
-            }
-            view.image = image
-            view.centerOffset = CGPoint(x: 0, y:-(image.size.height / 2))
-            hideBottomSheet()
-        default: break
-        }
+        hideBottomSheet(annotationView: self.selectedAnnotationView)
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
