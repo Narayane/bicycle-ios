@@ -26,6 +26,9 @@ private let CONSTANT_SEARCH_VIEW_NORMAL_MARGIN_TOP = CGFloat(-180)
 private let STATION_CELL_REUSE_ID = "station_marker"
 private let CLUSTER_CELL_REUSE_ID = "cluster_marker"
 private let CONTRACT_CELL_REUSE_ID = "contract_marker"
+let MERCATOR_OFFSET = 268435456.0
+let MERCATOR_RADIUS = 85445659.44705395
+let DEGREES = 180.0
 
 class BICHomeViewController: UIViewController {
     
@@ -53,6 +56,7 @@ class BICHomeViewController: UIViewController {
     
     private var annotations: [MKAnnotation]?
     private var selectedAnnotationView: MKAnnotationView?
+    private var previousZoomLevel: Int?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -93,6 +97,54 @@ class BICHomeViewController: UIViewController {
     }
     
     @IBAction func didContractZoomButtonTouch(_ sender: UIButton) {
+        if let contract = (selectedAnnotationView?.annotation as? BICContractAnnotation)?.contract {
+            let span = self.coordinateSpanWithCenterCoordinate(centerCoordinate: contract.center, zoomLevel: 11)
+            let region = MKCoordinateRegion(center: contract.center, span: span)
+            guard region.center.longitude > -180.00000000 else { return }
+            mapView.setRegion(region, animated: true)
+        }
+    }
+    
+    private func longitudeToPixelSpaceX(longitude:Double)->Double{
+        return round(MERCATOR_OFFSET + MERCATOR_RADIUS * longitude * .pi / DEGREES)
+    }
+    
+    private func latitudeToPixelSpaceY(latitude:Double)->Double{
+        let d = (1 + sin(latitude * .pi / DEGREES)) / (1 - sin(latitude * .pi / DEGREES))
+        return round(MERCATOR_OFFSET - MERCATOR_RADIUS * UIKit.log(d) / 2.0)
+    }
+    
+    private func pixelSpaceXToLongitude(pixelX:Double)->Double{
+        return ((round(pixelX) - MERCATOR_OFFSET) / MERCATOR_RADIUS) * DEGREES / .pi
+    }
+    
+    private func pixelSpaceYToLatitude(pixelY:Double)->Double{
+        return (.pi / 2.0 - 2.0 * atan(exp((round(pixelY) - MERCATOR_OFFSET) / MERCATOR_RADIUS))) * DEGREES / .pi
+    }
+    
+    private func coordinateSpanWithCenterCoordinate(centerCoordinate:CLLocationCoordinate2D, zoomLevel:Double) -> MKCoordinateSpan {
+        // convert center coordiate to pixel space
+        let centerPixelX = longitudeToPixelSpaceX(longitude: centerCoordinate.longitude)
+        let centerPixelY = latitudeToPixelSpaceY(latitude: centerCoordinate.latitude)
+        print(centerCoordinate)
+        // determine the scale value from the zoom level
+        let zoomExponent:Double = 20.0 - zoomLevel
+        let zoomScale:Double = pow(2.0, zoomExponent)
+        // scale the map’s size in pixel space
+        let mapSizeInPixels = self.mapView.bounds.size
+        let scaledMapWidth = Double(mapSizeInPixels.width) * zoomScale
+        let scaledMapHeight = Double(mapSizeInPixels.height) * zoomScale
+        // figure out the position of the top-left pixel
+        let topLeftPixelX = centerPixelX - (scaledMapWidth / 2.0)
+        let topLeftPixelY = centerPixelY - (scaledMapHeight / 2.0)
+        // find delta between left and right longitudes
+        let minLng = pixelSpaceXToLongitude(pixelX: topLeftPixelX)
+        let maxLng = pixelSpaceXToLongitude(pixelX: topLeftPixelX + scaledMapWidth)
+        let longitudeDelta = maxLng - minLng
+        let minLat = pixelSpaceYToLatitude(pixelY: topLeftPixelY)
+        let maxLat = pixelSpaceYToLatitude(pixelY: topLeftPixelY + scaledMapHeight)
+        let latitudeDelta = -1.0 * (maxLat - minLat)
+        return MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
     }
     
     // MARK: Timer
@@ -126,25 +178,40 @@ class BICHomeViewController: UIViewController {
     }
     
     private func refreshAnnotations() {
-        let level = mapView.zoomLevel
-        log.d("current zoom level: \(level)")
-        if level >= 10 {
-            deleteContractsAnnotations()
-            self.viewModelHome?.determineCurrentContract(region: self.mapView.region)
+        let zoomLevel = mapView.zoomLevel
+        log.d("current zoom level: \(zoomLevel)")
+        if let previous = previousZoomLevel {
+            if (zoomLevel != previous) {
+                hideBottomSheet(annotationView: selectedAnnotationView)
+            }
+        }
+        previousZoomLevel = zoomLevel
+        if zoomLevel >= 10 {
+            if !haveStationAnnotations() {
+                log.v("delete contract annotations")
+                clusterContracts.removeAll()
+                clusterContracts.reload(mapView: mapView)
+            }
+            viewModelHome?.determineCurrentContract(region: mapView.region)
         } else {
-            self.viewModelHome?.currentContract = nil
             stopTimer()
-            //createContractsAnnotations()
-            self.viewModelHome?.getAllContracts()
+            if !haveContractAnnotations() {
+                log.v("delete station annotations")
+                clusterStations.removeAll()
+                clusterStations.reload(mapView: mapView)
+                viewModelHome?.getAllContracts()
+            } else {
+                clusterContracts.reload(mapView: mapView)
+            }
         }
     }
     
-    private func deleteContractsAnnotations() {
-        let count = self.clusterContracts.annotations.count
-        if count > 0 {
-            log.v("delete \(count) existing contract annotations")
-            self.clusterStations.removeAll()
-        }
+    private func haveContractAnnotations() -> Bool {
+        return clusterContracts.annotations.count > 0
+    }
+    
+    private func haveStationAnnotations() -> Bool {
+        return clusterStations.annotations.count > 0
     }
     
     // MARK: Fileprivate methods
@@ -275,7 +342,6 @@ class BICHomeViewController: UIViewController {
                 switch event {
                 case is EventContractList:
                     guard let event = event as? EventContractList else { return }
-                    self.clusterContracts.removeAll()
                     self.hideBottomSheet(annotationView: self.selectedAnnotationView)
                     let annotations = event.contracts.map({ (contract) -> BICContractAnnotation in
                         return BICContractAnnotation(contract: contract)
