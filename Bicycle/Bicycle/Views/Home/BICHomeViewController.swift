@@ -26,9 +26,6 @@ private let CONSTANT_SEARCH_VIEW_NORMAL_MARGIN_TOP = CGFloat(-180)
 private let STATION_CELL_REUSE_ID = "station_marker"
 private let CLUSTER_CELL_REUSE_ID = "cluster_marker"
 private let CONTRACT_CELL_REUSE_ID = "contract_marker"
-let MERCATOR_OFFSET = 268435456.0
-let MERCATOR_RADIUS = 85445659.44705395
-let DEGREES = 180.0
 
 class BICHomeViewController: UIViewController {
     
@@ -57,6 +54,7 @@ class BICHomeViewController: UIViewController {
     private var annotations: [MKAnnotation]?
     private var selectedAnnotationView: MKAnnotationView?
     private var previousZoomLevel: Int?
+    private var preventRegionDidChange = false
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -97,54 +95,9 @@ class BICHomeViewController: UIViewController {
     }
     
     @IBAction func didContractZoomButtonTouch(_ sender: UIButton) {
-        if let contract = (selectedAnnotationView?.annotation as? BICContractAnnotation)?.contract {
-            let span = self.coordinateSpanWithCenterCoordinate(centerCoordinate: contract.center, zoomLevel: 11)
-            let region = MKCoordinateRegion(center: contract.center, span: span)
-            guard region.center.longitude > -180.00000000 else { return }
+        if let contract = (selectedAnnotationView?.annotation as? BICContractAnnotation)?.contract, let region = mapView.getRegion(center: contract.center, zoomLevel: 11) {
             mapView.setRegion(region, animated: true)
         }
-    }
-    
-    private func longitudeToPixelSpaceX(longitude:Double)->Double{
-        return round(MERCATOR_OFFSET + MERCATOR_RADIUS * longitude * .pi / DEGREES)
-    }
-    
-    private func latitudeToPixelSpaceY(latitude:Double)->Double{
-        let d = (1 + sin(latitude * .pi / DEGREES)) / (1 - sin(latitude * .pi / DEGREES))
-        return round(MERCATOR_OFFSET - MERCATOR_RADIUS * UIKit.log(d) / 2.0)
-    }
-    
-    private func pixelSpaceXToLongitude(pixelX:Double)->Double{
-        return ((round(pixelX) - MERCATOR_OFFSET) / MERCATOR_RADIUS) * DEGREES / .pi
-    }
-    
-    private func pixelSpaceYToLatitude(pixelY:Double)->Double{
-        return (.pi / 2.0 - 2.0 * atan(exp((round(pixelY) - MERCATOR_OFFSET) / MERCATOR_RADIUS))) * DEGREES / .pi
-    }
-    
-    private func coordinateSpanWithCenterCoordinate(centerCoordinate:CLLocationCoordinate2D, zoomLevel:Double) -> MKCoordinateSpan {
-        // convert center coordiate to pixel space
-        let centerPixelX = longitudeToPixelSpaceX(longitude: centerCoordinate.longitude)
-        let centerPixelY = latitudeToPixelSpaceY(latitude: centerCoordinate.latitude)
-        print(centerCoordinate)
-        // determine the scale value from the zoom level
-        let zoomExponent:Double = 20.0 - zoomLevel
-        let zoomScale:Double = pow(2.0, zoomExponent)
-        // scale the map’s size in pixel space
-        let mapSizeInPixels = self.mapView.bounds.size
-        let scaledMapWidth = Double(mapSizeInPixels.width) * zoomScale
-        let scaledMapHeight = Double(mapSizeInPixels.height) * zoomScale
-        // figure out the position of the top-left pixel
-        let topLeftPixelX = centerPixelX - (scaledMapWidth / 2.0)
-        let topLeftPixelY = centerPixelY - (scaledMapHeight / 2.0)
-        // find delta between left and right longitudes
-        let minLng = pixelSpaceXToLongitude(pixelX: topLeftPixelX)
-        let maxLng = pixelSpaceXToLongitude(pixelX: topLeftPixelX + scaledMapWidth)
-        let longitudeDelta = maxLng - minLng
-        let minLat = pixelSpaceYToLatitude(pixelY: topLeftPixelY)
-        let maxLat = pixelSpaceYToLatitude(pixelY: topLeftPixelY + scaledMapHeight)
-        let latitudeDelta = -1.0 * (maxLat - minLat)
-        return MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
     }
     
     // MARK: Timer
@@ -239,6 +192,8 @@ class BICHomeViewController: UIViewController {
             }
             
             let touchedAnnotation = annotationView.annotation as! Annotation
+            self.mapView.setCenter(touchedAnnotation.coordinate, animated: true)
+            self.preventRegionDidChange = true
             switch touchedAnnotation {
             case is BICContractAnnotation:
                 annotationView.image = #imageLiteral(resourceName: "BICImgContractSelected").resizeTo(width: 64, height: 64)
@@ -312,9 +267,8 @@ class BICHomeViewController: UIViewController {
     
     fileprivate func initLayout() {
         navigationItem.title = "Bicycle"
-        clusterContracts.minCountForClustering = 4
-        clusterStations.minCountForClustering = 8
-        //buttonCenterOnUserLocation.setImage(#imageLiteral(resourceName: "BICIconLocation").resizeTo(width: 30, height: 30), for: .normal)
+        /*clusterContracts.minCountForClustering = 4
+        clusterStations.minCountForClustering = 8*/
     }
     
     fileprivate func observeStates() {
@@ -471,7 +425,7 @@ extension BICHomeViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        log.d("current zoom level: \(mapView.zoomLevel)")
+        guard !preventRegionDidChange else { return preventRegionDidChange = false }
         refreshAnnotations()
     }
     
