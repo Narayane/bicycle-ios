@@ -21,6 +21,8 @@
                 <outlet property="bottomSheetTitle" destination="6mw-J9-kFD" id="sqh-uL-2PE"/>
                 <outlet property="bottomSheetView" destination="jQF-IF-lhp" id="h5J-ls-ysx"/>
                 <outlet property="buttonCenterOnUserLocation" destination="fQT-1x-ZvK" id="Zfk-z5-cKJ"/>
+                <outlet property="constraintBottomSheetViewHeight" destination="ALR-tF-uJw" id="Tio-Tx-fvM"/>
+                <outlet property="constraintBottomSheetViewPaddingBottom" destination="gRU-Kh-GdP" id="a74-5m-OcL"/>
                 <outlet property="constraintBottomSheetViewTop" destination="9kh-jS-ykS" id="UhA-43-3f1"/>
                 <outlet property="fabContractZoom" destination="VO0-bb-iCO" id="V0A-uS-hmZ"/>
                 <outlet property="mapView" destination="cTf-Hg-ErM" id="lbR-ic-0dH"/>

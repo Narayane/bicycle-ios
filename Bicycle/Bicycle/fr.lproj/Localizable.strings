@@ -23,6 +23,7 @@
 "bic_actions_about" = "À propos";
 "bic_actions_validate_choices" = "Valider mes choix";
 "bic_actions_upgrade" = "Mettre à jour";
+"bic_actions_cancel" = "Annuler";
 // dialogs
 "bic_dialogs_title_info" = "Information";
 // messages

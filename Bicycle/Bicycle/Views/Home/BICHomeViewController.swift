@@ -39,6 +39,8 @@ class BICHomeViewController: UIViewController {
     @IBOutlet weak var fabContractZoom: UIButton!
     
     @IBOutlet weak var constraintBottomSheetViewTop: NSLayoutConstraint!
+    @IBOutlet weak var constraintBottomSheetViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var constraintBottomSheetViewPaddingBottom: NSLayoutConstraint!
     
     var viewModelMap: BICMapViewModel?
     var viewModelHome: BICHomeViewModel?
@@ -82,7 +84,8 @@ class BICHomeViewController: UIViewController {
     @IBAction func onMapTouched(_ sender: UITapGestureRecognizer) {
         let tapLocation = sender.location(in: self.view)
         if let subview = self.view.hitTest(tapLocation, with: nil) {
-            if subview.isKind(of: NSClassFromString("MKNewAnnotationContainerView")!) {
+            //if subview.isKind(of: NSClassFromString("MKNewAnnotationContainerView")!) {
+            if subview.isKind(of: MKMapView.self) {
                 log.i("touch map")
                 hideBottomSheet(annotationView: selectedAnnotationView)
             }
@@ -98,6 +101,14 @@ class BICHomeViewController: UIViewController {
         if let contract = (selectedAnnotationView?.annotation as? BICContractAnnotation)?.contract, let region = mapView.getRegion(center: contract.center, zoomLevel: 11) {
             mapView.setRegion(region, animated: true)
         }
+    }
+    
+    @IBAction func didOverflowButtonTouched(sender: UIBarButtonItem) {
+        log.i("click on bar button: overflow")
+        
+        let actionSheet: UIAlertController = launchActionSheet()
+        actionSheet.popoverPresentationController?.barButtonItem = sender
+        present(actionSheet, animated: true, completion: nil)
     }
     
     // MARK: Timer
@@ -168,6 +179,30 @@ class BICHomeViewController: UIViewController {
     }
     
     // MARK: Fileprivate methods
+    fileprivate func launchActionSheet() -> UIAlertController {
+        
+        let actionSettings: UIAlertAction = UIAlertAction(title: "bic_actions_settings".localized(), style: .default) { action -> Void in
+            log.i("clicked on action: settings")
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+        }
+        
+        let actionAbout: UIAlertAction = UIAlertAction(title: "bic_actions_about".localized(), style: .default) { action -> Void in
+            log.i("clicked on action: about")
+            //self.goToAboutScreen()
+        }
+        
+        let cancelAction: UIAlertAction = UIAlertAction(title: "bic_actions_cancel".localized(), style: .cancel) { action -> Void in
+            
+        }
+        
+        let actionSheet: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(actionSettings)
+        actionSheet.addAction(actionAbout)
+        actionSheet.addAction(cancelAction)
+        
+        return actionSheet
+    }
+    
     fileprivate func refreshBottomSheetLayout(annotation: MKAnnotation) {
         switch annotation {
         case let contractAnnotation as BICContractAnnotation:
@@ -223,7 +258,14 @@ class BICHomeViewController: UIViewController {
             }
             
             if self.constraintBottomSheetViewTop.constant == 0 {
-                self.constraintBottomSheetViewTop.constant = self.bottomSheetView.frame.height * -1
+                let height = CGFloat(106)
+                if #available(iOS 11.0, *), let window = UIApplication.shared.keyWindow {
+                    self.constraintBottomSheetViewHeight.constant = height + window.safeAreaInsets.bottom
+                    self.constraintBottomSheetViewPaddingBottom.constant = 8 + window.safeAreaInsets.bottom
+                    self.constraintBottomSheetViewTop.constant = (height + window.safeAreaInsets.bottom) * -1
+                } else {
+                    self.constraintBottomSheetViewTop.constant = height * -1
+                }
                 UIView.animate(withDuration: 0.25, animations: {
                     self.view.layoutIfNeeded()
                 }, completion: nil)
@@ -267,8 +309,7 @@ class BICHomeViewController: UIViewController {
     
     fileprivate func initLayout() {
         navigationItem.title = "Bicycle"
-        /*clusterContracts.minCountForClustering = 4
-        clusterStations.minCountForClustering = 8*/
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "BICIconOverflow"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didOverflowButtonTouched))
     }
     
     fileprivate func observeStates() {
