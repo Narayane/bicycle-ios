@@ -16,7 +16,7 @@
 
 "app_name" = "Bicycle";
 "bic_app_catching" = "Head there by bike";
-"bic_app_version_label" = "%@ (build %d)";
+"bic_app_version_label" = "v%@ (build %@)";
 // actions
 "bic_actions_allow" = "Allow";
 "bic_actions_settings" = "Settings";
@@ -24,6 +24,8 @@
 "bic_actions_validate_choices" = "Validate my choices";
 "bic_actions_upgrade" = "Upgrade";
 "bic_actions_cancel" = "Cancel";
+// commons
+"bic_commons_map" = "Map";
 // dialogs
 "bic_dialogs_title_info" = "Information";
 // messages

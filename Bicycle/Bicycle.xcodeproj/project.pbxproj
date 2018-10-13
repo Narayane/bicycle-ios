@@ -19,6 +19,8 @@
 		BE2E53201F9E7A8F00806D3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE2E531F1F9E7A8F00806D3F /* Assets.xcassets */; };
 		BE2E532E1F9E7A8F00806D3F /* BicycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E532D1F9E7A8F00806D3F /* BicycleTests.swift */; };
 		BE2E53391F9E7A8F00806D3F /* BicycleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E53381F9E7A8F00806D3F /* BicycleUITests.swift */; };
+		BE4637302172940100DBCD0D /* BICAboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE46372E2172940100DBCD0D /* BICAboutViewController.swift */; };
+		BE4637312172940100DBCD0D /* BICAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE46372F2172940100DBCD0D /* BICAboutViewController.xib */; };
 		BE5B5C372149A09D00F1BFB9 /* BICPreferenceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5B5C362149A09D00F1BFB9 /* BICPreferenceRepository.swift */; };
 		BE5B5C392149A7FF00F1BFB9 /* CityBikesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5B5C382149A7FF00F1BFB9 /* CityBikesDataSource.swift */; };
 		BE5B5C3B2149AC8F00F1BFB9 /* BICConfigResponseDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5B5C3A2149AC8F00F1BFB9 /* BICConfigResponseDto.swift */; };
@@ -105,6 +107,8 @@
 		BE2E53341F9E7A8F00806D3F /* BicycleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BicycleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE2E53381F9E7A8F00806D3F /* BicycleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BicycleUITests.swift; sourceTree = "<group>"; };
 		BE2E533A1F9E7A8F00806D3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BE46372E2172940100DBCD0D /* BICAboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICAboutViewController.swift; sourceTree = "<group>"; };
+		BE46372F2172940100DBCD0D /* BICAboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BICAboutViewController.xib; sourceTree = "<group>"; };
 		BE5B5C362149A09D00F1BFB9 /* BICPreferenceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICPreferenceRepository.swift; sourceTree = "<group>"; };
 		BE5B5C382149A7FF00F1BFB9 /* CityBikesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBikesDataSource.swift; sourceTree = "<group>"; };
 		BE5B5C3A2149AC8F00F1BFB9 /* BICConfigResponseDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICConfigResponseDto.swift; sourceTree = "<group>"; };
@@ -330,6 +334,8 @@
 				BEB4AFA221485C63006E8330 /* BICSplashViewController.xib */,
 				BEFA729E215C12B600DE1647 /* BICDataPermissionsViewController.swift */,
 				BEFA729F215C12B600DE1647 /* BICDataPermissionsViewController.xib */,
+				BE46372E2172940100DBCD0D /* BICAboutViewController.swift */,
+				BE46372F2172940100DBCD0D /* BICAboutViewController.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -338,12 +344,12 @@
 			isa = PBXGroup;
 			children = (
 				BE2897482072CB5C00A90BF5 /* AlamofireObjectMapper+Rx.swift */,
-				BE92ED05214C6BF000AB00CC /* RxAlamofire+SB.swift */,
 				BEEAC4651F9E8AD200766469 /* AppDelegate+SB.swift */,
 				BE63E11F1FA3BF66001B8CCB /* CLLocationCoordinate2D+SB.swift */,
 				BE63E1211FA3BF66001B8CCB /* Date+SB.swift */,
 				BE63E1221FA3BF66001B8CCB /* MKCoordinateRegion+SB.swift */,
 				BE63E1201FA3BF66001B8CCB /* MKMapView+SB.swift */,
+				BE92ED05214C6BF000AB00CC /* RxAlamofire+SB.swift */,
 				BED14B2F1F9E9395003FF180 /* String+SB.swift */,
 				BEA6C8251FA11F4500C8EDA9 /* UIButton+SB.swift */,
 				BEEAC4671F9E8B5500766469 /* UIColor+SB.swift */,
@@ -490,6 +496,7 @@
 				BE0E70BC215D7EAD001D0EA5 /* Settings.bundle in Resources */,
 				BED3D7DD215C19F100FE7893 /* GoogleService-Info.plist in Resources */,
 				BEBD230B214DAB42003F5CA0 /* Localizable.strings in Resources */,
+				BE4637312172940100DBCD0D /* BICAboutViewController.xib in Resources */,
 				BE2E53201F9E7A8F00806D3F /* Assets.xcassets in Resources */,
 				BECE6B1A21470F08001831AC /* Contracts.json in Resources */,
 				BEE34E1A2157C4ED0057DA0C /* LaunchScreen.storyboard in Resources */,
@@ -583,6 +590,7 @@
 				BE92ED06214C6BF000AB00CC /* RxAlamofire+SB.swift in Sources */,
 				BEECBB66207D5B5B004EECE1 /* BICContractAnnotation.swift in Sources */,
 				BEE87AE31F9FDF8000BBE819 /* BICHomeViewController.swift in Sources */,
+				BE4637302172940100DBCD0D /* BICAboutViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -699,7 +707,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -755,7 +763,7 @@
 				SB_LOG_LEVEL = debug;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

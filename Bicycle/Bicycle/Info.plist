@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BICPrimaryColor</key>
-	<string>#ab47bc</string>
+	<string>#790e8b</string>
 	<key>BICPrimaryDarkColor</key>
 	<string>#790e8b</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -41,17 +41,17 @@
 				<key>NSTemporaryExceptionMinimumTLSVersion</key>
 				<string>TLSv1.2</string>
 			</dict>
-            <key>googleapis.com</key>
-            <dict>
-                <key>NSExceptionAllowsInsecureHTTPLoads</key>
-                <true/>
-                <key>NSExceptionRequiresForwardSecrecy</key>
-                <false/>
-                <key>NSIncludesSubdomains</key>
-                <true/>
-                <key>NSTemporaryExceptionMinimumTLSVersion</key>
-                <string>TLSv1.2</string>
-            </dict>
+			<key>googleapis.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string>TLSv1.2</string>
+			</dict>
 		</dict>
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>

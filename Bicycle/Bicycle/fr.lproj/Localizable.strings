@@ -16,7 +16,7 @@
 
 "app_name" = "Bicycle";
 "bic_app_catching" = "Allez-y en vélo";
-"bic_app_version_label" = "%@ (build %d)";
+"bic_app_version_label" = "v%@ (build %@)";
 // actions
 "bic_actions_allow" = "Autoriser";
 "bic_actions_settings" = "Réglages";
@@ -24,6 +24,8 @@
 "bic_actions_validate_choices" = "Valider mes choix";
 "bic_actions_upgrade" = "Mettre à jour";
 "bic_actions_cancel" = "Annuler";
+// commons
+"bic_commons_map" = "Carte";
 // dialogs
 "bic_dialogs_title_info" = "Information";
 // messages

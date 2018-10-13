@@ -72,6 +72,7 @@ class BICHomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        navigationItem.title = "app_name".localized()
         viewModelMap?.determineUserLocation()
     }
 
@@ -179,6 +180,12 @@ class BICHomeViewController: UIViewController {
     }
     
     // MARK: Fileprivate methods
+    fileprivate func goToAboutScreen() -> Void {
+        navigationItem.title = "bic_commons_map".localized()
+        let viewController = BICAboutViewController()
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     fileprivate func launchActionSheet() -> UIAlertController {
         
         let actionSettings: UIAlertAction = UIAlertAction(title: "bic_actions_settings".localized(), style: .default) { action -> Void in
@@ -188,7 +195,7 @@ class BICHomeViewController: UIViewController {
         
         let actionAbout: UIAlertAction = UIAlertAction(title: "bic_actions_about".localized(), style: .default) { action -> Void in
             log.i("clicked on action: about")
-            //self.goToAboutScreen()
+            self.goToAboutScreen()
         }
         
         let cancelAction: UIAlertAction = UIAlertAction(title: "bic_actions_cancel".localized(), style: .cancel) { action -> Void in
@@ -308,7 +315,6 @@ class BICHomeViewController: UIViewController {
     }
     
     fileprivate func initLayout() {
-        navigationItem.title = "Bicycle"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "BICIconOverflow"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didOverflowButtonTouched))
     }
     
@@ -335,8 +341,7 @@ class BICHomeViewController: UIViewController {
                 guard let event = rx.element else { return }
                 log.v("event -> \(String(describing: type(of: event)))")
                 switch event {
-                case is EventContractList:
-                    guard let event = event as? EventContractList else { return }
+                case let event as EventContractList:
                     self.hideBottomSheet(annotationView: self.selectedAnnotationView)
                     let annotations = event.contracts.map({ (contract) -> BICContractAnnotation in
                         return BICContractAnnotation(contract: contract)
@@ -346,8 +351,7 @@ class BICHomeViewController: UIViewController {
                 case is EventOutOfAnyContract:
                     log.d("current bounds is out of contracts cover")
                     self.stopTimer()
-                case is EventNewContract:
-                    guard let event = event as? EventNewContract else { return }
+                case let event as EventNewContract:
                     self.stopTimer()
                     log.d("refresh contract stations: \(String(describing: event.contract.name))")
                     // refresh current contract stations data
@@ -357,8 +361,7 @@ class BICHomeViewController: UIViewController {
                     log.v("current contract has not changed")
                     // reload clustering
                     self.clusterStations.reload(mapView: self.mapView)
-                case is EventStationList:
-                    guard let event = event as? EventStationList else { return }
+                case let event as EventStationList:
                     self.clusterStations.removeAll()
                     self.hideBottomSheet(annotationView: self.selectedAnnotationView)
                     let annotations = event.stations.map({ (station) -> BICStationAnnotation in
