@@ -85,8 +85,7 @@ class BICHomeViewController: UIViewController {
     @IBAction func onMapTouched(_ sender: UITapGestureRecognizer) {
         let tapLocation = sender.location(in: self.view)
         if let subview = self.view.hitTest(tapLocation, with: nil) {
-            //if subview.isKind(of: NSClassFromString("MKNewAnnotationContainerView")!) {
-            if subview.isKind(of: MKMapView.self) {
+            if !subview.isKind(of: MKAnnotationView.self) {
                 log.i("touch map")
                 hideBottomSheet(annotationView: selectedAnnotationView)
             }
@@ -137,7 +136,7 @@ class BICHomeViewController: UIViewController {
     private func centerOnUserLocation() {
         if let existingUserLocation = viewModelMap?.userLocation.value {
             log.i("center on user location")
-            let coordinateRegion: MKCoordinateRegion! = MKCoordinateRegion.init(center: existingUserLocation.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
+            let coordinateRegion: MKCoordinateRegion! = MKCoordinateRegion.init(center: existingUserLocation.coordinate, latitudinalMeters: 750, longitudinalMeters: 750)
             mapView.setRegion(coordinateRegion, animated: true)
         }
     }
