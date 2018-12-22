@@ -25,7 +25,9 @@ class BICSplashViewController: UIViewController {
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var labelSubtitle: UILabel!
     
-    var viewModel: BICSplashViewModel?
+    var viewModel: BICSplashViewModel!
+    var analytics: SBAnalytics!
+    var crashReport: SBCrashReport!
     
     // MARK: Lifecycle methods
     
@@ -35,6 +37,10 @@ class BICSplashViewController: UIViewController {
         observeStates()
         observeEvents()
         viewModel?.loadConfig()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        analytics.sendEvent(name: "app_open")
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,7 +58,7 @@ class BICSplashViewController: UIViewController {
     
     fileprivate func observeStates() {
         launch {
-            viewModel?.states.asObservable().observeOn(MainScheduler.instance).subscribe({ (rx) in
+            viewModel.states.asObservable().observeOn(MainScheduler.instance).subscribe({ (rx) in
                 guard let state = rx.element else { return }
                 log.v("state -> \(String(describing: type(of: state)))")
                 switch (state) {
@@ -68,7 +74,7 @@ class BICSplashViewController: UIViewController {
     
     fileprivate func observeEvents() {
         launch {
-            viewModel?.events.asObservable().observeOn(MainScheduler.instance).subscribe({ (rx) in
+            viewModel.events.asObservable().observeOn(MainScheduler.instance).subscribe({ (rx) in
                 guard let event = rx.element else { return }
                 log.v("event -> \(String(describing: type(of: event)))")
                 switch (event) {
@@ -115,7 +121,7 @@ class BICSplashViewController: UIViewController {
             let alertController = UIAlertController(title: NSLocalizedString("bic_dialogs_title_info", comment: ""), message: NSLocalizedString("bic_messages_info_app_newer_version", comment: ""), preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: NSLocalizedString("bic_actions_upgrade", comment: ""), style: .default, handler: { _ -> Void in
                 let itms: String = "https://itunes.apple.com/app/apple-store/id1139116439?mt=8" //dto.iOSAppStoreUrl!
-                UIApplication.shared.open(URL(string: itms)!, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: { (success) in
+                UIApplication.shared.open(URL(string: itms)!, options: [:], completionHandler: { (success) in
                     self.launchAppStoreApp()
                 })
             }))
@@ -126,8 +132,3 @@ class BICSplashViewController: UIViewController {
 
 //MARK: - StoryboardInstantiatable
 extension BICSplashViewController: StoryboardInstantiatable {}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
-}

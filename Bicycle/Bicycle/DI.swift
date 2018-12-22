@@ -17,6 +17,7 @@
 import Foundation
 import Dip
 import CoreLocation
+import Reachability
 
 extension DependencyContainer {
     
@@ -28,11 +29,11 @@ extension DependencyContainer {
     
     private func registerCommonModule() {
         
-        self.register(.singleton) { UIApplication.shared.delegate as! AppDelegate }
-        
         // singleton
+        self.register(.singleton) { UIApplication.shared.delegate as! AppDelegate }
         self.register(.singleton) { UserDefaults.standard }
         self.register(.singleton) { CLLocationManager() }
+        self.register(.singleton) { Reachability()! }
         
         // data source
         self.register(.singleton) { BICLocalDataSource() }
@@ -40,11 +41,13 @@ extension DependencyContainer {
         self.register(.singleton) { CityBikesDataSource() }
         
         // repository
-        self.register(.singleton) { try BICContractRepository(appDelegate: self.resolve(), bicycleDataSource: self.resolve(), cityBikesDataSource: self.resolve(), localDataSource: self.resolve(), preferenceRepository: self.resolve()) }
+        self.register(.singleton) { try BICContractRepository(appDelegate: self.resolve(), bicycleDataSource: self.resolve(), cityBikesDataSource: self.resolve(), localDataSource: self.resolve(), preferenceRepository: self.resolve(), connectivity: self.resolve()) }
         self.register(.singleton) { try BICPreferenceRepository(bicycleDataSource: self.resolve(), userDefaults: self.resolve()) }
         
         // tools
         self.register(.singleton) { try SBAnalytics(preferenceRepository: self.resolve()) }
+        self.register(.singleton) { try SBCrashReport(preferenceRepository: self.resolve()) }
+        self.register(.singleton) { try SBConnectivity(reachability: self.resolve()) }
     }
     
     private func registerOnboardingModule() {
@@ -57,10 +60,14 @@ extension DependencyContainer {
         self.register(storyboardType: BICSplashViewController.self, tag: "Splash")
             .resolvingProperties { container, vc in
                 vc.viewModel = try container.resolve() as BICSplashViewModel
+                vc.analytics = try container.resolve() as SBAnalytics
+                vc.crashReport = try container.resolve() as SBCrashReport
         }
         self.register(storyboardType: BICDataPermissionsViewController.self, tag: "DataPermissions")
             .resolvingProperties { container, vc in
                 vc.viewModel = try container.resolve() as BICOnboardingViewModel
+                vc.analytics = try container.resolve() as SBAnalytics
+                vc.crashReport = try container.resolve() as SBCrashReport
         }
     }
     

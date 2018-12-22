@@ -34,8 +34,8 @@ open class SBViewModel {
     
     private let disposeBag = DisposeBag()
     
-    private var _states: Variable<SBState> = Variable<SBState>(SBState())
-    var states: Variable<SBState> {
+    private var _states: BehaviorRelay<SBState> = BehaviorRelay<SBState>(value: SBState())
+    var states: BehaviorRelay<SBState> {
         get {
             return _states
         }
@@ -47,8 +47,8 @@ open class SBViewModel {
         }
     }
     
-    private var _events = Variable<SBEvent>(SBEvent())
-    var events: Variable<SBEvent> {
+    private var _events = BehaviorRelay<SBEvent>(value: SBEvent())
+    var events: BehaviorRelay<SBEvent> {
         get {
             return _events
         }

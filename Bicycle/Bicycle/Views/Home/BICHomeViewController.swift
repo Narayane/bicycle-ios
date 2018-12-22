@@ -87,7 +87,7 @@ class BICHomeViewController: UIViewController {
         if let subview = self.view.hitTest(tapLocation, with: nil) {
             if !subview.isKind(of: MKAnnotationView.self) {
                 log.i("touch map")
-                hideBottomSheet(annotationView: selectedAnnotationView)
+                hideBottomSheet()
             }
         }
     }
@@ -146,12 +146,12 @@ class BICHomeViewController: UIViewController {
         log.d("current zoom level: \(zoomLevel)")
         if let previous = previousZoomLevel {
             if (zoomLevel != previous) {
-                hideBottomSheet(annotationView: selectedAnnotationView)
+                hideBottomSheet()
             }
         }
         previousZoomLevel = zoomLevel
         if zoomLevel >= 10 {
-            if !haveStationAnnotations() {
+            if haveContractAnnotations() {
                 log.v("delete contract annotations")
                 clusterContracts.removeAll()
                 clusterContracts.reload(mapView: mapView)
@@ -159,13 +159,16 @@ class BICHomeViewController: UIViewController {
             viewModelHome?.determineCurrentContract(region: mapView.region)
         } else {
             stopTimer()
-            if !haveContractAnnotations() {
+            if haveStationAnnotations() {
                 log.v("delete station annotations")
                 clusterStations.removeAll()
                 clusterStations.reload(mapView: mapView)
-                viewModelHome?.getAllContracts()
             } else {
-                clusterContracts.reload(mapView: mapView)
+                if !haveContractAnnotations() {
+                    viewModelHome?.getAllContracts()
+                } else {
+                    clusterContracts.reload(mapView: mapView)
+                }
             }
         }
     }
@@ -210,50 +213,60 @@ class BICHomeViewController: UIViewController {
     }
     
     fileprivate func refreshBottomSheetLayout(annotation: MKAnnotation) {
-        switch annotation {
-        case let contractAnnotation as BICContractAnnotation:
-            bottomSheetTitle.text = contractAnnotation.contract.name
-            bottomSheetSubtitle.text = contractAnnotation.contract.countryName ?? "-"
-            bottomSheetAvailableBikesCount.text = ""
-            bottomSheetFreeStandsCount.text = "bic_plurals_stations".localized(contractAnnotation.contract.stationCount)
-        case let stationAnnotation as BICStationAnnotation:
-            bottomSheetTitle.text = stationAnnotation.station.displayName
-            bottomSheetSubtitle.text = viewModelHome?.currentContract?.name ?? "-"
-            bottomSheetAvailableBikesCount.text = "bic_plurals_available_bikes".localized(stationAnnotation.station.bikesCount ?? 0)
-            bottomSheetFreeStandsCount.text = "bic_plurals_free_stands".localized(stationAnnotation.station.freeCount ?? 0)
-        default: break
+        DispatchQueue.main.async {
+            switch annotation {
+            case let contractAnnotation as BICContractAnnotation:
+                self.bottomSheetTitle.text = contractAnnotation.contract.name
+                self.bottomSheetSubtitle.text = contractAnnotation.contract.countryName ?? "-"
+                self.bottomSheetAvailableBikesCount.text = ""
+                self.bottomSheetFreeStandsCount.text = "bic_plurals_stations".localized(contractAnnotation.contract.stationCount)
+            case let stationAnnotation as BICStationAnnotation:
+                self.bottomSheetTitle.text = stationAnnotation.station.displayName
+                self.bottomSheetSubtitle.text = self.viewModelHome?.currentContract?.name ?? "-"
+                self.bottomSheetAvailableBikesCount.text = "bic_plurals_available_bikes".localized(stationAnnotation.station.bikesCount ?? 0)
+                self.bottomSheetFreeStandsCount.text = "bic_plurals_free_stands".localized(stationAnnotation.station.freeCount ?? 0)
+            default: break
+            }
+        }
+    }
+    
+    fileprivate func selectAnnotationView(_ annotationView: MKAnnotationView?) {
+        DispatchQueue.main.async {
+            if let annotationView = annotationView, !(annotationView is ClusterAnnotationView) {
+                switch annotationView.annotation {
+                case let contractAnnotation as BICContractAnnotation:
+                    annotationView.image = #imageLiteral(resourceName: "BICImgContractSelected").resizeTo(width: 64, height: 64)
+                    self.mapView.setCenter(contractAnnotation.coordinate, animated: true)
+                    self.preventRegionDidChange = true
+                case let stationAnnotation as BICStationAnnotation:
+                    var image = #imageLiteral(resourceName: "BICImgStationSelected").resizeTo(width: 64, height: 64)
+                    if let bikes = stationAnnotation.station.bikesCount?.description {
+                        image = image.drawText(bikes, at: CGPoint(x: 0, y: 5), font: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize))
+                    }
+                    if let free = stationAnnotation.station.freeCount?.description {
+                        image = image.drawText(free, at: CGPoint(x: 0, y: 30), font: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize))
+                    }
+                    annotationView.image = image
+                    annotationView.centerOffset = CGPoint(x: 0, y:-(image.size.height / 2))
+                    self.mapView.setCenter(stationAnnotation.coordinate, animated: true)
+                    self.preventRegionDidChange = true
+                default: break
+                }
+                self.selectedAnnotationView = annotationView
+            }
         }
     }
     
     fileprivate func showBottomSheet(annotationView: MKAnnotationView) {
-        DispatchQueue.main.async {
-            
-            if self.selectedAnnotationView != nil {
-                guard let selectedAnnotation = self.selectedAnnotationView?.annotation as? Annotation, let touchedAnnotation = annotationView.annotation as? Annotation, !selectedAnnotation.isEqual(touchedAnnotation) else { return }
-            }
-            
-            let touchedAnnotation = annotationView.annotation as! Annotation
-            self.mapView.setCenter(touchedAnnotation.coordinate, animated: true)
-            self.preventRegionDidChange = true
-            switch touchedAnnotation {
-            case is BICContractAnnotation:
-                annotationView.image = #imageLiteral(resourceName: "BICImgContractSelected").resizeTo(width: 64, height: 64)
-            case let stationAnnotation as BICStationAnnotation:
-                var image = #imageLiteral(resourceName: "BICImgStationSelected").resizeTo(width: 64, height: 64)
-                if let bikes = stationAnnotation.station.bikesCount?.description {
-                    image = image.drawText(bikes, at: CGPoint(x: 0, y: 5), font: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize))
-                }
-                if let free = stationAnnotation.station.freeCount?.description {
-                    image = image.drawText(free, at: CGPoint(x: 0, y: 30), font: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize))
-                }
-                annotationView.image = image
-                annotationView.centerOffset = CGPoint(x: 0, y:-(image.size.height / 2))
-            default: break
-            }
-            self.selectedAnnotationView = annotationView
-            
-            self.refreshBottomSheetLayout(annotation: touchedAnnotation)
-            
+        
+        if let selectedAnnotation = selectedAnnotationView?.annotation as? Annotation {
+            guard let touchedAnnotation = annotationView.annotation as? Annotation, !selectedAnnotation.isEqual(touchedAnnotation) else { return }
+        }
+        log.v("show bottom sheet")
+        
+        deselectAnnotationView(self.selectedAnnotationView)
+        
+        if annotationView is ClusterAnnotationView {
             if let currentState = self.viewModelHome?.states.value {
                 switch (currentState) {
                 case is StateShowContracts:
@@ -262,7 +275,10 @@ class BICHomeViewController: UIViewController {
                     self.fabContractZoom.isHidden = true
                 }
             }
-            
+            self.selectedAnnotationView = nil
+        } else {
+            self.selectAnnotationView(annotationView)
+            self.refreshBottomSheetLayout(annotation: annotationView.annotation as! Annotation)
             if self.constraintBottomSheetViewTop.constant == 0 {
                 let height = CGFloat(106)
                 if #available(iOS 11.0, *), let window = UIApplication.shared.keyWindow {
@@ -276,14 +292,22 @@ class BICHomeViewController: UIViewController {
                     self.view.layoutIfNeeded()
                 }, completion: nil)
             }
+            
+            if let currentState = self.viewModelHome?.states.value {
+                switch (currentState) {
+                case is StateShowContracts:
+                    self.fabContractZoom.isHidden = false
+                default:
+                    self.fabContractZoom.isHidden = true
+                }
+            }
         }
     }
     
-    fileprivate func hideBottomSheet(annotationView: MKAnnotationView?) {
+    fileprivate func deselectAnnotationView(_ annotationView: MKAnnotationView?) {
         DispatchQueue.main.async {
-            if let annotationView = self.selectedAnnotationView {
-                let touchedAnnotation = annotationView.annotation as! Annotation
-                switch touchedAnnotation {
+            if let annotationView = annotationView {
+                switch annotationView.annotation {
                 case is BICContractAnnotation:
                     annotationView.image = #imageLiteral(resourceName: "BICImgContract").resizeTo(width: 64, height: 64)
                 case let stationAnnotation as BICStationAnnotation:
@@ -296,21 +320,23 @@ class BICHomeViewController: UIViewController {
                     }
                     annotationView.image = image
                     annotationView.centerOffset = CGPoint(x: 0, y:-(image.size.height / 2))
-                    
                 default: break
-                }
-                self.selectedAnnotationView = nil
-                
-                if self.constraintBottomSheetViewTop.constant < 0 {
-                    self.constraintBottomSheetViewTop.constant = 0
-                    UIView.animate(withDuration: 0.25, animations: {
-                        self.view.layoutIfNeeded()
-                    }, completion: { (success) in
-                        self.fabContractZoom.isHidden = true
-                    })
                 }
             }
         }
+    }
+    
+    fileprivate func hideBottomSheet() {
+        log.v("hide bottom sheet")
+        deselectAnnotationView(self.selectedAnnotationView)
+        self.fabContractZoom.isHidden = true
+        if self.constraintBottomSheetViewTop.constant < 0 {
+            self.constraintBottomSheetViewTop.constant = 0
+            UIView.animate(withDuration: 0.25, animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        }
+        self.selectedAnnotationView = nil
     }
     
     fileprivate func initLayout() {
@@ -341,7 +367,8 @@ class BICHomeViewController: UIViewController {
                 log.v("event -> \(String(describing: type(of: event)))")
                 switch event {
                 case let event as EventContractList:
-                    self.hideBottomSheet(annotationView: self.selectedAnnotationView)
+                    self.clusterContracts.removeAll()
+                    self.hideBottomSheet()
                     let annotations = event.contracts.map({ (contract) -> BICContractAnnotation in
                         return BICContractAnnotation(contract: contract)
                     })
@@ -362,23 +389,27 @@ class BICHomeViewController: UIViewController {
                     self.clusterStations.reload(mapView: self.mapView)
                 case let event as EventStationList:
                     self.clusterStations.removeAll()
-                    self.hideBottomSheet(annotationView: self.selectedAnnotationView)
-                    let annotations = event.stations.map({ (station) -> BICStationAnnotation in
-                        return BICStationAnnotation(station: station)
-                    })
-                    self.clusterStations.add(annotations)
+                    //self.hideBottomSheet(annotationView: self.selectedAnnotationView)
+                    if event.stations.isEmpty {
+                        //FIXME: showErrorForCurrentContractStation(name)
+                    } else {
+                        let annotations = event.stations.map({ (station) -> BICStationAnnotation in
+                            return BICStationAnnotation(station: station)
+                        })
+                        self.clusterStations.add(annotations)
+                    }
                     self.clusterStations.reload(mapView: self.mapView)
                 case is EventFailure:
                     if let currentState = self.viewModelHome?.states.value {
                         switch currentState {
                         case is StateShowContracts:
                             self.clusterContracts.removeAll()
-                            self.hideBottomSheet(annotationView: self.selectedAnnotationView)
+                            self.hideBottomSheet()
                             //TODO: display error message
                         case is StateShowStations:
                             self.clusterStations.removeAll()
-                            self.hideBottomSheet(annotationView: self.selectedAnnotationView)
-                            //showErrorForCurrentContractStation()
+                            self.hideBottomSheet()
+                            //FIXME: showErrorForCurrentContractStation(name)
                         default: break
                         }
                     }
@@ -443,7 +474,8 @@ extension BICHomeViewController: MKMapViewDelegate {
         default:
             annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: CLUSTER_CELL_REUSE_ID) as? ClusterAnnotationView
             if annotationView == nil {
-                annotationView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: CLUSTER_CELL_REUSE_ID, style: .color(UIColor(hex: "#58bc47"), radius: 25))
+                annotationView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: CLUSTER_CELL_REUSE_ID)
+                //annotationView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: CLUSTER_CELL_REUSE_ID, style: .color(UIColor(hex: "#58bc47"), radius: 25))
                 annotationView?.canShowCallout = false
             } else {
                 annotationView?.annotation = annotation
@@ -464,18 +496,12 @@ extension BICHomeViewController: MKMapViewDelegate {
         guard !(view.annotation is MKUserLocation) else {
             return
         }
-        hideBottomSheet(annotationView: self.selectedAnnotationView)
+        hideBottomSheet()
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         guard !preventRegionDidChange else { return preventRegionDidChange = false }
         refreshAnnotations()
-    }
-    
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        /*if let contractAnnotation = view.annotation as? BICContractAnnotation, let region = contractAnnotation.contract.region, control == view.rightCalloutAccessoryView {
-            self.mapView.setRegion(region, animated: true)
-        }*/
     }
 }
 

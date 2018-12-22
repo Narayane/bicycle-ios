@@ -57,28 +57,28 @@ class BICHomeViewModel: SBViewModel {
     
     // MARK: Public methods
     func getAllContracts() {
-        states.value = StateShowContracts()
+        states.accept(StateShowContracts())
         currentContract = nil
         launch {
             contractRepository.loadAllContracts()
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { (contracts) in
-                    self.events.value = EventContractList(contracts: contracts)
+                    self.events.accept(EventContractList(contracts: contracts))
                 }, onError: { (error) in
-                    self.events.value = EventFailure(error)
+                    self.events.accept(EventFailure(error))
                 })
         }
     }
     
     func getStationsFor(contract: BICContract) {
-        states.value = StateShowStations()
+        states.accept(StateShowStations())
         launch {
             contractRepository.loadStationsBy(contract: contract)
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { (stations) in
-                    self.events.value = EventStationList(stations: stations)
+                    self.events.accept(EventStationList(stations: stations))
                 }, onError: { (error) in
-                    self.events.value = EventFailure(error)
+                    self.events.accept(EventFailure(error))
                 })
         }
     }
@@ -88,9 +88,9 @@ class BICHomeViewModel: SBViewModel {
             contractRepository.reloadStationsBy(contract: contract)
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { (stations) in
-                    self.events.value = EventStationList(stations: stations)
+                    self.events.accept(EventStationList(stations: stations))
                 }, onError: { (error) in
-                    self.events.value = EventFailure(error)
+                    self.events.accept(EventFailure(error))
                 })
         }
     }
@@ -112,12 +112,12 @@ class BICHomeViewModel: SBViewModel {
         
         if (current != nil && hasChanged)  {
             currentContract = current
-            events.value = EventNewContract(contract: current!)
+            events.accept(EventNewContract(contract: current!))
         } else if (currentContract != nil && !invalidateCurrentContract) {
-            events.value = EventSameContract()
+            events.accept(EventSameContract())
         } else {
             currentContract = nil
-            events.value = EventOutOfAnyContract()
+            events.accept(EventOutOfAnyContract())
         }
     }
 }

@@ -25,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
+    private var connectivity: SBConnectivity?
+    
     // DI
     let diContainer = DependencyContainer { container in
         unowned let container = container
@@ -37,42 +39,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         try! container.bootstrap() // lock container
         DependencyContainer.uiContainers = [container]
     }
-    
-    let reachability = Reachability()!
-    
-    private var _hasConnectivity: Bool = true
-    var hasConnectivity: Bool {
-        return _hasConnectivity
-    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let hexaPrimaryDarkColor = Bundle.main.object(forInfoDictionaryKey: "BICPrimaryDarkColor") as? String
         styleStatusBar(hexaBackgroundColor: hexaPrimaryDarkColor)
         
-        log.set(level: Bundle.main.object(forInfoDictionaryKey: "SBLogLevel")! as! String)
-        SBCrashReport.start()
+        let logLevel = Bundle.main.object(forInfoDictionaryKey: "SBLogLevel")! as! String
+        log.setMinimumLevel(logLevel)
+        log.setCrashReport(try? diContainer.resolve() as SBCrashReport)
         
-        reachability.whenReachable = { reachability in
-            log.i("has connectivity: true")
-            self._hasConnectivity = true
-            /*if reachability.connection == .wifi {
-                print("Reachable via WiFi")
-            } else {
-                print("Reachable via Cellular")
-            }*/
-        }
-        reachability.whenUnreachable = { _ in
-            log.i("has connectivity: false")
-            self._hasConnectivity = false
-        }
-        
-        do {
-            log.v("watch connectivity")
-            try reachability.startNotifier()
-        } catch {
-            log.e("unable to watch connectivity")
-        }
+        connectivity = try? diContainer.resolve() as SBConnectivity
+        connectivity?.watchConnection()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         if let window = window {
@@ -110,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        reachability.stopNotifier()
+        connectivity?.unwatchConnection()
         let localDataSource = try! diContainer.resolve() as BICLocalDataSource
         localDataSource.saveContext()
     }

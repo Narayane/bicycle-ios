@@ -22,8 +22,8 @@ import RxCoreLocation
 
 class BICMapViewModel: SBViewModel {
     
-    var isLocationAuthorizationDenied: Variable<Bool> = Variable<Bool>(true)
-    var userLocation: Variable<CLLocation?> = Variable<CLLocation?>(nil)
+    var isLocationAuthorizationDenied: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: true)
+    var userLocation: BehaviorRelay<CLLocation?> = BehaviorRelay<CLLocation?>(value: nil)
     
     private let locationManager: CLLocationManager
     
@@ -57,20 +57,20 @@ class BICMapViewModel: SBViewModel {
                         switch status {
                         case .notDetermined:
                             log.d("notDetermined")
-                            self.isLocationAuthorizationDenied.value = true
+                            self.isLocationAuthorizationDenied.accept(true)
                         case .restricted:
                             log.d("restricted")
-                            self.isLocationAuthorizationDenied.value = true
+                            self.isLocationAuthorizationDenied.accept(true)
                         case .denied:
                             log.d("denied")
-                            self.isLocationAuthorizationDenied.value = true
+                            self.isLocationAuthorizationDenied.accept(true)
                         case .authorizedAlways:
                             log.d("authorizedAlways")
-                            self.isLocationAuthorizationDenied.value = false
+                            self.isLocationAuthorizationDenied.accept(false)
                             self.locationManager.startUpdatingLocation()
                         case .authorizedWhenInUse:
                             log.d("authorizedWhenInUse")
-                            self.isLocationAuthorizationDenied.value = false
+                            self.isLocationAuthorizationDenied.accept(false)
                             self.locationManager.startUpdatingLocation()
                         }
                     }
@@ -84,7 +84,7 @@ class BICMapViewModel: SBViewModel {
                 .subscribe({ (event) in
                     guard let newLocation = event.element?.locations.first else { return }
                     log.d("update user location to (\(newLocation.coordinate.latitude),\(newLocation.coordinate.longitude))")
-                    self.userLocation.value = newLocation
+                    self.userLocation.accept(newLocation)
                 })
         }
         

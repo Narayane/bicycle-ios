@@ -26,23 +26,25 @@ class BICContractRepository {
     private let cityBikesDataSource: CityBikesDataSource
     private let localDataSource: BICLocalDataSource
     private let preferenceRepository: BICPreferenceRepository
+    private let connectivity: SBConnectivity
     
     private var cacheStations: Dictionary<String, [BICStation]> = Dictionary()
     
-    init(appDelegate: AppDelegate, bicycleDataSource: BicycleDataSource, cityBikesDataSource: CityBikesDataSource, localDataSource: BICLocalDataSource, preferenceRepository: BICPreferenceRepository) {
+    init(appDelegate: AppDelegate, bicycleDataSource: BicycleDataSource, cityBikesDataSource: CityBikesDataSource, localDataSource: BICLocalDataSource, preferenceRepository: BICPreferenceRepository, connectivity: SBConnectivity) {
         disposeBag = DisposeBag()
         self.appDelegate = appDelegate
         self.bicycleDataSource = bicycleDataSource
         self.cityBikesDataSource = cityBikesDataSource
         self.localDataSource = localDataSource
         self.preferenceRepository = preferenceRepository
+        self.connectivity = connectivity
     }
     
     // MARK: - Public Methods
     
     func updateContracts() -> Single<Int> {
         return Single.create { observer in
-            if (self.appDelegate.hasConnectivity) {
+            if (self.connectivity.hasConnection ?? false) {
                 self.bicycleDataSource.getContracts()
                     .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
                     .do(onSuccess: { (response) in

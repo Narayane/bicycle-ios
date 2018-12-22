@@ -55,22 +55,22 @@ class BICSplashViewModel: SBViewModel {
 
     // MARK: Public methods
     func loadConfig() {
-        states.value = StateSplashConfig()
+        states.accept(StateSplashConfig())
         launch {
             preferenceRepository.loadConfig().subscribe(onSuccess: { (iosConfig) in
                 if self.checkForceUpdate(iosConfig: iosConfig) {
-                    self.events.value = EventSplashForceUpdate()
+                    self.events.accept(EventSplashForceUpdate())
                 } else {
-                    self.events.value = EventSplashConfigLoaded()
+                    self.events.accept(EventSplashConfigLoaded())
                 }
             }, onError: { (error) in
-                self.events.value = EventSplashLoadConfigFailed(error)
+                self.events.accept(EventSplashLoadConfigFailed(error))
             })
         }
     }
     
     func loadAllContracts() {
-        states.value = StateSplashContracts()
+        states.accept(StateSplashContracts())
     
         var timeToCheck = true
         let now = Date()
@@ -82,15 +82,15 @@ class BICSplashViewModel: SBViewModel {
     
         if (timeToCheck) {
             log.d("try to load all contracts")
-            events.value = EventSplashCheckContracts()
+            events.accept(EventSplashCheckContracts())
             launch {
                 self.contractRepository.updateContracts()
                     .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
                     .observeOn(MainScheduler.instance)
                     .subscribe(onSuccess: { (count) in
-                        self.events.value = EventSplashAvailableContracts(count: count)
+                        self.events.accept(EventSplashAvailableContracts(count: count))
                     }, onError: { (error) in
-                        self.events.value = EventFailure(error)
+                        self.events.accept(EventFailure(error))
                     })
             }
         } else {
@@ -100,16 +100,16 @@ class BICSplashViewModel: SBViewModel {
                 self.contractRepository.getContractCount()
                     .observeOn(MainScheduler.instance)
                     .subscribe(onSuccess: { (count) in
-                        self.events.value = EventSplashAvailableContracts(count: count)
+                        self.events.accept(EventSplashAvailableContracts(count: count))
                     }, onError: { (error) in
-                        self.events.value = EventFailure(error)
+                        self.events.accept(EventFailure(error))
                     })
             }
         }
     }
     
     func requestDataSendingPermissions() {
-        events.value = EventSplashRequestDataPermissions(needed: preferenceRepository.requestDataSendingPermissions)
+        events.accept(EventSplashRequestDataPermissions(needed: preferenceRepository.requestDataSendingPermissions))
     }
     
     // MARK: Private methods

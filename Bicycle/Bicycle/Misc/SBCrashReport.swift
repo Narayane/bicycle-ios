@@ -18,31 +18,60 @@ import Fabric
 import Crashlytics
 
 class SBCrashReport {
-    
-    class func start() {
-        if (Bundle.main.object(forInfoDictionaryKey: "SBCrashReportEnabled") as! String).boolValue() {
-            Fabric.with([Crashlytics.self, Answers.self])
-            log.i("start crash report")
-        }
+
+    private let preferenceRepository: BICPreferenceRepository? = nil
+
+    init(preferenceRepository: BICPreferenceRepository) {
+        #if RELEASE
+            log.d("init crash report")
+            Fabric.with([Crashlytics.self])
+            self.preferenceRepository = preferenceRepository
+        #endif
     }
     
-    class func logMessage(_ message: String?, level: String?, function: String?, file: String?, line: String?) {
-        if (Bundle.main.object(forInfoDictionaryKey: "SBCrashReportEnabled") as! String).boolValue() {
-            if let message = message {
-                var log = ""
-                if let file = file, let function = function, let line = line, let level = level {
-                    log = "\(level) | [\(file):\(line)] - \(function) > "
-                }
-                log += message
-                CLSLogv("%@", getVaList([log]))
+    func logDebug(_ message: String, function: String = #function, file: String = #file, line: Int = #line) {
+        #if !DEV
+        self.logMessage(message, level: "DEBUG", functionName: function, fileName: file, lineNumber: line)
+        #endif
+    }
+    
+    func logInfo(_ message: String, function: String = #function, file: String = #file, line: Int = #line) {
+        #if !DEV
+        self.logMessage(message, functionName: function, fileName: file, lineNumber: line)
+        #endif
+    }
+    
+    func logWarn(_ message: String, function: String = #function, file: String = #file, line: Int = #line) {
+        #if !DEV
+        self.logMessage(message, level: "WARN", functionName: function, fileName: file, lineNumber: line)
+        #endif
+    }
+    
+    func logError(_ message: String, function: String = #function, file: String = #file, line: Int = #line) {
+        #if !DEV
+        self.logMessage(message, level: "ERROR", functionName: function, fileName: file, lineNumber: line)
+        #endif
+    }
+    
+    private func logMessage(_ message: String, level: String = "INFO", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
+        #if RELEASE
+        if let dataSendingAllow = preferenceRepository?.isCrashDataSendingAllowed, crashSendingAllow {
+            var log = ""
+            if let file = file, let function = function, let line = line, let level = level {
+                log = "\(Date().format(format: "yyyy-MM-dd HH:mm:ss.SSS")) [\(level)] \(file):\(line) - \(function): "
             }
+            log += message
+            CLSLogv("%@", getVaList([log]))
         }
+        #endif
     }
     
-    class func logCustomEvent(_ name: String) {
-        if (Bundle.main.object(forInfoDictionaryKey: "SBCrashReportEnabled") as! String).boolValue() {
-            Answers.logCustomEvent(withName: name, customAttributes: [:])
+    func catchException(error: Error) -> String {
+        #if RELEASE
+        if let dataSendingAllow = preferenceRepository?.isCrashDataSendingAllowed, crashSendingAllow {
+            Crashlytics.sharedInstance().recordError(error)
         }
+        #endif
+        return error.localizedDescription
     }
-    
 }

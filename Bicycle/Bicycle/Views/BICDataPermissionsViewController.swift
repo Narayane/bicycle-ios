@@ -32,13 +32,15 @@ class BICDataPermissionsViewController: UIViewController {
     @IBOutlet weak var labelDataPermissionsWarning: UILabel!
     @IBOutlet weak var buttonValidate: UIButton!
     
-    var viewModel: BICOnboardingViewModel?
+    var viewModel: BICOnboardingViewModel!
+    var analytics: SBAnalytics!
+    var crashReport: SBCrashReport!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         initLayout()
         observeEvents()
-        viewModel?.loadDataSendingPermissions()
+        viewModel.loadDataSendingPermissions()
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,7 +52,7 @@ class BICDataPermissionsViewController: UIViewController {
     // MARK: UI events
     @IBAction func buttonValidatedidTouch(_ sender: UIButton) {
         log.i("set initial data sending permissions: crash (\(switchAllowCrashDataSending.isOn)), use (\(switchAllowUseDataSending.isOn))")
-        viewModel?.saveDataSendingPermissions(allowCrashDataSending: switchAllowCrashDataSending.isOn, allowUseDataSending: switchAllowUseDataSending.isOn)
+        viewModel.saveDataSendingPermissions(allowCrashDataSending: switchAllowCrashDataSending.isOn, allowUseDataSending: switchAllowUseDataSending.isOn)
     }
     
     // MARK: Fileprivate methods
@@ -67,7 +69,7 @@ class BICDataPermissionsViewController: UIViewController {
     
     fileprivate func observeEvents() {
         launch {
-            viewModel?.events.asObservable().observeOn(MainScheduler.instance).subscribe({ (rx) in
+            viewModel.events.asObservable().observeOn(MainScheduler.instance).subscribe({ (rx) in
                 guard let event = rx.element else { return }
                 log.v("event -> \(String(describing: type(of: event)))")
                 switch (event) {

@@ -44,8 +44,8 @@ open class BICOnboardingViewModel: SBViewModel {
     
     // MARK: Public methods
     open func loadDataSendingPermissions() {
-        events.value = EventDataSendingPermissionsLoaded(allowCrashDataSending: preferenceRepository.isCrashDataSendingAllowed,
-                                                         allowUseDataSending: preferenceRepository.isUseDataSendingAllowed)
+        events.accept(EventDataSendingPermissionsLoaded(allowCrashDataSending: preferenceRepository.isCrashDataSendingAllowed,
+                                                         allowUseDataSending: preferenceRepository.isUseDataSendingAllowed))
     }
     
     open func saveDataSendingPermissions(allowCrashDataSending: Bool, allowUseDataSending: Bool) {
@@ -64,6 +64,6 @@ open class BICOnboardingViewModel: SBViewModel {
         parameters["is_initial"] = 1
         analytics.sendEvent(name: "permission_use_data_sending_set", parameters: parameters)
         
-        events.value = EventDataSendingPermissionsSet()
+        events.accept(EventDataSendingPermissionsSet())
     }
 }

@@ -20,8 +20,9 @@ import Crashlytics
 class SBLog {
     
     private static var logger = SwiftyBeaver.self
+    private static var crashReport: SBCrashReport?
     
-    class func set(level: String) -> Void {
+    class func setMinimumLevel(_ level: String) -> Void {
         
         var logLevel: SwiftyBeaver.Level
         
@@ -50,58 +51,60 @@ class SBLog {
         logger.info("log level: \(level)")
     }
     
+    class func setCrashReport(_ crashReport: SBCrashReport?) {
+        self.crashReport = crashReport
+    }
+    
     class func v(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
         logger.verbose(message, fileName, functionName, line: lineNumber)
-        SBCrashReport.logMessage(message, level: "V", function: functionName.description, file: fileName.description, line: lineNumber.description)
     }
     
     class func v(_ request: URLRequest?, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
         if let request = request {
-            var message = "URL: \(request.url!) - \(request.httpMethod!) - Headers: \(request.allHTTPHeaderFields!)"
-            if let body = request.httpBody {
-                message += " - Parameters: \(String(data: body, encoding: String.Encoding.utf8)!)"
-            }
+            let message = extractData(from: request)
             v(message, functionName: functionName, fileName: fileName, lineNumber: lineNumber)
         }
     }
     
     class func d(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
         logger.debug(message, fileName, functionName, line: lineNumber)
-        SBCrashReport.logMessage(message, level: "D", function: functionName.description, file: fileName.description, line: lineNumber.description)
+        crashReport?.logDebug(message)
     }
     
     class func d(_ request: URLRequest?, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
         if let request = request {
-            var message = "URL: \(request.url!) - \(request.httpMethod!) - Headers: \(request.allHTTPHeaderFields!)"
-            if let body = request.httpBody {
-                message += " - Parameters: \(String(data: body, encoding: String.Encoding.utf8)!)"
-            }
+            let message = extractData(from: request)
             d(message, functionName: functionName, fileName: fileName, lineNumber: lineNumber)
         }
     }
     
     class func i(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
         logger.info(message, fileName, functionName, line: lineNumber)
-        SBCrashReport.logMessage(message, level: "I", function: functionName.description, file: fileName.description, line: lineNumber.description)
+        crashReport?.logInfo(message)
     }
     
     class func w(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
         logger.warning(message, fileName, functionName, line: lineNumber)
-        SBCrashReport.logMessage(message, level: "W", function: functionName.description, file: fileName.description, line: lineNumber.description)
+        crashReport?.logWarn(message)
     }
     
     class func e(_ message: String, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
         logger.error(message)
-        SBCrashReport.logMessage(message, level: "E", function: functionName.description, file: fileName.description, line: lineNumber.description)
+        crashReport?.logError(message)
     }
     
     class func e(_ request: URLRequest?, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
         if let request = request {
-            var message = "URL: \(request.url!) - \(request.httpMethod!) - Headers: \(request.allHTTPHeaderFields!)"
-            if let body = request.httpBody {
-                message += " - Parameters: \(String(data: body, encoding: String.Encoding.utf8)!)"
-            }
+            let message = extractData(from: request)
             e(message, functionName: functionName, fileName: fileName, lineNumber: lineNumber)
         }
+    }
+    
+    private class func extractData(from request: URLRequest) -> String {
+        var message = "URL: \(request.url!) - \(request.httpMethod!) - Headers: \(request.allHTTPHeaderFields!)"
+        if let body = request.httpBody {
+            message += " - Parameters: \(String(data: body, encoding: String.Encoding.utf8)!)"
+        }
+        return message
     }
 }
