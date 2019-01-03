@@ -1,9 +1,8 @@
 //
 //  BICContract+CoreDataProperties.swift
-//  Bicycle
+//  
 //
-//  Created by Sébastien BALARD on 17/09/2018.
-//  Copyright © 2018 Sébastien BALARD. All rights reserved.
+//  Created by Sébastien BALARD on 03/01/2019.
 //
 //
 
@@ -12,8 +11,8 @@ import CoreData
 
 
 extension BICContract {
-    
-    class func fetchRequest() -> NSFetchRequest<BICContract> {
+
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<BICContract> {
         return NSFetchRequest<BICContract>(entityName: "BICContract")
     }
 
@@ -21,8 +20,8 @@ extension BICContract {
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
     @NSManaged public var name: String?
-    @NSManaged public var radius: Double
-    @NSManaged public var stationCount: Int32
+    @NSManaged public var radius: Int64
+    @NSManaged public var stationCount: Int64
     @NSManaged public var url: String?
 
 }

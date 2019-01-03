@@ -20,7 +20,6 @@
 		BE2E53161F9E7A8F00806D3F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E53151F9E7A8F00806D3F /* AppDelegate.swift */; };
 		BE2E531E1F9E7A8F00806D3F /* Bicycle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE2E531C1F9E7A8F00806D3F /* Bicycle.xcdatamodeld */; };
 		BE2E53201F9E7A8F00806D3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE2E531F1F9E7A8F00806D3F /* Assets.xcassets */; };
-		BE2E532E1F9E7A8F00806D3F /* BicycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E532D1F9E7A8F00806D3F /* BicycleTests.swift */; };
 		BE2E53391F9E7A8F00806D3F /* BicycleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E53381F9E7A8F00806D3F /* BicycleUITests.swift */; };
 		BE4637302172940100DBCD0D /* BICAboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE46372E2172940100DBCD0D /* BICAboutViewController.swift */; };
 		BE4637312172940100DBCD0D /* BICAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE46372F2172940100DBCD0D /* BICAboutViewController.xib */; };
@@ -32,8 +31,9 @@
 		BE63E1231FA3BF66001B8CCB /* CLLocationCoordinate2D+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE63E11F1FA3BF66001B8CCB /* CLLocationCoordinate2D+SB.swift */; };
 		BE63E1241FA3BF66001B8CCB /* MKMapView+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE63E1201FA3BF66001B8CCB /* MKMapView+SB.swift */; };
 		BE63E1251FA3BF66001B8CCB /* Date+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE63E1211FA3BF66001B8CCB /* Date+SB.swift */; };
-		BE63E1261FA3BF66001B8CCB /* MKCoordinateRegion+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE63E1221FA3BF66001B8CCB /* MKCoordinateRegion+SB.swift */; };
 		BE6D55471FA7D51400E7C7F2 /* UIImage+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6D55461FA7D51400E7C7F2 /* UIImage+SB.swift */; };
+		BE870AE221D6DA0500935BBB /* ContractTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE870AE121D6DA0500935BBB /* ContractTester.swift */; };
+		BE870AE421D6DC2400935BBB /* BICCoreDataTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE870AE321D6DC2400935BBB /* BICCoreDataTestCase.swift */; };
 		BE92ED06214C6BF000AB00CC /* RxAlamofire+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE92ED05214C6BF000AB00CC /* RxAlamofire+SB.swift */; };
 		BEA6C8261FA11F4500C8EDA9 /* UIButton+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA6C8251FA11F4500C8EDA9 /* UIButton+SB.swift */; };
 		BEB4AFA321485C63006E8330 /* BICSplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB4AFA121485C63006E8330 /* BICSplashViewController.swift */; };
@@ -52,6 +52,7 @@
 		BED14B301F9E9395003FF180 /* String+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED14B2F1F9E9395003FF180 /* String+SB.swift */; };
 		BED14B321F9E957D003FF180 /* UINavigationController+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED14B311F9E957D003FF180 /* UINavigationController+SB.swift */; };
 		BED3D7DD215C19F100FE7893 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BED3D7DC215C19F100FE7893 /* GoogleService-Info.plist */; };
+		BED4B68C21DEAB7C00CB4844 /* MKCoordinateRegion+SB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4B68B21DEAB7C00CB4844 /* MKCoordinateRegion+SB.swift */; };
 		BED81A8721C8409E00257140 /* SBConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED81A8621C8409E00257140 /* SBConnectivity.swift */; };
 		BEE34E1A2157C4ED0057DA0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEE34E192157C4EC0057DA0C /* LaunchScreen.storyboard */; };
 		BEE87AE31F9FDF8000BBE819 /* BICHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE87AE11F9FDF8000BBE819 /* BICHomeViewController.swift */; };
@@ -111,7 +112,6 @@
 		BE2E531F1F9E7A8F00806D3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE2E53241F9E7A8F00806D3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE2E53291F9E7A8F00806D3F /* BicycleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BicycleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BE2E532D1F9E7A8F00806D3F /* BicycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BicycleTests.swift; sourceTree = "<group>"; };
 		BE2E532F1F9E7A8F00806D3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE2E53341F9E7A8F00806D3F /* BicycleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BicycleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE2E53381F9E7A8F00806D3F /* BicycleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BicycleUITests.swift; sourceTree = "<group>"; };
@@ -128,8 +128,9 @@
 		BE63E11F1FA3BF66001B8CCB /* CLLocationCoordinate2D+SB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+SB.swift"; sourceTree = "<group>"; };
 		BE63E1201FA3BF66001B8CCB /* MKMapView+SB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMapView+SB.swift"; sourceTree = "<group>"; };
 		BE63E1211FA3BF66001B8CCB /* Date+SB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+SB.swift"; sourceTree = "<group>"; };
-		BE63E1221FA3BF66001B8CCB /* MKCoordinateRegion+SB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKCoordinateRegion+SB.swift"; sourceTree = "<group>"; };
 		BE6D55461FA7D51400E7C7F2 /* UIImage+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+SB.swift"; sourceTree = "<group>"; };
+		BE870AE121D6DA0500935BBB /* ContractTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractTester.swift; sourceTree = "<group>"; };
+		BE870AE321D6DC2400935BBB /* BICCoreDataTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICCoreDataTestCase.swift; sourceTree = "<group>"; };
 		BE92ED05214C6BF000AB00CC /* RxAlamofire+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxAlamofire+SB.swift"; sourceTree = "<group>"; };
 		BEA6C8251FA11F4500C8EDA9 /* UIButton+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+SB.swift"; sourceTree = "<group>"; };
 		BEB4AFA121485C63006E8330 /* BICSplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICSplashViewController.swift; sourceTree = "<group>"; };
@@ -146,6 +147,7 @@
 		BED14B2F1F9E9395003FF180 /* String+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SB.swift"; sourceTree = "<group>"; };
 		BED14B311F9E957D003FF180 /* UINavigationController+SB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+SB.swift"; sourceTree = "<group>"; };
 		BED3D7DC215C19F100FE7893 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BED4B68B21DEAB7C00CB4844 /* MKCoordinateRegion+SB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKCoordinateRegion+SB.swift"; sourceTree = "<group>"; };
 		BED81A8621C8409E00257140 /* SBConnectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBConnectivity.swift; sourceTree = "<group>"; };
 		BEE34E192157C4EC0057DA0C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BEE87AE11F9FDF8000BBE819 /* BICHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICHomeViewController.swift; sourceTree = "<group>"; };
@@ -324,7 +326,8 @@
 		BE2E532C1F9E7A8F00806D3F /* BicycleTests */ = {
 			isa = PBXGroup;
 			children = (
-				BE2E532D1F9E7A8F00806D3F /* BicycleTests.swift */,
+				BE870AE321D6DC2400935BBB /* BICCoreDataTestCase.swift */,
+				BE870AE121D6DA0500935BBB /* ContractTester.swift */,
 				BE2E532F1F9E7A8F00806D3F /* Info.plist */,
 			);
 			path = BicycleTests;
@@ -388,7 +391,7 @@
 				BEEAC4651F9E8AD200766469 /* AppDelegate+SB.swift */,
 				BE63E11F1FA3BF66001B8CCB /* CLLocationCoordinate2D+SB.swift */,
 				BE63E1211FA3BF66001B8CCB /* Date+SB.swift */,
-				BE63E1221FA3BF66001B8CCB /* MKCoordinateRegion+SB.swift */,
+				BED4B68B21DEAB7C00CB4844 /* MKCoordinateRegion+SB.swift */,
 				BE63E1201FA3BF66001B8CCB /* MKMapView+SB.swift */,
 				BE92ED05214C6BF000AB00CC /* RxAlamofire+SB.swift */,
 				BED14B2F1F9E9395003FF180 /* String+SB.swift */,
@@ -738,6 +741,7 @@
 				BECC59861FA7C52C00F86703 /* SBTextField.swift in Sources */,
 				BEEDAC851FA68CAA001D7765 /* CTBResponseDto.swift in Sources */,
 				BEFA72A3215C130700DE1647 /* BICOnboardingViewModel.swift in Sources */,
+				BED4B68C21DEAB7C00CB4844 /* MKCoordinateRegion+SB.swift in Sources */,
 				BEEAC46D1F9E90EA00766469 /* SBCrashReport.swift in Sources */,
 				BEEDAC751FA6848F001D7765 /* BICConstants.swift in Sources */,
 				BE5B5C372149A09D00F1BFB9 /* BICPreferenceRepository.swift in Sources */,
@@ -771,7 +775,6 @@
 				BE19002C214F0B7300DDCF91 /* BICContractDto.swift in Sources */,
 				BE1131DB1FA12CD50040C374 /* BICHomeViewModel.swift in Sources */,
 				BEEAC4661F9E8AD200766469 /* AppDelegate+SB.swift in Sources */,
-				BE63E1261FA3BF66001B8CCB /* MKCoordinateRegion+SB.swift in Sources */,
 				BEBE4B2D207D5D0100A2B5E7 /* BICMapViewModel.swift in Sources */,
 				BEB95FF21FA3B64D00062A88 /* BICPlace.swift in Sources */,
 				BEECBB65207D5B5B004EECE1 /* BICStationAnnotation.swift in Sources */,
@@ -791,7 +794,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE2E532E1F9E7A8F00806D3F /* BicycleTests.swift in Sources */,
+				BE870AE221D6DA0500935BBB /* ContractTester.swift in Sources */,
+				BE870AE421D6DC2400935BBB /* BICCoreDataTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

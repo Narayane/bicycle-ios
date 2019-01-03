@@ -97,6 +97,8 @@ class BICHomeViewModel: SBViewModel {
     
     func determineCurrentContract(region: MKCoordinateRegion) {
         
+        log.v("determine current contrat")
+        
         var invalidateCurrentContract = false
         var hasChanged = false
         var current: BICContract? = nil

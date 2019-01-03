@@ -19,18 +19,6 @@ import MapKit
 
 extension CLLocationCoordinate2D {
     
-    func isIncludedIn(region: MKCoordinateRegion) -> Bool {
-        
-        var included = false
-        
-        //OLSLog.v("NW(\(region.northWest.latitude),\(region.northWest.longitude)), SE(\(region.southEast.latitude),\(region.southEast.longitude))")
-        
-        included = latitude <= region.northWest.latitude && latitude >= region.southEast.latitude
-            && longitude >= region.northWest.longitude && longitude <= region.southEast.longitude
-        
-        return included
-    }
-    
     func distanceTo(_ to: CLLocationCoordinate2D) -> CLLocationDistance {
         let from = CLLocation(latitude: latitude, longitude: longitude)
         let to = CLLocation(latitude: to.latitude, longitude: to.longitude)

@@ -19,26 +19,40 @@ import MapKit
 extension MKCoordinateRegion {
     
     var northWest: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: center.latitude + span.latitudeDelta  / 2,
+        return CLLocationCoordinate2D(latitude: center.latitude + span.latitudeDelta / 2,
                                       longitude: center.longitude - span.longitudeDelta / 2)
     }
     
     var northEast: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: center.latitude + span.latitudeDelta  / 2,
+        return CLLocationCoordinate2D(latitude: center.latitude + span.latitudeDelta / 2,
                                       longitude: center.longitude + span.longitudeDelta / 2)
     }
     
     var southWest: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: center.latitude - span.latitudeDelta  / 2,
+        return CLLocationCoordinate2D(latitude: center.latitude - span.latitudeDelta / 2,
                                       longitude: center.longitude - span.longitudeDelta / 2)
     }
     
     var southEast: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: center.latitude - span.latitudeDelta  / 2,
+        return CLLocationCoordinate2D(latitude: center.latitude - span.latitudeDelta / 2,
                                       longitude: center.longitude + span.longitudeDelta / 2)
     }
     
+    func contains(location: CLLocationCoordinate2D) -> Bool {
+        return (southWest.latitude <= location.latitude) && (location.latitude <= northEast.latitude)
+            && (southWest.longitude <= location.longitude) && (location.longitude <= northEast.longitude)
+    }
+    
     func intersect(_ region: MKCoordinateRegion) -> Bool {
+        
+        /*let latNERegion = region.northEast.latitude
+        let latSW = southWest.latitude
+        let latSWRegion = region.southWest.latitude
+        let latNE = northEast.latitude
+        let longNERegion = region.northEast.longitude
+        let longSW = southWest.longitude
+        let longSWRegion = region.southWest.longitude
+        let longNE = northEast.longitude*/
         
         let latIntersects = (region.northEast.latitude >= southWest.latitude) && (region.southWest.latitude <= northEast.latitude)
         let lngIntersects = (region.northEast.longitude >= southWest.longitude) && (region.southWest.longitude <= northEast.longitude)

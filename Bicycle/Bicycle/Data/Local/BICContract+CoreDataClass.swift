@@ -1,10 +1,17 @@
 //
-//  BICContract+CoreDataClass.swift
-//  Bicycle
+//  Copyright © 2018 Bicycle (Sébastien BALARD)
 //
-//  Created by Sébastien BALARD on 17/09/2018.
-//  Copyright © 2018 Sébastien BALARD. All rights reserved.
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
 //
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import Foundation
@@ -25,9 +32,9 @@ public class BICContract: NSManagedObject {
         self.name = dto.name
         self.latitude = dto.latitude
         self.longitude = dto.longitude
-        self.radius = dto.latitude
+        self.radius = Int64(dto.radius)
         self.url = dto.url
-        self.stationCount = Int32(dto.stationCount)
+        self.stationCount = Int64(dto.stationCount)
         self.countryCode = dto.countryCode
     }
     
@@ -39,7 +46,7 @@ public class BICContract: NSManagedObject {
     
     var region: MKCoordinateRegion {
         get {
-            return MKCoordinateRegion.init(center: center, latitudinalMeters: radius * 2, longitudinalMeters: radius * 2)
+            return MKCoordinateRegion(center: center, latitudinalMeters: Double(radius * 2), longitudinalMeters: Double(radius * 2))
         }
     }
     

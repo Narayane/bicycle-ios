@@ -165,8 +165,10 @@ class BICHomeViewController: UIViewController {
                 clusterStations.reload(mapView: mapView)
             } else {
                 if !haveContractAnnotations() {
+                    log.v("get all contracts")
                     viewModelHome?.getAllContracts()
                 } else {
+                    log.v("refresh contracts cluster")
                     clusterContracts.reload(mapView: mapView)
                 }
             }
@@ -475,6 +477,7 @@ extension BICHomeViewController: MKMapViewDelegate {
             annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: CLUSTER_CELL_REUSE_ID) as? ClusterAnnotationView
             if annotationView == nil {
                 annotationView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: CLUSTER_CELL_REUSE_ID)
+                //(annotationView as! ClusterAnnotationView).countLabel.backgroundColor = UIColor(hex: "#58bc47")
                 //annotationView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: CLUSTER_CELL_REUSE_ID, style: .color(UIColor(hex: "#58bc47"), radius: 25))
                 annotationView?.canShowCallout = false
             } else {
