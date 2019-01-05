@@ -43,7 +43,7 @@
 "bic_onboarding_screen_title" = "Processing of your data";
 "bic_onboarding_screen_personal_data" = "Bicycle does not collect any of your personal data (name, email, age, location, ...)";
 "bic_onboarding_screen_warning" = "You can, at any time, change your choices above in the settings screen of the application.";
-"bic_onboarding_screen_crash_data_desc" = "On rare occasions, the application may crash for an unexplained reason. Bicycle can then send anonymous data about its condition to the developer who will help him understand this reason and correct the problem.";
+"bic_onboarding_screen_crash_data_desc" = "On rare occasions, the application may crash for an unexplained reason. Bicycle can then send data about its condition to the developer who will help him understand this reason and correct the problem.";
 "bic_onboarding_screen_crash_data_label" = "Allow application status data sending in case of crash";
 "bic_onboarding_screen_use_data_desc" = "To allow the developer to improve the app, Bicycle can send anonymous data about how you use it.";
-"bic_onboarding_screen_use_data_label" = "Allow use data sending for statistical purposes";
+"bic_onboarding_screen_use_data_label" = "Allow use anonymous data sending for statistical purposes";

@@ -46,7 +46,7 @@ end
 
 def pods_widgets
     pod 'Toaster'
-    pod 'Cluster'
+    pod 'Cluster', '2.2.9'
 end
 
 def pods_helpers

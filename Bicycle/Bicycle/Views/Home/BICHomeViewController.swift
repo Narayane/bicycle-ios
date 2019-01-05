@@ -476,9 +476,11 @@ extension BICHomeViewController: MKMapViewDelegate {
         default:
             annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: CLUSTER_CELL_REUSE_ID) as? ClusterAnnotationView
             if annotationView == nil {
-                annotationView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: CLUSTER_CELL_REUSE_ID)
-                //(annotationView as! ClusterAnnotationView).countLabel.backgroundColor = UIColor(hex: "#58bc47")
-                //annotationView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: CLUSTER_CELL_REUSE_ID, style: .color(UIColor(hex: "#58bc47"), radius: 25))
+                /*annotationView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: CLUSTER_CELL_REUSE_ID)
+                (annotationView as! ClusterAnnotationView).countLabel.backgroundColor = UIColor(hex: "#58bc47")
+                (annotationView as! ClusterAnnotationView).countLabel.textColor = .white
+                //(annotationView as! ClusterAnnotationView).countLabel.backgroundColor = UIColor(hex: "#58bc47")*/
+                annotationView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: CLUSTER_CELL_REUSE_ID, style: .color(UIColor(hex: "#58bc47"), radius: 25))
                 annotationView?.canShowCallout = false
             } else {
                 annotationView?.annotation = annotation
